@@ -23,7 +23,7 @@ Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, L
 
 Rules:
 - Strictly NO photos, date of birth, age, gender, marital status, or nationality.
-- Return ONLY valid JSON format without markdown code fences:
+- Return ONLY valid JSON matching this schema:
 {
   "personalInfo": {
     "name": "${data.name || 'Applicant'}",
@@ -32,42 +32,42 @@ Rules:
     "location": "${data.location || 'Australia'}",
     "visa": "${data.visaType || 'Working Holiday'}"
   },
-  "summary": "Professional summary tailored to Australia job market",
+  "summary": "Professional summary tailored to Australian hiring managers",
   "skills": ["Customer Service", "Communication", "Teamwork"],
   "experiences": [
     {
-      "role": "Staff Member",
-      "company": "Previous Company",
+      "role": "Team Member",
+      "company": "Previous Workplace",
       "duration": "2023 - 2024",
       "bullets": [
-        "Provided outstanding service to customers in a fast-paced environment",
-        "Collaborated effectively with team members"
+        "Delivered prompt and friendly service in a high-volume setting",
+        "Worked efficiently with team members to ensure smooth operations"
       ]
     }
   ],
   "certifications": ${JSON.stringify(data.certifications || [])},
-  "coverLetter": "Dear Hiring Manager,\\n\\nI am writing to express my enthusiastic interest in the ${data.targetJob || 'position'} role...\\n\\nSincerely,\\n${data.name || 'Applicant'}"
+  "coverLetter": "Dear Hiring Manager,\\n\\nI am writing to express my interest in the ${data.targetJob || 'position'} role...\\n\\nSincerely,\\n${data.name || 'Applicant'}"
 }
 `;
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: 'application/json',
-          },
-        }),
-      }
-    );
+    // v1 エンドポイントを使用
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseMimeType: 'application/json',
+        },
+      }),
+    });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Gemini API Response Error:', errText);
-      return NextResponse.json({ error: `Gemini APIエラー: ${response.status} ${errText}` }, { status: response.status });
+      console.error('Gemini API Error:', errText);
+      return NextResponse.json({ error: `Gemini API Error (${response.status}): ${errText}` }, { status: response.status });
     }
 
     const resJson = await response.json();
@@ -77,7 +77,7 @@ Rules:
     const parsed = JSON.parse(text);
     return NextResponse.json(parsed);
   } catch (error: any) {
-    console.error('API Error:', error);
+    console.error('Server Error:', error);
     return NextResponse.json({ error: error.message || 'Generation failed' }, { status: 500 });
   }
 }
