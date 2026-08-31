@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16' as any,
-});
-
 export async function POST(req: Request) {
   try {
-    const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey) {
+      return NextResponse.json({ error: 'STRIPE_SECRET_KEY が設定されていません' }, { status: 500 });
+    }
+
+    const stripe = new Stripe(stripeKey);
+
+    const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'https://aus-resume-builder.vercel.app';
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -32,6 +35,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
     console.error('Stripe Checkout Error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Stripe error' }, { status: 500 });
   }
 }

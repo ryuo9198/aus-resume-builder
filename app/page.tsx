@@ -88,11 +88,11 @@ function ResumeBuilderContent() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('決済ページの作成に失敗しました。');
+        alert(`決済エラー: ${data.error || 'URL取得失敗'}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('決済エラーが発生しました。');
+      alert(`決済通信エラー: ${err.message}`);
     } finally {
       setPaying(false);
     }
