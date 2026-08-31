@@ -111,13 +111,13 @@ function ResumeBuilderContent() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 py-10 px-4 sm:px-8">
+    <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             🇦🇺 Aus Resume & Cover Letter AI
           </h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm font-medium text-slate-600">
             オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成
           </p>
           {isPaid && (
@@ -129,104 +129,104 @@ function ResumeBuilderContent() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* 入力フォーム */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-            <h2 className="text-lg font-bold text-slate-800 mb-4 pb-2 border-b">
+          <div className="bg-white p-6 rounded-xl shadow-md border border-slate-300">
+            <h2 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">
               1. 情報を入力
             </h2>
             <form onSubmit={handleGenerate} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700">お名前 (英語表記)</label>
+                <label className="block text-xs font-bold text-slate-800">お名前 (英語表記)</label>
                 <input
                   type="text"
                   required
-                  placeholder="Taro Yamada"
+                  placeholder="例: Taro Yamada"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">メールアドレス</label>
+                  <label className="block text-xs font-bold text-slate-800">メールアドレス</label>
                   <input
                     type="email"
                     required
-                    placeholder="taro@example.com"
+                    placeholder="例: taro@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">電話番号 (豪)</label>
+                  <label className="block text-xs font-bold text-slate-800">電話番号 (豪)</label>
                   <input
                     type="text"
                     required
-                    placeholder="0412 345 678"
+                    placeholder="例: 0412 345 678"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">滞在都市</label>
+                  <label className="block text-xs font-bold text-slate-800">滞在都市</label>
                   <input
                     type="text"
                     required
-                    placeholder="Sydney, NSW"
+                    placeholder="例: Perth, WA"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">希望職種</label>
+                  <label className="block text-xs font-bold text-slate-800">希望職種</label>
                   <input
                     type="text"
                     required
-                    placeholder="Barista / All-Rounder"
+                    placeholder="例: Barista / All-Rounder"
                     value={formData.targetJob}
                     onChange={(e) => setFormData({ ...formData, targetJob: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">ビザ種類</label>
+                  <label className="block text-xs font-bold text-slate-800">ビザ種類</label>
                   <input
                     type="text"
                     value={formData.visaType}
                     onChange={(e) => setFormData({ ...formData, visaType: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">就労可能状況</label>
+                  <label className="block text-xs font-bold text-slate-800">就労可能状況</label>
                   <input
                     type="text"
                     value={formData.availability}
                     onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                    className="mt-1 w-full p-2 border border-slate-300 rounded text-sm outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">保有資格・ライセンス</label>
-                <div className="grid grid-cols-1 gap-1">
+                <label className="block text-xs font-bold text-slate-800 mb-2">保有資格・ライセンス</label>
+                <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
                   {certOptions.map((cert) => (
-                    <label key={cert} className="flex items-center space-x-2 text-xs text-slate-600">
+                    <label key={cert} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formData.certifications.includes(cert)}
                         onChange={() => handleCheckboxChange(cert)}
-                        className="rounded text-blue-600"
+                        className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
                       />
                       <span>{cert}</span>
                     </label>
@@ -235,37 +235,37 @@ function ResumeBuilderContent() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700">過去の経験・アピールポイント</label>
+                <label className="block text-xs font-bold text-slate-800">過去の経験・アピールポイント</label>
                 <textarea
                   rows={4}
                   required
-                  placeholder="スターバックスで2年間アルバイト。接客、ドリンク作成を担当。"
+                  placeholder="例: カフェで2年間アルバイト。接客、ドリンク作成、レジを担当。繁忙時もチームでスムーズに対応できます。"
                   value={formData.rawExperience}
                   onChange={(e) => setFormData({ ...formData, rawExperience: e.target.value })}
-                  className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none leading-relaxed"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? 'AIが生成中（約10秒）...' : '✨ 無料プレビューを生成'}
+                {loading ? 'AIが生成中（約5秒）...' : '✨ 無料プレビューを生成'}
               </button>
             </form>
           </div>
 
           {/* 生成結果＆決済・ダウンロードエリア */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+          <div className="bg-white p-6 rounded-xl shadow-md border border-slate-300 flex flex-col justify-between">
             <div>
-              <div className="flex border-b mb-4">
+              <div className="flex border-b border-slate-200 mb-4">
                 <button
                   onClick={() => setActiveTab('resume')}
                   className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
                     activeTab === 'resume'
                       ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-800'
                   }`}
                 >
                   📄 Resume プレビュー
@@ -275,7 +275,7 @@ function ResumeBuilderContent() {
                   className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
                     activeTab === 'coverLetter'
                       ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-800'
                   }`}
                 >
                   ✉️ Cover Letter (添え状) {!isPaid && '🔒'}
@@ -283,37 +283,37 @@ function ResumeBuilderContent() {
               </div>
 
               {!resumeData ? (
-                <div className="text-center py-20 text-slate-400 text-sm">
+                <div className="text-center py-20 text-slate-500 font-medium text-sm">
                   左のフォームを入力して生成ボタンを押すと、<br />
                   ここに書類一式が表示されます。
                 </div>
               ) : activeTab === 'resume' ? (
-                <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 text-sm text-slate-700">
-                  <div className="bg-slate-50 p-3 rounded border">
-                    <p className="font-bold text-slate-900">{resumeData.personalInfo?.name}</p>
-                    <p className="text-xs text-slate-500">
+                <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 text-sm text-slate-800 font-medium">
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <p className="font-extrabold text-slate-900 text-base">{resumeData.personalInfo?.name}</p>
+                    <p className="text-xs text-slate-600 mt-0.5">
                       {resumeData.personalInfo?.location} | {resumeData.personalInfo?.phone} | {resumeData.personalInfo?.email}
                     </p>
-                    <p className="text-xs text-blue-600 font-semibold mt-1">Visa: {resumeData.personalInfo?.visa}</p>
+                    <p className="text-xs text-blue-700 font-bold mt-1">Visa: {resumeData.personalInfo?.visa}</p>
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-xs uppercase text-slate-500 tracking-wider">Summary</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2 rounded">{resumeData.summary}</p>
+                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Summary</h3>
+                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 leading-relaxed text-slate-900">{resumeData.summary}</p>
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-xs uppercase text-slate-500 tracking-wider">Skills</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2 rounded">{resumeData.skills?.join(' • ')}</p>
+                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Skills</h3>
+                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-900 font-semibold">{resumeData.skills?.join(' • ')}</p>
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-xs uppercase text-slate-500 tracking-wider">Experience</h3>
+                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Experience</h3>
                     {resumeData.experiences?.map((exp: any, i: number) => (
-                      <div key={i} className="mt-2 bg-slate-50 p-2 rounded text-xs">
-                        <p className="font-bold">{exp.role} - {exp.company}</p>
+                      <div key={i} className="mt-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+                        <p className="font-bold text-slate-900">{exp.role} - {exp.company}</p>
                         <p className="text-slate-500 text-[10px] mb-1">{exp.duration}</p>
-                        <ul className="list-disc ml-4 space-y-0.5">
+                        <ul className="list-disc ml-4 space-y-1 text-slate-800">
                           {exp.bullets?.map((b: string, j: number) => (
                             <li key={j}>{b}</li>
                           ))}
@@ -325,12 +325,12 @@ function ResumeBuilderContent() {
               ) : (
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold text-slate-500">
+                    <span className="text-xs font-bold text-slate-600">
                       {isPaid ? 'メールや応募フォームに貼る用' : '🔒 アンロックすると全文コピー可能になります'}
                     </span>
                     <button
                       onClick={handleCopyCoverLetter}
-                      className="text-xs px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border transition"
+                      className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 transition"
                     >
                       {copied ? '✅ コピー完了！' : isPaid ? '📋 全文コピー' : '🔒 ロック中'}
                     </button>
@@ -340,7 +340,7 @@ function ResumeBuilderContent() {
                       readOnly
                       value={isPaid ? resumeData.coverLetter : resumeData.coverLetter?.slice(0, 150) + '\n\n... (アンロックして全文を表示)'}
                       rows={14}
-                      className={`w-full p-3 bg-slate-50 border rounded text-xs font-mono leading-relaxed text-slate-800 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
+                      className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
                     />
                   </div>
                 </div>
@@ -349,12 +349,12 @@ function ResumeBuilderContent() {
 
             {/* ダウンロード / 決済ボタン */}
             {resumeData && isClient && (
-              <div className="mt-6 pt-4 border-t">
+              <div className="mt-6 pt-4 border-t border-slate-200">
                 {isPaid ? (
                   <PDFDownloadLink
                     document={<ResumePDF data={resumeData} />}
                     fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
-                    className="block w-full text-center py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md"
+                    className="block w-full text-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow-md"
                   >
                     {({ loading }) => (loading ? 'PDF作成中...' : '📄 高画質 PDF をダウンロード')}
                   </PDFDownloadLink>
@@ -362,7 +362,7 @@ function ResumeBuilderContent() {
                   <button
                     onClick={handleCheckout}
                     disabled={paying}
-                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md flex items-center justify-center space-x-2"
+                    className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow-md flex items-center justify-center space-x-2"
                   >
                     <span>{paying ? '決済画面へ移動中...' : '🔓 PDF & カバーレターをアンロック ($4.99 AUD)'}</span>
                   </button>
