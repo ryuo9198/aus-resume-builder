@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { ResumePDF } from '@/components/ResumePDF';
 
-// PDFダウンロードリンクをクライアントサイドのみで読み込む（エラー防止）
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
   { ssr: false }
@@ -24,6 +23,8 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false);
   const [resumeData, setResumeData] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<'resume' | 'coverLetter'>('resume');
+  const [copied, setCopied] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -69,16 +70,24 @@ export default function Home() {
     }
   };
 
+  const handleCopyCoverLetter = () => {
+    if (resumeData?.coverLetter) {
+      navigator.clipboard.writeText(resumeData.coverLetter);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 py-10 px-4 sm:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-5xl mx-auto space-y-8">
         {/* ヘッダー */}
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            🇦🇺 Aus Resume Builder AI
+            🇦🇺 Aus Resume & Cover Letter AI
           </h1>
           <p className="text-sm text-slate-600">
-            オーストラリアのローカルジョブ獲得に最適化された英文レジュメを瞬時に作成
+            オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成
           </p>
         </div>
 
@@ -206,25 +215,45 @@ export default function Home() {
                 disabled={loading}
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? 'AIが英文レジュメを最適化中...' : '✨ レジュメを自動生成する'}
+                {loading ? 'AIが生成中（約10秒）...' : '✨ レジュメ＆カバーレターを生成'}
               </button>
             </form>
           </div>
 
-          {/* 生成結果＆PDFダウンロード */}
+          {/* 生成結果＆ダウンロードエリア */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-800 mb-4 pb-2 border-b">
-                2. レビュー＆ダウンロード
-              </h2>
+              {/* タブ切り替え */}
+              <div className="flex border-b mb-4">
+                <button
+                  onClick={() => setActiveTab('resume')}
+                  className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
+                    activeTab === 'resume'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  📄 Resume プレビュー
+                </button>
+                <button
+                  onClick={() => setActiveTab('coverLetter')}
+                  className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
+                    activeTab === 'coverLetter'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  ✉️ Cover Letter (添え状)
+                </button>
+              </div>
 
               {!resumeData ? (
                 <div className="text-center py-20 text-slate-400 text-sm">
                   左のフォームを入力して生成ボタンを押すと、<br />
-                  ここに豪州基準のレジュメが表示されます。
+                  ここに書類一式が表示されます。
                 </div>
-              ) : (
-                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 text-sm text-slate-700">
+              ) : activeTab === 'resume' ? (
+                <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 text-sm text-slate-700">
                   <div className="bg-slate-50 p-3 rounded border">
                     <p className="font-bold text-slate-900">{resumeData.personalInfo?.name}</p>
                     <p className="text-xs text-slate-500">
@@ -258,6 +287,24 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-semibold text-slate-500">メールや応募フォームに貼る用</span>
+                    <button
+                      onClick={handleCopyCoverLetter}
+                      className="text-xs px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border transition"
+                    >
+                      {copied ? '✅ コピー完了！' : '📋 全文コピー'}
+                    </button>
+                  </div>
+                  <textarea
+                    readOnly
+                    value={resumeData.coverLetter}
+                    rows={15}
+                    className="w-full p-3 bg-slate-50 border rounded text-xs font-mono leading-relaxed text-slate-800 outline-none"
+                  />
+                </div>
               )}
             </div>
 
@@ -269,7 +316,7 @@ export default function Home() {
                   fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
                   className="block w-full text-center py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md"
                 >
-                  {({ loading }) => (loading ? 'PDF作成中...' : '📄 PDFをダウンロードする')}
+                  {({ loading }) => (loading ? 'PDF作成中...' : '📄 Resume (PDF) をダウンロード')}
                 </PDFDownloadLink>
               </div>
             )}

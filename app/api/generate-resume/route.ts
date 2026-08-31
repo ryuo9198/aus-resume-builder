@@ -9,7 +9,9 @@ export async function POST(req: Request) {
 
     const prompt = `
 You are an expert Australian recruitment consultant.
-Convert the user's background into a high-converting, professional Australian-standard Resume (CV).
+Convert the user's background into:
+1. A high-converting Australian-standard Resume (CV) in JSON.
+2. A professional, persuasive Australian-style Cover Letter tailored for the target job.
 
 Target Job: ${data.targetJob}
 Visa: ${data.visaType} (${data.availability})
@@ -18,8 +20,9 @@ Certifications: ${data.certifications?.join(', ')}
 Personal Info: ${data.name}, ${data.phone}, ${data.email}, ${data.location}
 
 Rules:
-1. NO photos, age, gender, date of birth, or nationality.
-2. Structure format in pure JSON only without markdown or backticks:
+- NO photos, age, gender, date of birth, or nationality.
+- The cover letter must be ready-to-use, tailored to Australian employers with enthusiasm, highlighting relevant skills.
+- Structure format in pure JSON only without markdown or backticks:
 {
   "personalInfo": { "name": "", "email": "", "phone": "", "location": "", "visa": "" },
   "summary": "",
@@ -27,12 +30,13 @@ Rules:
   "experiences": [
     { "role": "", "company": "", "duration": "", "bullets": ["bullet1", "bullet2"] }
   ],
-  "certifications": ["cert1", "cert2"]
+  "certifications": ["cert1", "cert2"],
+  "coverLetter": "Dear Hiring Manager,\\n\\n..."
 }
 `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
