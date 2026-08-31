@@ -10,43 +10,61 @@ export async function POST(req: Request) {
     const prompt = `
 You are an expert Australian recruitment consultant.
 Convert the user's background into:
-1. A high-converting Australian-standard Resume (CV) in JSON.
-2. A professional, persuasive Australian-style Cover Letter tailored for the target job.
+1. An Australian-standard Resume (CV) in JSON.
+2. A professional Cover Letter tailored for the target job.
 
-Target Job: ${data.targetJob}
-Visa: ${data.visaType} (${data.availability})
-Raw Experience: ${data.rawExperience}
-Certifications: ${data.certifications?.join(', ')}
-Personal Info: ${data.name}, ${data.phone}, ${data.email}, ${data.location}
+Target Job: ${data.targetJob || 'General Staff'}
+Visa: ${data.visaType || 'Working Holiday (Subclass 417)'} (${data.availability || 'Full-time'})
+Raw Experience: ${data.rawExperience || 'Customer service and team collaboration'}
+Certifications: ${data.certifications?.join(', ') || 'None'}
+Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, Location: ${data.location}
 
 Rules:
-- NO photos, age, gender, date of birth, or nationality.
-- The cover letter must be ready-to-use, tailored to Australian employers with enthusiasm, highlighting relevant skills.
-- Structure format in pure JSON only without markdown or backticks:
+- Strictly NO photos, date of birth, age, gender, marital status, or nationality.
+- Use natural, professional Australian business English.
+- Return ONLY valid JSON format without markdown code blocks, following this structure:
 {
-  "personalInfo": { "name": "", "email": "", "phone": "", "location": "", "visa": "" },
-  "summary": "",
-  "skills": ["skill1", "skill2"],
+  "personalInfo": {
+    "name": "${data.name || 'Applicant'}",
+    "email": "${data.email || ''}",
+    "phone": "${data.phone || ''}",
+    "location": "${data.location || 'Australia'}",
+    "visa": "${data.visaType || 'Working Holiday'}"
+  },
+  "summary": "2-3 concise sentences highlighting key skills and reliability.",
+  "skills": ["Customer Service", "Time Management", "Communication"],
   "experiences": [
-    { "role": "", "company": "", "duration": "", "bullets": ["bullet1", "bullet2"] }
+    {
+      "role": "Team Member",
+      "company": "Previous Workplace",
+      "duration": "2023 - Present",
+      "bullets": [
+        "Delivered high quality service in a fast-paced environment",
+        "Collaborated effectively with team members to achieve daily targets"
+      ]
+    }
   ],
-  "certifications": ["cert1", "cert2"],
-  "coverLetter": "Dear Hiring Manager,\\n\\n..."
+  "certifications": ${JSON.stringify(data.certifications || [])},
+  "coverLetter": "Dear Hiring Manager,\\n\\nI am writing to express my strong interest in the ${data.targetJob || 'open'} position...\\n\\nSincerely,\\n${data.name || 'Applicant'}"
 }
 `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-1.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
       },
     });
 
-    const generatedResume = JSON.parse(response.text || '{}');
+    let text = response.text || '{}';
+    // バッククォート等のマークダウンを除去
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    const generatedResume = JSON.parse(text);
     return NextResponse.json(generatedResume);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Failed to generate resume' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Gemini Generation Error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to generate resume' }, { status: 500 });
   }
 }
