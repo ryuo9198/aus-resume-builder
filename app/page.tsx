@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { ResumePDF } from '@/components/ResumePDF';
 
 const PDFDownloadLink = dynamic(
@@ -8,7 +9,10 @@ const PDFDownloadLink = dynamic(
   { ssr: false }
 );
 
-export default function Home() {
+function ResumeBuilderContent() {
+  const searchParams = useSearchParams();
+  const [isPaid, setIsPaid] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +26,7 @@ export default function Home() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [resumeData, setResumeData] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'resume' | 'coverLetter'>('resume');
   const [copied, setCopied] = useState(false);
@@ -29,7 +34,10 @@ export default function Home() {
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    if (searchParams.get('paid') === 'true') {
+      setIsPaid(true);
+    }
+  }, [searchParams]);
 
   const certOptions = [
     'RSA (Responsible Service of Alcohol)',
@@ -63,14 +71,36 @@ export default function Home() {
       const data = await res.json();
       setResumeData(data);
     } catch (error) {
-      alert('レジュメの生成に失敗しました。APIキーや設定を確認してください。');
+      alert('生成に失敗しました。');
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCheckout = async () => {
+    setPaying(true);
+    try {
+      const res = await fetch('/api/checkout', { method: 'POST' });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('決済ページの作成に失敗しました。');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('決済エラーが発生しました。');
+    } finally {
+      setPaying(false);
+    }
+  };
+
   const handleCopyCoverLetter = () => {
+    if (!isPaid) {
+      alert('カバーレターのコピーにはアンロック（決済）が必要です。');
+      return;
+    }
     if (resumeData?.coverLetter) {
       navigator.clipboard.writeText(resumeData.coverLetter);
       setCopied(true);
@@ -81,7 +111,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-50 py-10 px-4 sm:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
-        {/* ヘッダー */}
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             🇦🇺 Aus Resume & Cover Letter AI
@@ -89,6 +118,11 @@ export default function Home() {
           <p className="text-sm text-slate-600">
             オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成
           </p>
+          {isPaid && (
+            <div className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mt-2">
+              🎉 プレミアム購入済み（アンロック中）
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -203,7 +237,7 @@ export default function Home() {
                 <textarea
                   rows={4}
                   required
-                  placeholder="スターバックスで2年間アルバイト。接客、レジ、ドリンク作成、新人育成を担当。スピード感のある環境でのマルチタスクが得意。"
+                  placeholder="スターバックスで2年間アルバイト。接客、ドリンク作成を担当。"
                   value={formData.rawExperience}
                   onChange={(e) => setFormData({ ...formData, rawExperience: e.target.value })}
                   className="mt-1 w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
@@ -215,15 +249,14 @@ export default function Home() {
                 disabled={loading}
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? 'AIが生成中（約10秒）...' : '✨ レジュメ＆カバーレターを生成'}
+                {loading ? 'AIが生成中（約10秒）...' : '✨ 無料プレビューを生成'}
               </button>
             </form>
           </div>
 
-          {/* 生成結果＆ダウンロードエリア */}
+          {/* 生成結果＆決済・ダウンロードエリア */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
             <div>
-              {/* タブ切り替え */}
               <div className="flex border-b mb-4">
                 <button
                   onClick={() => setActiveTab('resume')}
@@ -243,7 +276,7 @@ export default function Home() {
                       : 'border-transparent text-slate-400 hover:text-slate-600'
                   }`}
                 >
-                  ✉️ Cover Letter (添え状)
+                  ✉️ Cover Letter (添え状) {!isPaid && '🔒'}
                 </button>
               </div>
 
@@ -290,39 +323,61 @@ export default function Home() {
               ) : (
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold text-slate-500">メールや応募フォームに貼る用</span>
+                    <span className="text-xs font-semibold text-slate-500">
+                      {isPaid ? 'メールや応募フォームに貼る用' : '🔒 アンロックすると全文コピー可能になります'}
+                    </span>
                     <button
                       onClick={handleCopyCoverLetter}
                       className="text-xs px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border transition"
                     >
-                      {copied ? '✅ コピー完了！' : '📋 全文コピー'}
+                      {copied ? '✅ コピー完了！' : isPaid ? '📋 全文コピー' : '🔒 ロック中'}
                     </button>
                   </div>
-                  <textarea
-                    readOnly
-                    value={resumeData.coverLetter}
-                    rows={15}
-                    className="w-full p-3 bg-slate-50 border rounded text-xs font-mono leading-relaxed text-slate-800 outline-none"
-                  />
+                  <div className="relative">
+                    <textarea
+                      readOnly
+                      value={isPaid ? resumeData.coverLetter : resumeData.coverLetter?.slice(0, 150) + '\n\n... (アンロックして全文を表示)'}
+                      rows={14}
+                      className={`w-full p-3 bg-slate-50 border rounded text-xs font-mono leading-relaxed text-slate-800 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
+                    />
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* ダウンロードボタン */}
+            {/* ダウンロード / 決済ボタン */}
             {resumeData && isClient && (
               <div className="mt-6 pt-4 border-t">
-                <PDFDownloadLink
-                  document={<ResumePDF data={resumeData} />}
-                  fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
-                  className="block w-full text-center py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md"
-                >
-                  {({ loading }) => (loading ? 'PDF作成中...' : '📄 Resume (PDF) をダウンロード')}
-                </PDFDownloadLink>
+                {isPaid ? (
+                  <PDFDownloadLink
+                    document={<ResumePDF data={resumeData} />}
+                    fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
+                    className="block w-full text-center py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md"
+                  >
+                    {({ loading }) => (loading ? 'PDF作成中...' : '📄 高画質 PDF をダウンロード')}
+                  </PDFDownloadLink>
+                ) : (
+                  <button
+                    onClick={handleCheckout}
+                    disabled={paying}
+                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-sm shadow-md flex items-center justify-center space-x-2"
+                  >
+                    <span>{paying ? '決済画面へ移動中...' : '🔓 PDF & カバーレターをアンロック ($4.99 AUD)'}</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="text-center py-20">Loading...</div>}>
+      <ResumeBuilderContent />
+    </Suspense>
   );
 }
