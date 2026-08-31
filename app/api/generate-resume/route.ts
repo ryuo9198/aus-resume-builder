@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'GEMINI_API_KEY が設定されていません' }, { status: 500 });
+    }
 
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      generationConfig: { responseMimeType: 'application/json' },
-    });
+    const data = await req.json();
 
     const prompt = `
 You are an expert Australian recruitment consultant.
@@ -26,7 +23,7 @@ Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, L
 
 Rules:
 - Strictly NO photos, date of birth, age, gender, marital status, or nationality.
-- Return ONLY valid JSON format:
+- Return ONLY valid JSON format without markdown code fences:
 {
   "personalInfo": {
     "name": "${data.name || 'Applicant'}",
@@ -43,8 +40,8 @@ Rules:
       "company": "Previous Company",
       "duration": "2023 - 2024",
       "bullets": [
-        "Provided outstanding service to customers",
-        "Collaborated with team to maintain daily operations"
+        "Provided outstanding service to customers in a fast-paced environment",
+        "Collaborated effectively with team members"
       ]
     }
   ],
@@ -53,11 +50,31 @@ Rules:
 }
 `;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(cleanText);
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseMimeType: 'application/json',
+          },
+        }),
+      }
+    );
 
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Gemini API Response Error:', errText);
+      return NextResponse.json({ error: `Gemini APIエラー: ${response.status} ${errText}` }, { status: response.status });
+    }
+
+    const resJson = await response.json();
+    let text = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    const parsed = JSON.parse(text);
     return NextResponse.json(parsed);
   } catch (error: any) {
     console.error('API Error:', error);

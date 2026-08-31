@@ -67,11 +67,13 @@ function ResumeBuilderContent() {
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error('Generation failed');
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Generation failed');
+      }
       setResumeData(data);
-    } catch (error) {
-      alert('生成に失敗しました。');
+    } catch (error: any) {
+      alert(`生成エラー: ${error.message}`);
       console.error(error);
     } finally {
       setLoading(false);
