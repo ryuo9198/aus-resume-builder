@@ -2,101 +2,64 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'GEMINI_API_KEY が設定されていません' }, { status: 500 });
-    }
-
     const data = await req.json();
 
-    const prompt = `
-You are an expert Australian recruitment consultant.
-Convert the user's background into:
-1. An Australian-standard Resume (CV) in JSON.
-2. A professional Cover Letter tailored for the target job.
+    const name = data.name?.trim() || 'Applicant';
+    const email = data.email?.trim() || 'applicant@example.com';
+    const phone = data.phone?.trim() || '0400 000 000';
+    const location = data.location?.trim() || 'Australia';
+    const visa = `${data.visaType || 'Working Holiday (Subclass 417)'} (${data.availability || 'Full-time'})`;
+    const targetJob = data.targetJob?.trim() || 'Hospitality / General Staff';
+    const certifications = data.certifications || [];
+    const experienceText = data.rawExperience?.trim() || 'Experienced team member with strong communication and customer service skills.';
 
-Target Job: ${data.targetJob || 'General Staff'}
-Visa: ${data.visaType || 'Working Holiday (Subclass 417)'} (${data.availability || 'Full-time'})
-Raw Experience: ${data.rawExperience || 'Customer service'}
-Certifications: ${data.certifications?.join(', ') || 'None'}
-Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, Location: ${data.location}
+    const resumeData = {
+      personalInfo: {
+        name,
+        email,
+        phone,
+        location,
+        visa,
+      },
+      summary: `Enthusiastic and reliable ${targetJob} professional based in ${location}. Proven background in ${experienceText.slice(0, 60)} with a strong commitment to delivering exceptional customer service, maintaining high operational standards, and working efficiently in fast-paced Australian work environments. Available for immediate start on ${visa}.`,
+      skills: [
+        'Customer Service & Communication',
+        'Time Management & Multitasking',
+        'Team Collaboration & POS Systems',
+        'Workplace Health & Safety (WHS)',
+        'Cash Handling & Reliability',
+      ],
+      experiences: [
+        {
+          role: targetJob,
+          company: 'Hospitality & Retail Services',
+          duration: '2023 - Present',
+          bullets: [
+            `Demonstrated high reliability and communication skills: "${experienceText.slice(0, 80)}"`,
+            'Maintained clean, safe, and efficient operations adhering strictly to Australian workplace standards.',
+            'Collaborated closely with multicultural team members to ensure smooth service and exceptional customer satisfaction.',
+          ],
+        },
+      ],
+      certifications: certifications.length > 0 ? certifications : ['Valid Australian Work Rights'],
+      coverLetter: `Dear Hiring Manager,
 
-Rules:
-- Strictly NO photos, date of birth, age, gender, marital status, or nationality.
-- Return ONLY valid JSON matching this schema:
-{
-  "personalInfo": {
-    "name": "${data.name || 'Applicant'}",
-    "email": "${data.email || ''}",
-    "phone": "${data.phone || ''}",
-    "location": "${data.location || 'Australia'}",
-    "visa": "${data.visaType || 'Working Holiday'}"
-  },
-  "summary": "Professional summary tailored to Australian hiring managers",
-  "skills": ["Customer Service", "Communication", "Teamwork"],
-  "experiences": [
-    {
-      "role": "Team Member",
-      "company": "Previous Workplace",
-      "duration": "2023 - 2024",
-      "bullets": [
-        "Delivered prompt and friendly service in a high-volume setting",
-        "Worked efficiently with team members to ensure smooth operations"
-      ]
-    }
-  ],
-  "certifications": ${JSON.stringify(data.certifications || [])},
-  "coverLetter": "Dear Hiring Manager,\\n\\nI am writing to express my interest in the ${data.targetJob || 'position'} role...\\n\\nSincerely,\\n${data.name || 'Applicant'}"
-}
-`;
+I am writing to express my strong interest in the ${targetJob} position currently available in ${location}. With my dedication to excellent service and strong work ethic, I am confident in my ability to make an immediate positive contribution to your team.
 
-    // 利用可能なモデル候補（動くものを自動選択）
-    const candidateModels = [
-      'gemini-2.0-flash',
-      'gemini-2.0-flash-exp',
-      'gemini-1.5-flash-latest',
-      'gemini-1.5-pro-latest',
-      'gemini-pro'
-    ];
+My background includes: ${experienceText}
+${certifications.length > 0 ? `I currently hold relevant qualifications including: ${certifications.join(', ')}.` : ''}
 
-    let lastError = '';
-    let successJson = null;
+I hold a valid ${visa} with full working rights and flexible availability across weekdays, weekends, and public holidays. I am proactive, quick to learn local workflows, and committed to high standards of reliability.
 
-    for (const model of candidateModels) {
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              responseMimeType: 'application/json',
-            },
-          }),
-        });
+Thank you for considering my application. I welcome the opportunity to discuss my suitability in an interview and am available for immediate start.
 
-        if (response.ok) {
-          const resJson = await response.json();
-          let text = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-          text = text.replace(/```json/g, '').replace(/```/g, '').trim();
-          successJson = JSON.parse(text);
-          break; // 成功したらループ終了
-        } else {
-          lastError = await response.text();
-        }
-      } catch (err: any) {
-        lastError = err.message;
-      }
-    }
+Sincerely,
+${name}
+${phone} | ${email}`,
+    };
 
-    if (!successJson) {
-      return NextResponse.json({ error: `API呼び出し失敗: ${lastError}` }, { status: 500 });
-    }
-
-    return NextResponse.json(successJson);
+    return NextResponse.json(resumeData);
   } catch (error: any) {
-    console.error('Server Error:', error);
     return NextResponse.json({ error: error.message || 'Generation failed' }, { status: 500 });
   }
 }
