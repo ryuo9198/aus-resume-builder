@@ -23,7 +23,7 @@ Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, L
 
 Rules:
 - Strictly NO photos, date of birth, age, gender, marital status, or nationality.
-- Return ONLY valid JSON format:
+- Return ONLY valid JSON matching this schema:
 {
   "personalInfo": {
     "name": "${data.name || 'Applicant'}",
@@ -50,32 +50,51 @@ Rules:
 }
 `;
 
-    // 安定して動作する gemini-2.5-flash の v1beta エンドポイント
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // 利用可能なモデル候補（動くものを自動選択）
+    const candidateModels = [
+      'gemini-2.0-flash',
+      'gemini-2.0-flash-exp',
+      'gemini-1.5-flash-latest',
+      'gemini-1.5-pro-latest',
+      'gemini-pro'
+    ];
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: 'application/json',
-        },
-      }),
-    });
+    let lastError = '';
+    let successJson = null;
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Gemini API Error:', errText);
-      return NextResponse.json({ error: `Gemini API Error (${response.status}): ${errText}` }, { status: response.status });
+    for (const model of candidateModels) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json',
+            },
+          }),
+        });
+
+        if (response.ok) {
+          const resJson = await response.json();
+          let text = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+          text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+          successJson = JSON.parse(text);
+          break; // 成功したらループ終了
+        } else {
+          lastError = await response.text();
+        }
+      } catch (err: any) {
+        lastError = err.message;
+      }
     }
 
-    const resJson = await response.json();
-    let text = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    if (!successJson) {
+      return NextResponse.json({ error: `API呼び出し失敗: ${lastError}` }, { status: 500 });
+    }
 
-    const parsed = JSON.parse(text);
-    return NextResponse.json(parsed);
+    return NextResponse.json(successJson);
   } catch (error: any) {
     console.error('Server Error:', error);
     return NextResponse.json({ error: error.message || 'Generation failed' }, { status: 500 });
