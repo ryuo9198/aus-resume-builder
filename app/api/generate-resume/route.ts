@@ -23,7 +23,7 @@ Personal Info: Name: ${data.name}, Phone: ${data.phone}, Email: ${data.email}, L
 
 Rules:
 - Strictly NO photos, date of birth, age, gender, marital status, or nationality.
-- Return ONLY valid JSON matching this schema:
+- Return ONLY valid JSON format:
 {
   "personalInfo": {
     "name": "${data.name || 'Applicant'}",
@@ -50,8 +50,8 @@ Rules:
 }
 `;
 
-    // v1 エンドポイントを使用
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // 安定して動作する gemini-2.5-flash の v1beta エンドポイント
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
