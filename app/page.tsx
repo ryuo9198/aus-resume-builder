@@ -20,8 +20,9 @@ const translations = {
     name: 'お名前 (英語表記)',
     namePh: '例: Taro Yamada',
     email: 'メールアドレス',
-    phone: '電話番号 (豪)',
-    location: '滞在都市',
+    phone: '電話番号 (豪) ※任意・渡航前は空欄でOK',
+    phonePh: '未取得なら空欄でOK (例: 0412 345 678)',
+    location: '滞在都市 / 予定都市',
     locationPh: '例: Perth, WA',
     targetJob: '希望職種',
     targetJobPh: '例: Barista / All-Rounder',
@@ -52,16 +53,17 @@ const translations = {
     name: 'Full Name (English)',
     namePh: 'e.g. Alex Smith',
     email: 'Email Address',
-    phone: 'Phone Number (AU)',
-    location: 'Current City',
+    phone: 'Phone Number (AU) - Optional',
+    phonePh: 'Leave blank if not yet in AU',
+    location: 'Current / Planned City',
     locationPh: 'e.g. Perth, WA',
     targetJob: 'Target Role',
     targetJobPh: 'e.g. Barista / All-Rounder',
     visaType: 'Visa Type',
     availability: 'Availability',
     certs: 'Australian Licences & Certifications',
-    experience: 'Past Experience & Strengths',
-    experiencePh: 'e.g. 2 years experience as a barista in a busy cafe. Skilled in customer service, espresso making, and POS operation.',
+    experience: 'Past Experience & Strengths (Native language OK)',
+    experiencePh: 'e.g. 2 years experience as a barista in a busy cafe. Skilled in customer service and espresso making.',
     generateBtn: '✨ Generate Free Preview',
     generatingBtn: 'Generating (approx. 5s)...',
     tabResume: '📄 Resume Preview',
@@ -84,8 +86,9 @@ const translations = {
     name: '영문 성명',
     namePh: '예: Minwoo Kim',
     email: '이메일 주소',
-    phone: '호주 전화번호',
-    location: '거주 도시',
+    phone: '호주 전화번호 (선택사항 / 미개통시 빈칸)',
+    phonePh: '아직 없으면 비워두세요',
+    location: '거주/입국 예정 도시',
     locationPh: '예: Sydney, NSW',
     targetJob: '희망 직종',
     targetJobPh: '예: Barista / All-Rounder',
@@ -116,8 +119,9 @@ const translations = {
     name: '英文姓名',
     namePh: '例: Alex Chen',
     email: '電子郵件',
-    phone: '澳洲電話',
-    location: '所在城市',
+    phone: '澳洲電話 (選填，未入境可留空)',
+    phonePh: '尚未申辦電話可留空',
+    location: '所在 / 預計前往城市',
     locationPh: '例: Melbourne, VIC',
     targetJob: '應徵職位',
     targetJobPh: '例: Barista / All-Rounder',
@@ -125,7 +129,7 @@ const translations = {
     availability: '可工作時間',
     certs: '澳洲相關證照',
     experience: '過去經歷與優勢 (可用中文輸入)',
-    experiencePh: '例: 連鎖咖啡廳2年經驗，擅長客戶服務、咖啡沖煮與收銀，能適應快節奏環境。',
+    experiencePh: '例: 連鎖咖啡廳2年經驗，擅長客戶服務、咖啡沖煮與收銀。',
     generateBtn: '✨ 免費生成預覽',
     generatingBtn: '生成中（約5秒）...',
     tabResume: '📄 履歷預覽',
@@ -148,8 +152,9 @@ const translations = {
     name: 'Nombre Completo (en inglés)',
     namePh: 'ej: Carlos Gomez',
     email: 'Correo Electrónico',
-    phone: 'Teléfono (AU)',
-    location: 'Ciudad en Australia',
+    phone: 'Teléfono (AU) - Opcional',
+    phonePh: 'Dejar en blanco si aún no tienes',
+    location: 'Ciudad actual o de destino',
     locationPh: 'ej: Brisbane, QLD',
     targetJob: 'Puesto Deseado',
     targetJobPh: 'ej: Barista / All-Rounder',
@@ -157,7 +162,7 @@ const translations = {
     availability: 'Disponibilidad',
     certs: 'Certificados y Licencias en Australia',
     experience: 'Experiencia previa y habilidades (puedes escribir en español)',
-    experiencePh: 'ej: 2 años de experiencia como barista y camarero. Excelente atención al cliente y trabajo en equipo.',
+    experiencePh: 'ej: 2 años de experiencia como barista y camarero.',
     generateBtn: '✨ Generar Vista Previa Gratis',
     generatingBtn: 'Generando (aprox. 5s)...',
     tabResume: '📄 Vista Previa de CV',
@@ -353,8 +358,7 @@ function ResumeBuilderContent() {
                   <label className="block text-xs font-bold text-slate-800">{t.phone}</label>
                   <input
                     type="text"
-                    required
-                    placeholder="0412 345 678"
+                    placeholder={t.phonePh}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
@@ -482,7 +486,7 @@ function ResumeBuilderContent() {
                   <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
                     <p className="font-extrabold text-slate-900 text-base">{resumeData.personalInfo?.name}</p>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      {resumeData.personalInfo?.location} | {resumeData.personalInfo?.phone} | {resumeData.personalInfo?.email}
+                      {[resumeData.personalInfo?.location, resumeData.personalInfo?.phone, resumeData.personalInfo?.email].filter(Boolean).join(' | ')}
                     </p>
                     <p className="text-xs text-blue-700 font-bold mt-1">Visa: {resumeData.personalInfo?.visa}</p>
                   </div>
