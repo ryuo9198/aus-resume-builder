@@ -313,18 +313,20 @@ const translations = {
     availability: '就労可能状況',
     certs: '保有資格・ライセンス (該当するものを選択)',
     experience: '過去の経験・アピールポイント (日本語でOK)',
-    experiencePh: '例: カフェで2年間アルバイト。接客、エスプレッソ抽出、レジを担当。朝のピーク時もスピード感を持って動けます。',
+    experiencePh: '例: スターバックスで3年間アルバイト。ドリンク作成、レジ、接客、新人バリスタの育成を担当。',
     generateBtn: '✨ 無料プレビューを生成',
-    generatingBtn: 'AIが生成中（約5秒）...',
+    generatingBtn: 'AIが思考・生成中（約8秒）...',
     tabResume: '📄 Resume プレビュー',
     tabCover: '✉️ Cover Letter (添え状)',
+    viewOriginal: '🇺🇸 英語原本',
+    viewTranslated: '🌐 日本語訳を見る',
     emptyPreview: '左のフォームを入力して生成ボタンを押すと、\nここに書類一式が表示されます。',
-    copyUnlocked: 'メールや応募フォームに貼る用',
+    copyUnlocked: 'メールや応募フォームに貼る用 (英語原本)',
     copyLocked: '🔒 アンロックすると全文コピー可能になります',
     btnCopy: '📋 全文コピー',
     btnCopied: '✅ コピー完了！',
     btnLocked: '🔒 ロック中',
-    btnDownloadPdf: '📄 高画質 PDF をダウンロード',
+    btnDownloadPdf: '📄 高画質 PDF をダウンロード (英文)',
     btnUnlock: '🔓 PDF & カバーレターをアンロック ($4.99 AUD)',
     redirecting: '決済画面へ移動中...',
   },
@@ -344,11 +346,13 @@ const translations = {
     availability: 'Availability',
     certs: 'Australian Licences & Certifications',
     experience: 'Past Experience & Strengths',
-    experiencePh: 'e.g. 2 years experience in busy cafes. Skilled in espresso calibration, milk texturing, and point of sale systems.',
+    experiencePh: 'e.g. 3 years at Starbucks. Handcrafted specialty drinks, POS operation, trained junior baristas.',
     generateBtn: '✨ Generate Free Preview',
-    generatingBtn: 'Generating (approx. 5s)...',
+    generatingBtn: 'AI Generating (approx. 8s)...',
     tabResume: '📄 Resume Preview',
     tabCover: '✉️ Cover Letter',
+    viewOriginal: '🇺🇸 English Original',
+    viewTranslated: '🌐 Localized View',
     emptyPreview: 'Fill in the form on the left and click Generate to see your full preview here.',
     copyUnlocked: 'Ready to paste into job application emails',
     copyLocked: '🔒 Unlock to copy full cover letter',
@@ -375,18 +379,20 @@ const translations = {
     availability: '근무 가능 시간',
     certs: '보유 자격증 / 라이센스 (해당 항목 체크)',
     experience: '경력 및 강점 (한국어로 편하게 작성)',
-    experiencePh: '예: 대형 카페 2년 근무. 에스프레소 추출, 고객 응대, 포스 결제 담당. 바쁜 시간대에도 빠른 대처 가능.',
+    experiencePh: '예: 스타벅스 3년 근무. 음료 제조, 포스 결제, 고객 응대, 신입 바리스타 교육 담당.',
     generateBtn: '✨ 무료 미리보기 생성',
-    generatingBtn: '생성 중 (약 5초)...',
+    generatingBtn: 'AI 생성 중 (약 8초)...',
     tabResume: '📄 레주메 미리보기',
     tabCover: '✉️ 커버레터',
+    viewOriginal: '🇺🇸 영어 원문',
+    viewTranslated: '🌐 한국어 번역본 보기',
     emptyPreview: '왼쪽 폼을 작성하고 생성 버튼을 누르면\n이곳에 영문 서류가 완성됩니다.',
-    copyUnlocked: '구직 지원용 이메일 복사 가능',
+    copyUnlocked: '구직 지원용 이메일 복사 가능 (영어 원문)',
     copyLocked: '🔒 결제 후 전체 복사가 가능합니다',
     btnCopy: '📋 전체 복사',
     btnCopied: '✅ 복사 완료!',
     btnLocked: '🔒 잠김',
-    btnDownloadPdf: '📄 고화질 PDF 다운로드',
+    btnDownloadPdf: '📄 고화질 PDF 다운로드 (영문)',
     btnUnlock: '🔓 PDF & 커버레터 언락 ($4.99 AUD)',
     redirecting: '결제 페이지로 이동 중...',
   },
@@ -406,18 +412,20 @@ const translations = {
     availability: '可工作時間',
     certs: '澳洲相關證照 (勾選符合項目)',
     experience: '過去經歷與優勢 (可用中文填寫)',
-    experiencePh: '例: 知名咖啡店2年工作經驗，擅長快速咖啡沖煮、顧客點餐收銀，具備高效率抗壓能力。',
+    experiencePh: '例: 星巴克3年兼職經驗，負責義式咖啡沖煮、點餐收銀、培訓新進店員。',
     generateBtn: '✨ 免費生成預覽',
-    generatingBtn: '生成中（約5秒）...',
+    generatingBtn: 'AI 深度生成中（約8秒）...',
     tabResume: '📄 履歷預覽',
     tabCover: '✉️ 求職信 (Cover Letter)',
+    viewOriginal: '🇺🇸 英文原文',
+    viewTranslated: '🌐 查看中文翻譯對照',
     emptyPreview: '填寫左側表單並點擊生成，\n即可在此預覽標準澳洲格式英文文件。',
-    copyUnlocked: '可用於應徵郵件複製',
+    copyUnlocked: '可用於應徵郵件複製 (英文原文)',
     copyLocked: '🔒 解鎖後可複製全文',
     btnCopy: '📋 複製全文',
     btnCopied: '✅ 已複製！',
     btnLocked: '🔒 未解鎖',
-    btnDownloadPdf: '📄 下載高畫質 PDF',
+    btnDownloadPdf: '📄 下載高畫質 PDF (英文版)',
     btnUnlock: '🔓 解鎖 PDF 與求職信 ($4.99 AUD)',
     redirecting: '跳轉至付款頁面...',
   },
@@ -437,18 +445,20 @@ const translations = {
     availability: 'Disponibilidad',
     certs: 'Certificados y Licencias en Australia',
     experience: 'Experiencia previa y fortalezas (en español)',
-    experiencePh: 'ej: 2 años en cafeterías de alto volumen. Experto en café de especialidad, servicio al cliente y caja.',
+    experiencePh: 'ej: 3 años en Starbucks. Preparación de café, cobro en caja y capacitación de nuevo personal.',
     generateBtn: '✨ Generar Vista Previa Gratis',
-    generatingBtn: 'Generando (aprox. 5s)...',
+    generatingBtn: 'Generando con IA (aprox. 8s)...',
     tabResume: '📄 Vista Previa de CV',
     tabCover: '✉️ Cover Letter',
+    viewOriginal: '🇺🇸 Original en Inglés',
+    viewTranslated: '🌐 Ver Traducción en Español',
     emptyPreview: 'Completa el formulario de la izquierda para ver tus documentos generados aquí.',
-    copyUnlocked: 'Listo para copiar en correos de solicitud',
+    copyUnlocked: 'Listo para copiar en correos de solicitud (Original en inglés)',
     copyLocked: '🔒 Desbloquea para copiar la carta completa',
     btnCopy: '📋 Copiar Texto Completo',
     btnCopied: '✅ ¡Copiado!',
     btnLocked: '🔒 Bloqueado',
-    btnDownloadPdf: '📄 Descargar PDF en Alta Calidad',
+    btnDownloadPdf: '📄 Descargar PDF en Alta Calidad (Inglés)',
     btnUnlock: '🔓 Desbloquear PDF y Carta ($4.99 AUD)',
     redirecting: 'Redirigiendo al pago...',
   },
@@ -476,6 +486,7 @@ function ResumeBuilderContent() {
   const [paying, setPaying] = useState(false);
   const [resumeData, setResumeData] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'resume' | 'coverLetter'>('resume');
+  const [showTranslated, setShowTranslated] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -502,7 +513,7 @@ function ResumeBuilderContent() {
       const res = await fetch('/api/generate-resume', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, language: lang }),
       });
 
       const data = await res.json();
@@ -510,6 +521,7 @@ function ResumeBuilderContent() {
         throw new Error(data.error || 'Generation failed');
       }
       setResumeData(data);
+      setShowTranslated(false); // 生成直後は英文原本を表示
     } catch (error: any) {
       alert(`生成エラー: ${error.message}`);
       console.error(error);
@@ -541,12 +553,19 @@ function ResumeBuilderContent() {
       alert('カバーレターのコピーにはアンロック（決済）が必要です。');
       return;
     }
-    if (resumeData?.coverLetter) {
-      navigator.clipboard.writeText(resumeData.coverLetter);
+    const textToCopy = resumeData?.coverLetter;
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  // 表示用データの切り替え（英文原本 or 翻訳）
+  const displaySummary = showTranslated && resumeData?.translated?.summary ? resumeData.translated.summary : resumeData?.summary;
+  const displaySkills = showTranslated && resumeData?.translated?.skills ? resumeData.translated.skills : resumeData?.skills;
+  const displayExperiences = showTranslated && resumeData?.translated?.experiences ? resumeData.translated.experiences : resumeData?.experiences;
+  const displayCoverLetter = showTranslated && resumeData?.translated?.coverLetter ? resumeData.translated.coverLetter : resumeData?.coverLetter;
 
   return (
     <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-8">
@@ -632,6 +651,7 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
+              {/* 滞在都市 & 希望職種 */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.location}</label>
@@ -663,6 +683,7 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
+              {/* ビザ種類 & 就労状況 */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.visaType}</label>
@@ -694,6 +715,7 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
+              {/* 保有資格 */}
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-2">{t.certs}</label>
                 <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
@@ -736,27 +758,52 @@ function ResumeBuilderContent() {
           {/* 生成結果＆決済・ダウンロードエリア */}
           <div className="bg-white p-6 rounded-xl shadow-md border border-slate-300 flex flex-col justify-between">
             <div>
-              <div className="flex border-b border-slate-200 mb-4">
-                <button
-                  onClick={() => setActiveTab('resume')}
-                  className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
-                    activeTab === 'resume'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-500 hover:text-slate-800'
-                  }`}
-                >
-                  {t.tabResume}
-                </button>
-                <button
-                  onClick={() => setActiveTab('coverLetter')}
-                  className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
-                    activeTab === 'coverLetter'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-500 hover:text-slate-800'
-                  }`}
-                >
-                  {t.tabCover} {!isPaid && '🔒'}
-                </button>
+              {/* タブ ＆ 原本/翻訳切り替えボタン */}
+              <div className="flex justify-between items-center border-b border-slate-200 mb-4 pb-1">
+                <div className="flex">
+                  <button
+                    onClick={() => setActiveTab('resume')}
+                    className={`py-2 px-3 text-xs font-bold border-b-2 transition ${
+                      activeTab === 'resume'
+                        ? 'border-blue-600 text-blue-600'
+                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                    }`}
+                  >
+                    {t.tabResume}
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('coverLetter')}
+                    className={`py-2 px-3 text-xs font-bold border-b-2 transition ${
+                      activeTab === 'coverLetter'
+                        ? 'border-blue-600 text-blue-600'
+                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                    }`}
+                  >
+                    {t.tabCover} {!isPaid && '🔒'}
+                  </button>
+                </div>
+
+                {/* 翻訳切り替えトグル */}
+                {resumeData && (
+                  <div className="flex items-center space-x-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                    <button
+                      onClick={() => setShowTranslated(false)}
+                      className={`text-[11px] px-2 py-1 rounded font-bold transition ${
+                        !showTranslated ? 'bg-white text-blue-700 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      {t.viewOriginal}
+                    </button>
+                    <button
+                      onClick={() => setShowTranslated(true)}
+                      className={`text-[11px] px-2 py-1 rounded font-bold transition ${
+                        showTranslated ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      {t.viewTranslated}
+                    </button>
+                  </div>
+                )}
               </div>
 
               {!resumeData ? (
@@ -765,6 +812,12 @@ function ResumeBuilderContent() {
                 </div>
               ) : activeTab === 'resume' ? (
                 <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 text-sm text-slate-800 font-medium">
+                  {showTranslated && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] px-3 py-1.5 rounded-lg font-semibold">
+                      💡 これは内容確認用の母国語訳です。提出用PDFは自動的に正式な英語でダウンロードされます。
+                    </div>
+                  )}
+
                   <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
                     <p className="font-extrabold text-slate-900 text-base">{resumeData.personalInfo?.name}</p>
                     <p className="text-xs text-slate-600 mt-0.5">
@@ -775,17 +828,21 @@ function ResumeBuilderContent() {
 
                   <div>
                     <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Summary</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 leading-relaxed text-slate-900">{resumeData.summary}</p>
+                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 leading-relaxed text-slate-900">
+                      {displaySummary}
+                    </p>
                   </div>
 
                   <div>
                     <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Skills</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-900 font-semibold">{resumeData.skills?.join(' • ')}</p>
+                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-900 font-semibold">
+                      {displaySkills?.join(' • ')}
+                    </p>
                   </div>
 
                   <div>
                     <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Experience</h3>
-                    {resumeData.experiences?.map((exp: any, i: number) => (
+                    {displayExperiences?.map((exp: any, i: number) => (
                       <div key={i} className="mt-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
                         <p className="font-bold text-slate-900">{exp.role} - {exp.company}</p>
                         <p className="text-slate-500 text-[10px] mb-1">{exp.duration}</p>
@@ -811,10 +868,19 @@ function ResumeBuilderContent() {
                       {copied ? t.btnCopied : isPaid ? t.btnCopy : t.btnLocked}
                     </button>
                   </div>
+                  {showTranslated && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] px-3 py-1.5 rounded-lg font-semibold">
+                      💡 カバーレターの母国語訳です（提出時は「🇺🇸 英語原本」をコピーして使います）。
+                    </div>
+                  )}
                   <div className="relative">
                     <textarea
                       readOnly
-                      value={isPaid ? resumeData.coverLetter : resumeData.coverLetter?.slice(0, 150) + '\n\n... (Unlock to view full letter)'}
+                      value={
+                        isPaid
+                          ? displayCoverLetter
+                          : displayCoverLetter?.slice(0, 150) + '\n\n... (Unlock to view full letter)'
+                      }
                       rows={14}
                       className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
                     />

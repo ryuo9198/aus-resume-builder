@@ -8,10 +8,21 @@ export async function POST(req: Request) {
     }
 
     const data = await req.json();
+    const targetLanguage = data.language || 'ja'; // ja, en, ko, zh, es
+
+    const langNames: Record<string, string> = {
+      ja: 'Japanese',
+      en: 'English',
+      ko: 'Korean',
+      zh: 'Traditional Chinese',
+      es: 'Spanish',
+    };
+    const userLangName = langNames[targetLanguage] || 'Japanese';
 
     const prompt = `
 You are an expert Australian recruitment consultant and professional resume writer.
-A candidate wants to work in Australia. Convert their provided details into an Australian-standard Resume (CV) and a tailored Cover Letter.
+A candidate wants to work in Australia. Convert their provided details into an Australian-standard Resume (CV) and a tailored Cover Letter in English.
+ALSO, provide a full, accurate, and easy-to-understand translation of the resume and cover letter into ${userLangName} so the applicant can understand every detail written.
 
 Candidate Input:
 - Name: ${data.name || 'Applicant'}
@@ -22,17 +33,15 @@ Candidate Input:
 - Visa Type: ${data.visaType || 'Working Holiday (Subclass 417)'}
 - Availability: ${data.availability || 'Full-time'}
 - Australian Licences: ${data.certifications?.join(', ') || 'None'}
-- Past Experience & Key Strengths (user input in their native language):
+- Past Experience & Key Strengths:
 "${data.rawExperience || 'Customer service'}"
 
-Strict Australian Standards:
-1. Australian resumes strictly PROHIBIT: photos, age, date of birth, gender, marital status, and nationality.
-2. Carefully analyze the candidate's "Past Experience & Key Strengths":
-   - Identify their actual previous company, workplace, or industry (e.g., if they mention "スタバ", the company is "Starbucks Coffee").
-   - Extract the length of experience (e.g., "3年間" -> "3 Years").
-   - Translate their actual daily duties and achievements into strong, action-oriented Australian professional English bullet points (e.g., Handcrafted, Delivered, Managed, Coordinated).
-   - DO NOT substitute a generic unrelated job. Reflect their real input faithfully.
-3. Return ONLY a valid JSON object matching this exact schema:
+Strict Australian Resume Standards:
+1. Resumes strictly PROHIBIT: photos, age, date of birth, gender, marital status, nationality.
+2. Accurately reflect the candidate's actual workplace, industry, and accomplishments (e.g. Starbucks, cafes, izakaya, retail) using strong, active verbs in English.
+3. In "translated", translate the Summary, Skills, Experiences, and Cover Letter faithfully into ${userLangName}.
+
+Return ONLY a valid JSON object matching this schema:
 {
   "personalInfo": {
     "name": "${data.name || 'Applicant'}",
@@ -41,26 +50,38 @@ Strict Australian Standards:
     "location": "${data.location || 'Australia'}",
     "visa": "${data.visaType || 'Working Holiday'}"
   },
-  "summary": "2-3 impactful sentences highlighting their target role in Australia, their past experience, and work rights.",
+  "summary": "Impactful 2-3 sentence English summary",
   "skills": ["Skill 1", "Skill 2", "Skill 3", "Skill 4", "Skill 5"],
   "experiences": [
     {
-      "role": "Role Title based on actual input",
-      "company": "Company / Workplace based on actual input",
-      "duration": "Duration based on actual input (e.g., 2021 - 2024)",
+      "role": "Role in English",
+      "company": "Company in English",
+      "duration": "Duration in English",
       "bullets": [
-        "Strong action-verb achievement 1",
-        "Strong action-verb achievement 2",
-        "Strong action-verb achievement 3"
+        "English achievement 1",
+        "English achievement 2",
+        "English achievement 3"
       ]
     }
   ],
   "certifications": ${JSON.stringify(data.certifications || [])},
-  "coverLetter": "A full, professional Australian cover letter addressed to Hiring Manager tailored to the target role and their real background."
+  "coverLetter": "Full English cover letter addressed to Hiring Manager",
+  "translated": {
+    "summary": "Summary translated into ${userLangName}",
+    "skills": ["Skills translated into ${userLangName}"],
+    "experiences": [
+      {
+        "role": "Role translated",
+        "company": "Company translated",
+        "duration": "Duration translated",
+        "bullets": ["Bullet 1 translated", "Bullet 2 translated", "Bullet 3 translated"]
+      }
+    ],
+    "coverLetter": "Cover letter translated into ${userLangName}"
+  }
 }
 `;
 
-    // Google指定の最新モデル gemini-3.6-flash を呼び出し
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
     const response = await fetch(url, {
       method: 'POST',
