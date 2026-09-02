@@ -11,6 +11,292 @@ const PDFDownloadLink = dynamic(
 
 type Language = 'ja' | 'en' | 'ko' | 'zh' | 'es';
 
+// 共通データ（送信値：英語、表示値：多言語）
+const JOB_DATA = [
+  {
+    value: 'Barista / Cafe All-Rounder',
+    labels: {
+      ja: '☕ バリスタ / カフェ店員',
+      en: '☕ Barista / Cafe All-Rounder',
+      ko: '☕ 바리스타 / 카페 직원',
+      zh: '☕ 咖啡師 / 咖啡廳全能店員',
+      es: '☕ Barista / Personal de Cafetería',
+    },
+  },
+  {
+    value: 'Food & Beverage Attendant (Waiter/Waitress)',
+    labels: {
+      ja: '🍽️ レストラン・居酒屋ホール (接客/ウェイター)',
+      en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)',
+      ko: '🍽️ 레스토랑 / 홀 서빙 (웨이터)',
+      zh: '🍽️ 餐飲服務生 / 外場服務 (Waiter/Waitress)',
+      es: '🍽️ Camarero/a / Servicio de Alimentos',
+    },
+  },
+  {
+    value: 'Kitchen Hand / Dishwasher',
+    labels: {
+      ja: '🍳 キッチンハンド / 皿洗い・調理補助',
+      en: '🍳 Kitchen Hand / Dishwasher',
+      ko: '🍳 키친핸드 / 설거지 및 조리 보조',
+      zh: '🍳 廚房助手 / 洗碗工',
+      es: '🍳 Ayudante de Cocina / Fregaplatos',
+    },
+  },
+  {
+    value: 'Retail Assistant / Cashier',
+    labels: {
+      ja: '🛍️ 販売スタッフ / レジ・接客',
+      en: '🛍️ Retail Assistant / Cashier',
+      ko: '🛍️ 리테일 매장 직원 / 캐셔',
+      zh: '🛍️ 零售門市銷售 / 收銀員',
+      es: '🛍️ Asistente de Tienda / Cajero',
+    },
+  },
+  {
+    value: 'General Labourer (Construction)',
+    labels: {
+      ja: '🏗️ 建設現場作業員 (General Labourer)',
+      en: '🏗️ General Labourer (Construction)',
+      ko: '🏗️ 건설 현장 잡부 / 노무직',
+      zh: '🏗️ 工地勞工 (General Labourer)',
+      es: '🏗️ Obrero de Construcción (Labourer)',
+    },
+  },
+  {
+    value: 'Warehouse Assistant / Forklift',
+    labels: {
+      ja: '📦 倉庫作業員 / ピッキング・フォークリフト',
+      en: '📦 Warehouse Assistant / Forklift',
+      ko: '📦 물류 창고 작업 / 피킹 / 지게차',
+      zh: '📦 倉庫助手 / 揀貨 / 堆高機',
+      es: '📦 Operario de Almacén / Montacargas',
+    },
+  },
+  {
+    value: 'Housekeeper / Hotel Cleaner',
+    labels: {
+      ja: '🧹 ホテル清掃 / ハウスキーパー',
+      en: '🧹 Housekeeper / Hotel Cleaner',
+      ko: '🧹 호텔 청소 / 하우스키핑',
+      zh: '🧹 房務清潔 / 飯店 Housekeeper',
+      es: '🧹 Mucama / Personal de Limpieza de Hotel',
+    },
+  },
+  {
+    value: 'Farm Hand / Fruit Picker',
+    labels: {
+      ja: '🍎 ファーム作業 / フルーツピッキング',
+      en: '🍎 Farm Hand / Fruit Picker',
+      ko: '🍎 농장 작업 / 과일 피킹',
+      zh: '🍎 農場勞工 / 水果採摘 (Fruit Picker)',
+      es: '🍎 Trabajador Agrícola / Recolector de Fruta',
+    },
+  },
+  {
+    value: 'Bartender / Pub Staff',
+    labels: {
+      ja: '🍸 バーテンダー / パブスタッフ',
+      en: '🍸 Bartender / Pub Staff',
+      ko: '🍸 바텐더 / 펍 스태프',
+      zh: '🍸 調酒師 / 酒吧工作人員',
+      es: '🍸 Bartender / Personal de Bar',
+    },
+  },
+  {
+    value: 'Customer Service Representative',
+    labels: {
+      ja: '📞 一般事務 / カスタマーサポート',
+      en: '📞 Customer Service Representative',
+      ko: '📞 일반 사무 / 고객 지원',
+      zh: '📞 客服專員 / 一般辦公事務',
+      es: '📞 Atención al Cliente / Oficina',
+    },
+  },
+];
+
+const VISA_DATA = [
+  {
+    value: 'Working Holiday (Subclass 417)',
+    labels: {
+      ja: 'ワーキングホリデービザ (Subclass 417)',
+      en: 'Working Holiday Visa (Subclass 417)',
+      ko: '워킹홀리데이 비자 (Subclass 417)',
+      zh: '打工度假簽證 (Subclass 417)',
+      es: 'Visa Working Holiday (Subclass 417)',
+    },
+  },
+  {
+    value: 'Work and Holiday (Subclass 462)',
+    labels: {
+      ja: 'ワーク＆ホリデービザ (Subclass 462)',
+      en: 'Work and Holiday Visa (Subclass 462)',
+      ko: '워크 앤 홀리데이 비자 (Subclass 462)',
+      zh: '打工與度假簽證 (Subclass 462)',
+      es: 'Visa Work and Holiday (Subclass 462)',
+    },
+  },
+  {
+    value: 'Student Visa (Subclass 500)',
+    labels: {
+      ja: '学生ビザ (Subclass 500)',
+      en: 'Student Visa (Subclass 500)',
+      ko: '학생 비자 (Subclass 500)',
+      zh: '學生簽證 (Subclass 500)',
+      es: 'Visa de Estudiante (Subclass 500)',
+    },
+  },
+  {
+    value: 'Temporary Graduate (Subclass 485)',
+    labels: {
+      ja: '卒業生ビザ (Subclass 485)',
+      en: 'Temporary Graduate Visa (Subclass 485)',
+      ko: '졸업생 비자 (Subclass 485)',
+      zh: '畢業生工作簽證 (Subclass 485)',
+      es: 'Visa de Graduado Temporal (Subclass 485)',
+    },
+  },
+  {
+    value: 'Permanent Resident (PR)',
+    labels: {
+      ja: '永住権 (Permanent Resident)',
+      en: 'Permanent Resident (PR)',
+      ko: '영주권 (Permanent Resident)',
+      zh: '澳洲永久居留權 (PR)',
+      es: 'Residencia Permanente (PR)',
+    },
+  },
+];
+
+const AVAILABILITY_DATA = [
+  {
+    value: 'Full-time (Immediate Start / Weekdays & Weekends)',
+    labels: {
+      ja: '即日勤務可・フルタイム可能 (平日・土日祝いつでも)',
+      en: 'Full-time / Immediate Start (Any days/hours)',
+      ko: '즉시 출근 가능 / 풀타임 (평일/주말 언제든 가능)',
+      zh: '可立即上班 / 全職可配合 (平日及週末皆可)',
+      es: 'Disponibilidad inmediata a tiempo completo (Fines de semana incluidos)',
+    },
+  },
+  {
+    value: 'Flexible (Up to 48 hours per fortnight - Student)',
+    labels: {
+      ja: '学生ビザ規定内 (2週間で最大48時間)',
+      en: 'Student Visa Condition (Up to 48 hrs / fortnight)',
+      ko: '학생 비자 규정 준수 (2주 최대 48시간 근무 가능)',
+      zh: '學生簽證規定 (每兩週最多48小時)',
+      es: 'Condición de Estudiante (Hasta 48 hrs quincenales)',
+    },
+  },
+  {
+    value: 'Part-time / Casual (Immediate Start)',
+    labels: {
+      ja: 'パートタイム / カジュアル (即日可)',
+      en: 'Part-time / Casual (Immediate Start)',
+      ko: '파트타임 / 캐주얼 (즉시 가능)',
+      zh: '兼職 / 臨時工 (Casual / 可立即上班)',
+      es: 'Medio Tiempo / Casual (Comienzo Inmediato)',
+    },
+  },
+  {
+    value: 'Morning Shifts Preferred (from 6:00 AM)',
+    labels: {
+      ja: '早朝・モーニングシフト希望 (朝6:00〜)',
+      en: 'Morning Shifts Preferred (from 6:00 AM)',
+      ko: '오전/모닝 시프트 선호 (아침 6:00부터 가능)',
+      zh: '偏好早班 (可從早上6:00開始)',
+      es: 'Preferencia Turno Mañana (desde las 6:00 AM)',
+    },
+  },
+  {
+    value: 'Evening & Night Shifts Preferred',
+    labels: {
+      ja: '夕方・夜間シフト希望 (ディナータイム中心)',
+      en: 'Evening & Night Shifts Preferred',
+      ko: '야간/디너 시프트 선호 (저녁 위주)',
+      zh: '偏好晚班 (以晚餐/夜間時段為主)',
+      es: 'Preferencia Turno Tarde/Noche',
+    },
+  },
+];
+
+const CERT_DATA = [
+  {
+    value: 'RSA (Responsible Service of Alcohol)',
+    labels: {
+      ja: 'RSA (お酒を提供する飲食店で必須の資格)',
+      en: 'RSA (Responsible Service of Alcohol)',
+      ko: 'RSA (주류 취급 필수 자격증)',
+      zh: 'RSA (酒類服務責任證書 - 餐飲必備)',
+      es: 'RSA (Servicio Responsable de Alcohol)',
+    },
+  },
+  {
+    value: 'White Card (Construction)',
+    labels: {
+      ja: 'ホワイトカード (建設現場・倉庫で必須の安全講習証)',
+      en: 'White Card (General Construction Induction)',
+      ko: '화이트카드 (건설/현장 필수 안전교육 이수증)',
+      zh: '白卡 White Card (建築工地安全卡)',
+      es: 'White Card (Seguridad para Construcción)',
+    },
+  },
+  {
+    value: 'Barista Certificate',
+    labels: {
+      ja: 'バリスタ認定証・コーヒースクール修了証',
+      en: 'Barista Certificate',
+      ko: '바리스타 수료증 / 커피 자격증',
+      zh: '咖啡師培訓結業證書',
+      es: 'Certificado de Barista',
+    },
+  },
+  {
+    value: 'First Aid & CPR',
+    labels: {
+      ja: 'ファーストエイド ＆ CPR (救急救命ライセンス)',
+      en: 'First Aid & CPR (HLTAID011)',
+      ko: '응급처치 & CPR 자격증',
+      zh: '急救與心肺復甦術證照 (First Aid & CPR)',
+      es: 'Primeros Auxilios y RCP',
+    },
+  },
+  {
+    value: 'Australian Driver Licence',
+    labels: {
+      ja: 'オーストラリア運転免許証 (または国際免許証)',
+      en: 'Australian Driver Licence / Valid International Permit',
+      ko: '호주 운전면허증 (또는 유효한 국제면허증)',
+      zh: '澳洲駕照 / 國際駕照',
+      es: 'Licencia de Conducir Australiana / Internacional',
+    },
+  },
+  {
+    value: 'RSG (Responsible Service of Gambling)',
+    labels: {
+      ja: 'RSG (カジノ・ゲーミングパブ関連の資格)',
+      en: 'RSG (Responsible Service of Gambling)',
+      ko: 'RSG (도박장 / 게임 관련 필수 자격증)',
+      zh: 'RSG (博弈服務責任證書)',
+      es: 'RSG (Servicio Responsable de Apuestas)',
+    },
+  },
+];
+
+const CITY_OPTIONS = [
+  'Sydney, NSW',
+  'Melbourne, VIC',
+  'Brisbane, QLD',
+  'Perth, WA',
+  'Adelaide, SA',
+  'Gold Coast, QLD',
+  'Cairns, QLD',
+  'Darwin, NT',
+  'Hobart, TAS',
+  'Canberra, ACT',
+];
+
 const translations = {
   ja: {
     title: '🇦🇺 Aus Resume & Cover Letter AI',
@@ -26,9 +312,9 @@ const translations = {
     targetJob: '希望職種 (選択してください)',
     visaType: 'ビザの種類',
     availability: '就労可能状況',
-    certs: '保有資格・ライセンス',
-    experience: '過去の経験・アピールポイント (母国語でOK)',
-    experiencePh: '例: カフェで2年間アルバイト。接客、ドリンク作成、レジを担当。繁忙時もチームでスムーズに対応できます。',
+    certs: '保有資格・ライセンス (該当するものを選択)',
+    experience: '過去の経験・アピールポイント (日本語でOK)',
+    experiencePh: '例: カフェで2年間アルバイト。接客、エスプレッソ抽出、レジを担当。朝のピーク時もスピード感を持って動けます。',
     generateBtn: '✨ 無料プレビューを生成',
     generatingBtn: 'AIが生成中（約5秒）...',
     tabResume: '📄 Resume プレビュー',
@@ -58,8 +344,8 @@ const translations = {
     visaType: 'Visa Type',
     availability: 'Availability',
     certs: 'Australian Licences & Certifications',
-    experience: 'Past Experience & Strengths (Native language OK)',
-    experiencePh: 'e.g. 2 years experience as a barista in a busy cafe. Skilled in customer service and espresso making.',
+    experience: 'Past Experience & Strengths',
+    experiencePh: 'e.g. 2 years experience in busy cafes. Skilled in espresso calibration, milk texturing, and point of sale systems.',
     generateBtn: '✨ Generate Free Preview',
     generatingBtn: 'Generating (approx. 5s)...',
     tabResume: '📄 Resume Preview',
@@ -88,9 +374,9 @@ const translations = {
     targetJob: '희망 직종 (선택)',
     visaType: '비자 종류',
     availability: '근무 가능 시간',
-    certs: '보유 자격증 / 라이센스',
-    experience: '경력 및 강점 (한국어로 입력 가능)',
-    experiencePh: '예: 프랜차이즈 카페 2년 근무. 고객 응대, 에스프레소 추출, 마감 업무 담당.',
+    certs: '보유 자격증 / 라이센스 (해당 항목 체크)',
+    experience: '경력 및 강점 (한국어로 편하게 작성)',
+    experiencePh: '예: 대형 카페 2년 근무. 에스프레소 추출, 고객 응대, 포스 결제 담당. 바쁜 시간대에도 빠른 대처 가능.',
     generateBtn: '✨ 무료 미리보기 생성',
     generatingBtn: '생성 중 (약 5초)...',
     tabResume: '📄 레주메 미리보기',
@@ -119,9 +405,9 @@ const translations = {
     targetJob: '應徵職位 (請選擇)',
     visaType: '簽證類型',
     availability: '可工作時間',
-    certs: '澳洲相關證照',
-    experience: '過去經歷與優勢 (可用中文輸入)',
-    experiencePh: '例: 連鎖咖啡廳2年經驗，擅長客戶服務、咖啡沖煮與收銀。',
+    certs: '澳洲相關證照 (勾選符合項目)',
+    experience: '過去經歷與優勢 (可用中文填寫)',
+    experiencePh: '例: 知名咖啡店2年工作經驗，擅長快速咖啡沖煮、顧客點餐收銀，具備高效率抗壓能力。',
     generateBtn: '✨ 免費生成預覽',
     generatingBtn: '生成中（約5秒）...',
     tabResume: '📄 履歷預覽',
@@ -151,8 +437,8 @@ const translations = {
     visaType: 'Tipo de Visa',
     availability: 'Disponibilidad',
     certs: 'Certificados y Licencias en Australia',
-    experience: 'Experiencia previa y habilidades (puedes escribir en español)',
-    experiencePh: 'ej: 2 años de experiencia como barista y camarero.',
+    experience: 'Experiencia previa y fortalezas (en español)',
+    experiencePh: 'ej: 2 años en cafeterías de alto volumen. Experto en café de especialidad, servicio al cliente y caja.',
     generateBtn: '✨ Generar Vista Previa Gratis',
     generatingBtn: 'Generando (aprox. 5s)...',
     tabResume: '📄 Vista Previa de CV',
@@ -169,50 +455,6 @@ const translations = {
   },
 };
 
-// 選択肢の定義
-const JOB_OPTIONS = [
-  'Barista / Cafe All-Rounder',
-  'Food & Beverage Attendant (Waiter/Waitress)',
-  'Kitchen Hand / Dishwasher',
-  'Retail Assistant / Cashier',
-  'General Labourer (Construction)',
-  'Warehouse Assistant / Forklift',
-  'Housekeeper / Hotel Cleaner',
-  'Farm Hand / Fruit Picker',
-  'Bartender / Pub Staff',
-  'Customer Service Representative',
-];
-
-const CITY_OPTIONS = [
-  'Sydney, NSW',
-  'Melbourne, VIC',
-  'Brisbane, QLD',
-  'Perth, WA',
-  'Adelaide, SA',
-  'Gold Coast, QLD',
-  'Cairns, QLD',
-  'Darwin, NT',
-  'Hobart, TAS',
-  'Canberra, ACT',
-];
-
-const VISA_OPTIONS = [
-  'Working Holiday (Subclass 417)',
-  'Work and Holiday (Subclass 462)',
-  'Student Visa (Subclass 500)',
-  'Temporary Graduate (Subclass 485)',
-  'Permanent Resident (PR)',
-  'Other / Bridging Visa',
-];
-
-const AVAILABILITY_OPTIONS = [
-  'Full-time (Immediate Start / Weekdays & Weekends)',
-  'Flexible (Up to 48 hours per fortnight - Student)',
-  'Part-time / Casual (Immediate Start)',
-  'Morning Shifts Preferred (from 6:00 AM)',
-  'Evening & Night Shifts Preferred',
-];
-
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const [lang, setLang] = useState<Language>('ja');
@@ -224,9 +466,9 @@ function ResumeBuilderContent() {
     email: '',
     phone: '',
     location: CITY_OPTIONS[0],
-    targetJob: JOB_OPTIONS[0],
-    visaType: VISA_OPTIONS[0],
-    availability: AVAILABILITY_OPTIONS[0],
+    targetJob: JOB_DATA[0].value,
+    visaType: VISA_DATA[0].value,
+    availability: AVAILABILITY_DATA[0].value,
     rawExperience: '',
     certifications: [] as string[],
   });
@@ -245,21 +487,12 @@ function ResumeBuilderContent() {
     }
   }, [searchParams]);
 
-  const certOptions = [
-    'RSA (Responsible Service of Alcohol)',
-    'White Card (Construction)',
-    'Barista Certificate',
-    'First Aid & CPR',
-    'Australian Driver Licence',
-    'RSG (Responsible Service of Gambling)',
-  ];
-
-  const handleCheckboxChange = (cert: string) => {
+  const handleCheckboxChange = (certValue: string) => {
     setFormData((prev) => ({
       ...prev,
-      certifications: prev.certifications.includes(cert)
-        ? prev.certifications.filter((c) => c !== cert)
-        : [...prev.certifications, cert],
+      certifications: prev.certifications.includes(certValue)
+        ? prev.certifications.filter((c) => c !== certValue)
+        : [...prev.certifications, certValue],
     }));
   };
 
@@ -320,7 +553,7 @@ function ResumeBuilderContent() {
     <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
         
-        {/* 言語切り替え */}
+        {/* 言語切り替えバー */}
         <div className="flex justify-end items-center space-x-2">
           <span className="text-xs font-bold text-slate-500">Language:</span>
           {(['ja', 'en', 'ko', 'zh', 'es'] as Language[]).map((l) => (
@@ -400,7 +633,7 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
-              {/* 滞在都市 & 希望職種 (セレクトボックス) */}
+              {/* 滞在都市 & 希望職種 (多言語セレクト) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.location}</label>
@@ -423,16 +656,16 @@ function ResumeBuilderContent() {
                     onChange={(e) => setFormData({ ...formData, targetJob: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
                   >
-                    {JOB_OPTIONS.map((job) => (
-                      <option key={job} value={job}>
-                        {job}
+                    {JOB_DATA.map((job) => (
+                      <option key={job.value} value={job.value}>
+                        {job.labels[lang]}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              {/* ビザ種類 & 就労状況 (セレクトボックス) */}
+              {/* ビザ種類 & 就労状況 (多言語セレクト) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.visaType}</label>
@@ -441,9 +674,9 @@ function ResumeBuilderContent() {
                     onChange={(e) => setFormData({ ...formData, visaType: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
                   >
-                    {VISA_OPTIONS.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
+                    {VISA_DATA.map((v) => (
+                      <option key={v.value} value={v.value}>
+                        {v.labels[lang]}
                       </option>
                     ))}
                   </select>
@@ -455,27 +688,28 @@ function ResumeBuilderContent() {
                     onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
                   >
-                    {AVAILABILITY_OPTIONS.map((av) => (
-                      <option key={av} value={av}>
-                        {av}
+                    {AVAILABILITY_DATA.map((av) => (
+                      <option key={av.value} value={av.value}>
+                        {av.labels[lang]}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
 
+              {/* 保有資格 (多言語チェックボックス) */}
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-2">{t.certs}</label>
                 <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  {certOptions.map((cert) => (
-                    <label key={cert} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
+                  {CERT_DATA.map((cert) => (
+                    <label key={cert.value} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={formData.certifications.includes(cert)}
-                        onChange={() => handleCheckboxChange(cert)}
+                        checked={formData.certifications.includes(cert.value)}
+                        onChange={() => handleCheckboxChange(cert.value)}
                         className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
                       />
-                      <span>{cert}</span>
+                      <span>{cert.labels[lang]}</span>
                     </label>
                   ))}
                 </div>
