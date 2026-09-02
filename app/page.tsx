@@ -22,11 +22,9 @@ const translations = {
     email: 'メールアドレス',
     phone: '電話番号 (豪) ※任意・渡航前は空欄でOK',
     phonePh: '未取得なら空欄でOK (例: 0412 345 678)',
-    location: '滞在都市 / 予定都市',
-    locationPh: '例: Perth, WA',
-    targetJob: '希望職種',
-    targetJobPh: '例: Barista / All-Rounder',
-    visaType: 'ビザ種類',
+    location: '滞在都市 / 渡航予定先',
+    targetJob: '希望職種 (選択してください)',
+    visaType: 'ビザの種類',
     availability: '就労可能状況',
     certs: '保有資格・ライセンス',
     experience: '過去の経験・アピールポイント (母国語でOK)',
@@ -56,9 +54,7 @@ const translations = {
     phone: 'Phone Number (AU) - Optional',
     phonePh: 'Leave blank if not yet in AU',
     location: 'Current / Planned City',
-    locationPh: 'e.g. Perth, WA',
-    targetJob: 'Target Role',
-    targetJobPh: 'e.g. Barista / All-Rounder',
+    targetJob: 'Target Role (Select from list)',
     visaType: 'Visa Type',
     availability: 'Availability',
     certs: 'Australian Licences & Certifications',
@@ -89,9 +85,7 @@ const translations = {
     phone: '호주 전화번호 (선택사항 / 미개통시 빈칸)',
     phonePh: '아직 없으면 비워두세요',
     location: '거주/입국 예정 도시',
-    locationPh: '예: Sydney, NSW',
-    targetJob: '희망 직종',
-    targetJobPh: '예: Barista / All-Rounder',
+    targetJob: '희망 직종 (선택)',
     visaType: '비자 종류',
     availability: '근무 가능 시간',
     certs: '보유 자격증 / 라이센스',
@@ -122,9 +116,7 @@ const translations = {
     phone: '澳洲電話 (選填，未入境可留空)',
     phonePh: '尚未申辦電話可留空',
     location: '所在 / 預計前往城市',
-    locationPh: '例: Melbourne, VIC',
-    targetJob: '應徵職位',
-    targetJobPh: '例: Barista / All-Rounder',
+    targetJob: '應徵職位 (請選擇)',
     visaType: '簽證類型',
     availability: '可工作時間',
     certs: '澳洲相關證照',
@@ -155,9 +147,7 @@ const translations = {
     phone: 'Teléfono (AU) - Opcional',
     phonePh: 'Dejar en blanco si aún no tienes',
     location: 'Ciudad actual o de destino',
-    locationPh: 'ej: Brisbane, QLD',
-    targetJob: 'Puesto Deseado',
-    targetJobPh: 'ej: Barista / All-Rounder',
+    targetJob: 'Puesto Deseado (Selecciona)',
     visaType: 'Tipo de Visa',
     availability: 'Disponibilidad',
     certs: 'Certificados y Licencias en Australia',
@@ -179,6 +169,50 @@ const translations = {
   },
 };
 
+// 選択肢の定義
+const JOB_OPTIONS = [
+  'Barista / Cafe All-Rounder',
+  'Food & Beverage Attendant (Waiter/Waitress)',
+  'Kitchen Hand / Dishwasher',
+  'Retail Assistant / Cashier',
+  'General Labourer (Construction)',
+  'Warehouse Assistant / Forklift',
+  'Housekeeper / Hotel Cleaner',
+  'Farm Hand / Fruit Picker',
+  'Bartender / Pub Staff',
+  'Customer Service Representative',
+];
+
+const CITY_OPTIONS = [
+  'Sydney, NSW',
+  'Melbourne, VIC',
+  'Brisbane, QLD',
+  'Perth, WA',
+  'Adelaide, SA',
+  'Gold Coast, QLD',
+  'Cairns, QLD',
+  'Darwin, NT',
+  'Hobart, TAS',
+  'Canberra, ACT',
+];
+
+const VISA_OPTIONS = [
+  'Working Holiday (Subclass 417)',
+  'Work and Holiday (Subclass 462)',
+  'Student Visa (Subclass 500)',
+  'Temporary Graduate (Subclass 485)',
+  'Permanent Resident (PR)',
+  'Other / Bridging Visa',
+];
+
+const AVAILABILITY_OPTIONS = [
+  'Full-time (Immediate Start / Weekdays & Weekends)',
+  'Flexible (Up to 48 hours per fortnight - Student)',
+  'Part-time / Casual (Immediate Start)',
+  'Morning Shifts Preferred (from 6:00 AM)',
+  'Evening & Night Shifts Preferred',
+];
+
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const [lang, setLang] = useState<Language>('ja');
@@ -189,10 +223,10 @@ function ResumeBuilderContent() {
     name: '',
     email: '',
     phone: '',
-    location: '',
-    visaType: 'Working Holiday (Subclass 417)',
-    availability: 'Full-time',
-    targetJob: '',
+    location: CITY_OPTIONS[0],
+    targetJob: JOB_OPTIONS[0],
+    visaType: VISA_OPTIONS[0],
+    availability: AVAILABILITY_OPTIONS[0],
     rawExperience: '',
     certifications: [] as string[],
   });
@@ -286,7 +320,7 @@ function ResumeBuilderContent() {
     <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
         
-        {/* 言語切り替えバー */}
+        {/* 言語切り替え */}
         <div className="flex justify-end items-center space-x-2">
           <span className="text-xs font-bold text-slate-500">Language:</span>
           {(['ja', 'en', 'ko', 'zh', 'es'] as Language[]).map((l) => (
@@ -366,49 +400,67 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
+              {/* 滞在都市 & 希望職種 (セレクトボックス) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.location}</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder={t.locationPh}
+                  <select
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
-                  />
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                  >
+                    {CITY_OPTIONS.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.targetJob}</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder={t.targetJobPh}
+                  <select
                     value={formData.targetJob}
                     onChange={(e) => setFormData({ ...formData, targetJob: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
-                  />
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                  >
+                    {JOB_OPTIONS.map((job) => (
+                      <option key={job} value={job}>
+                        {job}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
+              {/* ビザ種類 & 就労状況 (セレクトボックス) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.visaType}</label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.visaType}
                     onChange={(e) => setFormData({ ...formData, visaType: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
-                  />
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                  >
+                    {VISA_OPTIONS.map((v) => (
+                      <option key={v} value={v}>
+                        {v}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.availability}</label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.availability}
                     onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
-                  />
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                  >
+                    {AVAILABILITY_OPTIONS.map((av) => (
+                      <option key={av} value={av}>
+                        {av}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
