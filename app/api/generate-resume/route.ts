@@ -60,8 +60,8 @@ Strict Australian Standards:
 }
 `;
 
-    // Google API 直接呼び出し
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // Google指定の最新モデル gemini-3.6-flash を呼び出し
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
