@@ -11,7 +11,6 @@ const PDFDownloadLink = dynamic(
 
 type Language = 'ja' | 'en' | 'ko' | 'zh' | 'es';
 
-// 共通データ（送信値：英語、表示値：多言語）
 const JOB_DATA = [
   {
     value: 'Barista / Cafe All-Rounder',
@@ -306,8 +305,8 @@ const translations = {
     name: 'お名前 (英語表記)',
     namePh: '例: Taro Yamada',
     email: 'メールアドレス',
-    phone: '電話番号 (豪) ※任意・渡航前は空欄でOK',
-    phonePh: '未取得なら空欄でOK (例: 0412 345 678)',
+    phone: '電話番号 (豪) ※任意',
+    phonePh: '0423 000 000',
     location: '滞在都市 / 渡航予定先',
     targetJob: '希望職種 (選択してください)',
     visaType: 'ビザの種類',
@@ -337,8 +336,8 @@ const translations = {
     name: 'Full Name (English)',
     namePh: 'e.g. Alex Smith',
     email: 'Email Address',
-    phone: 'Phone Number (AU) - Optional',
-    phonePh: 'Leave blank if not yet in AU',
+    phone: 'Phone Number (AU) (Optional)',
+    phonePh: '0423 000 000',
     location: 'Current / Planned City',
     targetJob: 'Target Role (Select from list)',
     visaType: 'Visa Type',
@@ -368,8 +367,8 @@ const translations = {
     name: '영문 성명',
     namePh: '예: Minwoo Kim',
     email: '이메일 주소',
-    phone: '호주 전화번호 (선택사항 / 미개통시 빈칸)',
-    phonePh: '아직 없으면 비워두세요',
+    phone: '호주 전화번호 (선택사항)',
+    phonePh: '0423 000 000',
     location: '거주/입국 예정 도시',
     targetJob: '희망 직종 (선택)',
     visaType: '비자 종류',
@@ -399,8 +398,8 @@ const translations = {
     name: '英文姓名',
     namePh: '例: Alex Chen',
     email: '電子郵件',
-    phone: '澳洲電話 (選填，未入境可留空)',
-    phonePh: '尚未申辦電話可留空',
+    phone: '澳洲電話 (選填)',
+    phonePh: '0423 000 000',
     location: '所在 / 預計前往城市',
     targetJob: '應徵職位 (請選擇)',
     visaType: '簽證類型',
@@ -430,8 +429,8 @@ const translations = {
     name: 'Nombre Completo (en inglés)',
     namePh: 'ej: Carlos Gomez',
     email: 'Correo Electrónico',
-    phone: 'Teléfono (AU) - Opcional',
-    phonePh: 'Dejar en blanco si aún no tienes',
+    phone: 'Teléfono (AU) (Opcional)',
+    phonePh: '0423 000 000',
     location: 'Ciudad actual o de destino',
     targetJob: 'Puesto Deseado (Selecciona)',
     visaType: 'Tipo de Visa',
@@ -633,7 +632,6 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
-              {/* 滞在都市 & 希望職種 (多言語セレクト) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.location}</label>
@@ -665,7 +663,6 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
-              {/* ビザ種類 & 就労状況 (多言語セレクト) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-800">{t.visaType}</label>
@@ -697,7 +694,6 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
-              {/* 保有資格 (多言語チェックボックス) */}
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-2">{t.certs}</label>
                 <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
