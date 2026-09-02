@@ -6,82 +6,135 @@ export async function POST(req: Request) {
 
     const name = data.name?.trim() || 'Applicant';
     const email = data.email?.trim() || 'applicant@example.com';
-    const phone = data.phone?.trim() || '0400 000 000';
+    const phone = data.phone?.trim() || '';
     const location = data.location?.trim() || 'Perth, WA';
     const visa = `${data.visaType || 'Working Holiday (Subclass 417)'} (${data.availability || 'Full-time'})`;
-    const targetJob = data.targetJob?.trim() || 'Hospitality / All-Rounder';
+    const targetJob = data.targetJob?.trim() || 'Customer Service All-Rounder';
     const certifications = data.certifications || [];
-    const expInput = (data.rawExperience || '').toLowerCase();
+    const expRaw = data.rawExperience?.trim() || '';
 
-    // 職種や入力キーワードに応じたオーストラリア標準の英文弾幕プリセット
-    let roleTitle = targetJob;
-    let summaryEnglish = '';
-    let skillsEnglish: string[] = [];
-    let bulletPoints: string[] = [];
+    // ユーザーの入力テキストから年数や期間のニュアンスを抽出
+    let yearsMatch = expRaw.match(/(\d+)\s*(年|years?|yr)/i);
+    let durationText = yearsMatch ? `${yearsMatch[1]}+ Years Experience` : '1 - 2 Years Relevant Experience';
 
-    if (expInput.includes('カフェ') || expInput.includes('コーヒー') || expInput.includes('バリスタ') || expInput.includes('barista') || expInput.includes('cafe')) {
-      roleTitle = 'Barista / Cafe All-Rounder';
-      summaryEnglish = `Dedicated and energetic Barista & All-Rounder with extensive experience in fast-paced cafe environments. Skilled in espresso extraction, milk texturing, high-volume order processing, and exceptional customer service. Fully eligible to work in Australia on a ${visa}.`;
-      skillsEnglish = [
-        'Espresso Extraction & Latte Art',
-        'High-Volume Food & Beverage Service',
-        'POS Operation & Cash Management',
-        'Workplace Hygiene & Food Safety',
-        'Effective Team Communication',
-      ];
-      bulletPoints = [
-        'Delivered consistent, high-standard specialty coffee and beverages during peak morning rush periods.',
-        'Operated commercial espresso machines, grinders, and POS systems with speed, accuracy, and friendly hospitality.',
-        'Maintained strict Australian food safety and hygiene regulations throughout opening and closing duties.',
-        'Proactively supported front-of-house customer service and table turnover in a multi-cultural team environment.',
-      ];
-    } else if (expInput.includes('接客') || expInput.includes('居酒屋') || expInput.includes('レストラン') || expInput.includes('飲食') || expInput.includes('wait') || expInput.includes('server')) {
-      roleTitle = 'Food & Beverage Attendant / Floor Staff';
-      summaryEnglish = `Customer-focused and hardworking Hospitality Attendant with proven hands-on experience in high-turnover dining venues. Adept at table service, order taking, and conflict resolution with a vibrant, welcoming attitude. Available immediately on ${visa}.`;
-      skillsEnglish = [
-        'Exceptional Customer Care & Table Service',
-        'Order Taking & Sequence of Service',
-        'Responsible Service of Alcohol (RSA)',
-        'Time Management & Multitasking',
-        'Cleanliness & Sanitation Procedures',
-      ];
-      bulletPoints = [
-        'Greeted patrons warmly, explained menu items clearly, and processed orders accurately under high-pressure shifts.',
-        'Collaborated with kitchen and bar teams to guarantee fast, seamless service delivery and high guest satisfaction.',
-        'Executed end-of-shift cash reconciliations and thorough venue sanitation following Australian WHS guidelines.',
-      ];
-    } else if (expInput.includes('工事') || expInput.includes('現場') || expInput.includes('建築') || expInput.includes('倉庫') || expInput.includes('ピッキング') || expInput.includes('construction') || expInput.includes('warehouse')) {
-      roleTitle = 'General Labourer / Warehouse Assistant';
-      summaryEnglish = `Physically fit, safety-conscious, and dependable Labourer with strong experience in site preparation, manual handling, and team logistics. Ready to commit full-time with a strong work ethic on ${visa}.`;
-      skillsEnglish = [
-        'Manual Handling & Physical Stamina',
-        'Workplace Health & Safety (WHS)',
-        'Tool & Machinery Operation Basics',
-        'Inventory Check & Loading/Unloading',
-        'Reliable Punctuality & Teamwork',
-      ];
-      bulletPoints = [
-        'Executed manual handling tasks, site cleanup, and materials loading while strictly adhering to safety standards.',
-        'Assisted tradespeople and supervisors efficiently to ensure daily project milestones were completed on schedule.',
-        'Demonstrated 100% punctuality, physical endurance, and active adherence to PPE and onsite hazards protocols.',
-      ];
-    } else {
-      // 汎用サービス・販売・オールラウンダー
-      roleTitle = targetJob || 'Customer Service All-Rounder';
-      summaryEnglish = `Versatile, adaptable, and customer-oriented professional with a strong background in service operations and team coordination. Quick learner who thrives in dynamic Australian business environments. Holds valid work rights on ${visa}.`;
-      skillsEnglish = [
-        'Customer Service & Relationship Building',
-        'Fast Problem Solving & Active Listening',
-        'Stock Organisation & Merchandising',
-        'Point of Sale (POS) Systems & Cash Balancing',
-        'Collaborative Team Spirit',
-      ];
-      bulletPoints = [
-        'Provided friendly, prompt, and professional assistance to customers, consistently receiving positive feedback.',
-        'Adapted rapidly to fast-paced operational workflows, supporting colleagues to maintain smooth daily business.',
-        'Maintained an organised, clean, and appealing floor presentation while accurately tracking incoming inventory.',
-      ];
-    }
+    // 職種に応じた専門用語・スキル・実績箇条書きの動的辞書
+    const jobProfiles: Record<string, {
+      title: string;
+      skills: string[];
+      summaryLead: string;
+      duties: string[];
+    }> = {
+      'Barista / Cafe All-Rounder': {
+        title: 'Barista / Cafe All-Rounder',
+        skills: ['Dialing in Espresso & Calibration', 'Silky Milk Steaming & Latte Art', 'Point of Sale (Square/Vend/Kounta)', 'Food Safety & Australian Hygiene Standards', 'Fast-Paced Morning Rush Management'],
+        summaryLead: 'Energetic and customer-focused Barista with proven hands-on experience handling high-volume coffee orders and daily cafe workflows.',
+        duties: [
+          'Calibrated commercial espresso machines and grinders daily to maintain optimal extraction, grind size, and shot timing.',
+          'Steamed dairy and plant-based milks to silky microfoam textures with consistent latte art standards.',
+          'Operated POS registers quickly, handled cash and card payments accurately, and welcomed patrons warmly.',
+          'Maintained high food hygiene and sanitisation across the coffee workstation, grinders, and dining floor.',
+        ],
+      },
+      'Food & Beverage Attendant (Waiter/Waitress)': {
+        title: 'Food & Beverage Attendant',
+        skills: ['Table Service & Section Management', 'Menu Knowledge & Dietary Awareness', 'Order Taking & Sequence of Service', 'RSA Compliance & Cash Handling', 'Multicultural Teamwork'],
+        summaryLead: 'Dynamic, attentive Hospitality Attendant experienced in busy floor service, high table turnover, and exceptional guest experiences.',
+        duties: [
+          'Greeted and seated customers, clearly explained daily specials, and managed full station tables efficiently.',
+          'Delivered food and beverages accurately following Australian sequence-of-service and RSA standards.',
+          'Maintained excellent communication between front-of-house staff and kitchen crew to guarantee rapid turnaround.',
+          'Handled end-of-shift resets, cutlery polishing, floor sanitisation, and register reconciliation.',
+        ],
+      },
+      'Kitchen Hand / Dishwasher': {
+        title: 'Kitchen Hand / Dishwasher',
+        skills: ['Commercial Dishwasher Operation', 'Basic Food Prep & Knife Skills', 'Australian Food Safety & Hygiene', 'Heavy Lifting & Kitchen Organization', 'High-Paced Stress Tolerance'],
+        summaryLead: 'Hardworking, punctual Kitchen Hand experienced in fast-paced commercial kitchens, prep support, and strict sanitisation.',
+        duties: [
+          'Operated high-capacity industrial dishwashers, ensuring spotless hygiene and rapid turnaround of pans, plates, and utensils.',
+          'Assisted head chefs with raw vegetable prep, trimming, portioning, and basic line station setups.',
+          'Maintained clean and grease-free workstations, floor drainage, rubbish disposal, and safe chemical handling.',
+        ],
+      },
+      'Retail Assistant / Cashier': {
+        title: 'Retail Sales Assistant',
+        skills: ['POS Operation & Cash Balancing', 'Merchandising & Stock Replenishment', 'Customer Relationship Building', 'Active Listening & Conflict Resolution', 'Inventory Counting'],
+        summaryLead: 'Friendly, proactive Retail Assistant with a strong track record of sales assistance, neat store presentation, and rapid customer service.',
+        duties: [
+          'Assisted customers with product queries, recommended complementary items, and maintained high store ratings.',
+          'Operated POS counters accurately, processed EFTPOS/cash transactions, and handled customer returns.',
+          'Organised floor displays, tagged merchandise, received stock deliveries, and performed inventory counts.',
+        ],
+      },
+      'General Labourer (Construction)': {
+        title: 'General Construction Labourer',
+        skills: ['Workplace Health & Safety (WHS)', 'Power & Hand Tools Handling', 'Site Clearing & Waste Disposal', 'Heavy Lifting (up to 25kg+)', 'White Card Compliance'],
+        summaryLead: 'Reliable, physically fit Labourer with strong safety discipline, stamina, and experience supporting trades on active work sites.',
+        duties: [
+          'Conducted site setup, manual material handling, trenching assistance, and general demolition cleanup.',
+          'Adhered strictly to Australian WHS regulations, site hazard assessments, and PPE safety protocols.',
+          'Assisted carpenters, concreters, and site managers efficiently to keep job progress on schedule.',
+        ],
+      },
+      'Warehouse Assistant / Forklift': {
+        title: 'Warehouse & Logistics Assistant',
+        skills: ['Order Picking & Packing (RF Scanner)', 'Pallet Wrapping & Staging', 'Inventory Receiving & Dispatch', 'Workplace Safety & Manual Handling', 'Time Management'],
+        summaryLead: 'Detail-oriented and punctual Warehouse Assistant experienced in dispatch logistics, stock accuracy, and heavy cargo safety.',
+        duties: [
+          'Picked, packed, and scanned bulk customer orders using handheld RF barcode scanners with minimal error rates.',
+          'Unloaded containers, verified delivery dockets, and restocked warehouse racking according to FIFO standards.',
+          'Maintained tidy aisles, pallet storage areas, and followed standard manual handling guidelines diligently.',
+        ],
+      },
+      'Housekeeper / Hotel Cleaner': {
+        title: 'Housekeeping Attendant',
+        skills: ['Room Turnover & Bed Making', 'Chemical & Disinfection Standards', 'Attention to Detail & Speed', 'Lost Property & Linen Management', 'Guest Privacy & Discretion'],
+        summaryLead: 'Meticulous and energetic Housekeeper with expertise in rapid hotel room turnovers and spotless Australian accommodation standards.',
+        duties: [
+          'Stripped and made beds to five-star hotel presentation guidelines, thoroughly dusted, vacuumed, and sanitised suites.',
+          'Restocked bathroom amenities, linens, and minibar items within allocated time targets per room.',
+          'Reported maintenance defects promptly and followed hygiene and infection control standards strictly.',
+        ],
+      },
+      'Farm Hand / Fruit Picker': {
+        title: 'Farm Hand / Harvest Worker',
+        skills: ['Fruit Picking & Quality Sorting', 'Physical Endurance & Heat Tolerance', 'Pruning & Field Maintenance', 'Equipment Care & Outdoor Operations', 'Team Reliability'],
+        summaryLead: 'Resilient and hardworking Harvest Hand experienced in outdoor agricultural routines, careful crop handling, and high-volume quota targets.',
+        duties: [
+          'Harvested fruits and vegetables at high picking speeds while protecting produce from bruising and damage.',
+          'Sorted, graded, and packed produce into field bins in accordance with export-quality specifications.',
+          'Operated basic farm equipment, maintained irrigation lines, and performed general field weeding and pruning.',
+        ],
+      },
+      'Bartender / Pub Staff': {
+        title: 'Bartender / Beverage Staff',
+        skills: ['Cocktail Crafting & Beer Taps', 'Responsible Service of Alcohol (RSA)', 'Speed of Service & Cleanliness', 'POS Balancing & Till Operation', 'Vibrant Customer Engagement'],
+        summaryLead: 'Vibrant, fast-moving Bartender adept at handling high-volume bar counters, drafting tap beers, and ensuring strict RSA compliance.',
+        duties: [
+          'Mixed classic cocktails, poured tap beers with proper head retention, and served patrons with high energy.',
+          'Monitored patron sobriety, handled ID checks, and ensured full adherence to Australian liquor licensing laws.',
+          'Restocked kegs, cleaned beer lines, washed glassware, and balanced registers at closing time.',
+        ],
+      },
+      'Customer Service Representative': {
+        title: 'Customer Service Representative',
+        skills: ['Written & Verbal Communication', 'CRM & Ticket Management', 'Problem Solving & Escalations', 'Data Entry & Microsoft Office', 'Patience & Active Listening'],
+        summaryLead: 'Professional and solution-driven Customer Service Representative experienced in client inquiries, issue resolution, and accurate documentation.',
+        duties: [
+          'Managed inbound customer phone calls, emails, and online chats promptly, achieving high first-contact resolution rates.',
+          'Documented customer interactions accurately inside CRM systems and collaborated with departments to solve issues.',
+          'De-escalated difficult client situations calmly and upheld high standards of company representation.',
+        ],
+      },
+    };
+
+    // 該当する職種プロファイルを取得（なければデフォルト）
+    const matchedProfile = jobProfiles[targetJob] || jobProfiles['Retail Assistant / Cashier'];
+
+    // ユーザーの入力テキストを要約文やアピール文に自然にブレンド
+    const summaryEnglish = `${matchedProfile.summaryLead} Bringing a proven background (${durationText}) with demonstrated skills in rapid workflow execution, team collaboration, and high reliability. Fully eligible to work in Australia on a ${visa}, seeking to deliver immediate value in ${location}.`;
+
+    const contactLine = phone ? `${phone} | ${email}` : email;
 
     const resumeData = {
       personalInfo: {
@@ -92,30 +145,33 @@ export async function POST(req: Request) {
         visa,
       },
       summary: summaryEnglish,
-      skills: skillsEnglish,
+      skills: matchedProfile.skills,
       experiences: [
         {
-          role: roleTitle,
-          company: 'Hospitality & Retail Services',
+          role: matchedProfile.title,
+          company: `${location.split(',')[0]} Industry Services`,
           duration: '2023 - Present',
-          bullets: bulletPoints,
+          bullets: matchedProfile.duties,
         },
       ],
       certifications: certifications.length > 0 ? certifications : ['Valid Australian Work Rights'],
       coverLetter: `Dear Hiring Manager,
 
-I am writing to express my strong enthusiasm for the ${targetJob || roleTitle} position currently available in ${location}. With my solid background in customer service and hands-on team operations, I am confident in my ability to hit the ground running and make an immediate positive contribution to your business.
+I am writing to express my strong enthusiasm for the ${matchedProfile.title} position in ${location}. Having reviewed your requirements, I am confident that my practical background, dedication to service excellence, and strong work ethic make me an ideal candidate for your team.
 
-Throughout my previous experience, I have developed strong interpersonal communication skills, an eye for detail, and the ability to thrive under high-pressure, fast-paced environments. I take genuine pride in delivering exceptional customer experiences and maintaining seamless cooperation with my team members.
-${certifications.length > 0 ? `\nI currently hold verified Australian qualifications, including: ${certifications.join(', ')}.` : ''}
+My background includes hands-on experience in fast-paced service environments (${durationText}). Key strengths I bring to this position include:
+• ${matchedProfile.skills[0]}
+• ${matchedProfile.skills[1]}
+• ${matchedProfile.skills[2]}
+${certifications.length > 0 ? `\nIn addition, I hold verified Australian qualifications: ${certifications.join(', ')}.` : ''}
 
-I hold a valid ${visa} with full working rights and total flexibility to work weekdays, weekends, early mornings, and public holidays as required. I am eager to contribute to your company's ongoing success and am available for an immediate start.
+I hold a valid ${visa} with full working rights and complete flexibility across weekday morning/night shifts, weekends, and public holidays. I take pride in being punctual, eager to adapt to your venue's standard operating procedures, and ready to hit the ground running immediately.
 
-Thank you for your time and consideration. I look forward to the opportunity to discuss my qualifications with you in an interview.
+Thank you for considering my application. I welcome the opportunity to discuss my qualifications with you in person and am available for an interview or trial shift at your earliest convenience.
 
 Sincerely,
 ${name}
-${phone} | ${email}`,
+${contactLine}`,
     };
 
     return NextResponse.json(resumeData);
