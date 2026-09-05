@@ -13,35 +13,62 @@ type Language = 'ja' | 'en' | 'ko' | 'zh' | 'es';
 type TemplateType = 'classic' | 'modern' | 'clean';
 type FontType = 'sans' | 'serif';
 
+// 豪州現地の全主要職種（10種類）
 const JOB_DATA = [
   { value: 'Barista / Cafe All-Rounder', labels: { ja: '☕ バリスタ / カフェ店員', en: '☕ Barista / Cafe All-Rounder', ko: '☕ 바리스타 / 카페 직원', zh: '☕ 咖啡師 / 咖啡店員', es: '☕ Barista / Cafetería' } },
-  { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)', ko: '🍽️ 레스토랑 / 홀 서빙', zh: '🍽️ 餐飲服務生 / 外場服務', es: '🍽️ Camarero/a / Servicio de Sala' } },
-  { value: 'Kitchen Hand / Dishwasher', labels: { ja: '🍳 キッチンハンド / 調理補助', en: '🍳 Kitchen Hand / Dishwasher', ko: '🍳 키친핸드 / 주방 보조', zh: '🍳 廚房助手 / 洗碗工', es: '🍳 Ayudante de Cocina / Lavaplatos' } },
-  { value: 'Retail Assistant / Cashier', labels: { ja: '🛍️ 販売スタッフ / レジ', en: '🛍️ Retail Sales Assistant / Cashier', ko: '🛍️ 매장 판매원 / 캐셔', zh: '🛍️ 門市銷售 / 收銀員', es: '🛍️ Dependiente de Tienda / Cajero' } },
-  { value: 'General Labourer (Construction)', labels: { ja: '🏗️ 建設現場作業員 (Labourer)', en: '🏗️ General Labourer (Construction)', ko: '🏗️ 건설 현장 인부 (Labourer)', zh: '🏗️ 工地勞工 (General Labourer)', es: '🏗️ Peón de Construcción (Labourer)' } },
-  { value: 'Warehouse Assistant', labels: { ja: '📦 倉庫作業員 / ピッキング', en: '📦 Warehouse Assistant / Picker', ko: '📦 물류 창고 직원 / 피킹', zh: '📦 倉庫理貨員 / 揀貨員', es: '📦 Mozo de Almacén / Picking' } },
+  { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)', ko: '🍽️ 레스토랑 / 홀 서빙 (웨이터)', zh: '🍽️ 餐飲服務生 / 外場服務', es: '🍽️ Camarero/a / Servicio de Sala' } },
+  { value: 'Kitchen Hand / Dishwasher', labels: { ja: '🍳 キッチンハンド / 調理補助・皿洗い', en: '🍳 Kitchen Hand / Dishwasher', ko: '🍳 키친핸드 / 주방 보조・설거지', zh: '🍳 廚房助手 / 洗碗工', es: '🍳 Ayudante de Cocina / Lavaplatos' } },
+  { value: 'Bartender / Pub Staff', labels: { ja: '🍸 バーテンダー / パブスタッフ', en: '🍸 Bartender / Pub Staff', ko: '🍸 바텐더 / 펍 스태프', zh: '🍸 調酒師 / 酒吧工作人員', es: '🍸 Bartender / Personal de Bar' } },
+  { value: 'Retail Assistant / Cashier', labels: { ja: '🛍️ 販売スタッフ / レジ・接客', en: '🛍️ Retail Sales Assistant / Cashier', ko: '🛍️ 매장 판매원 / 캐셔', zh: '🛍️ 門市銷售 / 收銀員', es: '🛍️ Dependiente de Tienda / Cajero' } },
+  { value: 'General Labourer (Construction)', labels: { ja: '🏗️ 建設現場作業員 (General Labourer)', en: '🏗️ General Labourer (Construction)', ko: '🏗️ 건설 현장 인부 (Labourer)', zh: '🏗️ 工地勞工 (General Labourer)', es: '🏗️ Peón de Construcción (Labourer)' } },
+  { value: 'Warehouse Assistant / Forklift', labels: { ja: '📦 倉庫作業員 / ピッキング・フォークリフト', en: '📦 Warehouse Assistant / Picker / Forklift', ko: '📦 물류 창고 직원 / 피킹 / 지게차', zh: '📦 倉庫理貨員 / 揀貨 / 堆高機', es: '📦 Mozo de Almacén / Picking / Montacargas' } },
   { value: 'Housekeeper / Hotel Cleaner', labels: { ja: '🧹 ホテル清掃 / ハウスキーパー', en: '🧹 Housekeeper / Hotel Cleaner', ko: '🧹 호텔 청소 / 하우스키핑', zh: '🧹 飯店房務 / 清潔員', es: '🧹 Personal de Limpieza / Hotel' } },
+  { value: 'Farm Hand / Fruit Picker', labels: { ja: '🍎 ファーム作業員 / ピッキング・パッキング', en: '🍎 Farm Hand / Fruit Picker & Packer', ko: '🍎 농장 작업자 / 과일 피킹・패킹', zh: '🍎 農場勞工 / 水果採摘包裝', es: '🍎 Trabajador Agrícola / Recolector de Fruta' } },
+  { value: 'Customer Service Representative', labels: { ja: '📞 一般事務 / カスタマーサポート', en: '📞 Customer Service / Office Admin', ko: '📞 일반 사무 / 고객 상담 지원', zh: '📞 客服專員 / 一般辦公行政', es: '📞 Atención al Cliente / Administración' } },
 ];
 
+// 豪州全ビザ（6種類）
 const VISA_DATA = [
-  { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (417)', en: 'Working Holiday Visa (Subclass 417)', ko: '워킹홀리데이 비자 (417)', zh: '打工度假簽證 (417)', es: 'Visa Working Holiday (417)' } },
-  { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (462)', en: 'Work and Holiday Visa (Subclass 462)', ko: '워크 앤 홀리데이 비자 (462)', zh: '打工與度假簽證 (462)', es: 'Visa Work and Holiday (462)' } },
-  { value: 'Student Visa (Subclass 500)', labels: { ja: '学生ビザ (500)', en: 'Student Visa (Subclass 500)', ko: '학생 비자 (500)', zh: '學生簽證 (500)', es: 'Visa de Estudiante (500)' } },
+  { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (Subclass 417)', en: 'Working Holiday Visa (Subclass 417)', ko: '워킹홀리데이 비자 (Subclass 417)', zh: '打工度假簽證 (Subclass 417)', es: 'Visa Working Holiday (Subclass 417)' } },
+  { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (Subclass 462)', en: 'Work and Holiday Visa (Subclass 462)', ko: '워크 앤 홀리데이 비자 (Subclass 462)', zh: '打工與度假簽證 (Subclass 462)', es: 'Visa Work and Holiday (Subclass 462)' } },
+  { value: 'Student Visa (Subclass 500)', labels: { ja: '学生ビザ (Subclass 500)', en: 'Student Visa (Subclass 500)', ko: '학생 비자 (Subclass 500)', zh: '學生簽證 (Subclass 500)', es: 'Visa de Estudiante (Subclass 500)' } },
+  { value: 'Temporary Graduate (Subclass 485)', labels: { ja: '卒業生ビザ (Subclass 485)', en: 'Temporary Graduate Visa (Subclass 485)', ko: '졸업생 비자 (Subclass 485)', zh: '畢業生工作簽證 (Subclass 485)', es: 'Visa de Graduado Temporal (Subclass 485)' } },
+  { value: 'Permanent Resident (PR)', labels: { ja: '永住権 (Permanent Resident)', en: 'Permanent Resident (PR)', ko: '영주권 (Permanent Resident)', zh: '永久居留權 (PR)', es: 'Residencia Permanente (PR)' } },
+  { value: 'Other / Bridging Visa', labels: { ja: 'その他 / ブリッジングビザ', en: 'Other / Bridging Visa', ko: '기타 / 브릿징 비자', zh: '其他 / 過渡簽證 (Bridging Visa)', es: 'Otra / Bridging Visa' } },
 ];
 
+// 就労可能状況（5種類）
 const AVAILABILITY_DATA = [
-  { value: 'Full-time (Immediate Start)', labels: { ja: '即日勤務可・フルタイム (平日・土日祝OK)', en: 'Full-time / Immediate Start (Any days/hours)', ko: '즉시 출근 가능 / 풀타임 (평일/주말)', zh: '可立即上班 / 全職可配合 (平日週末皆可)', es: 'Disponibilidad Inmediata / Tiempo Completo' } },
-  { value: 'Student Visa Condition (Up to 48h/fn)', labels: { ja: '学生ビザ規定内 (2週間48時間)', en: 'Student Visa Condition (Up to 48 hrs / fortnight)', ko: '학생 비자 규정 준수 (2주 최대 48시간)', zh: '學生簽證規定 (每兩週最多48小時)', es: 'Condición Visa Estudiante (Hasta 48 hrs/quincena)' } },
-  { value: 'Part-time / Casual', labels: { ja: 'パートタイム / カジュアル', en: 'Part-time / Casual (Flexible)', ko: '파트타임 / 캐주얼', zh: '兼職 / 臨時工 (Casual)', es: 'Media Jornada / Casual' } },
+  { value: 'Full-time (Immediate Start / Any Days)', labels: { ja: '即日勤務可・フルタイム可能 (平日・土日祝いつでも)', en: 'Full-time / Immediate Start (Weekdays & Weekends)', ko: '즉시 출근 가능 / 풀타임 (평일/주말 언제든 가능)', zh: '可立即上班 / 全職可配合 (平日及週末皆可)', es: 'Disponibilidad Inmediata / Tiempo Completo (Cualquier día)' } },
+  { value: 'Flexible (Up to 48 hours per fortnight - Student)', labels: { ja: '学生ビザ規定内 (2週間で最大48時間)', en: 'Student Visa Condition (Up to 48 hrs / fortnight)', ko: '학생 비자 규정 준수 (2주 최대 48시간)', zh: '學生簽證規定 (每兩週最多48小時)', es: 'Condición Visa Estudiante (Hasta 48 hrs quincenales)' } },
+  { value: 'Part-time / Casual (Immediate Start)', labels: { ja: 'パートタイム / カジュアル (即日可)', en: 'Part-time / Casual (Immediate Start)', ko: '파트타임 / 캐주얼 (즉시 가능)', zh: '兼職 / 臨時工 (Casual / 可立即上班)', es: 'Media Jornada / Casual (Comienzo Inmediato)' } },
+  { value: 'Morning Shifts Preferred (from 6:00 AM)', labels: { ja: '早朝・モーニングシフト希望 (朝6:00〜)', en: 'Morning Shifts Preferred (from 6:00 AM)', ko: '오전/모닝 시프트 선호 (아침 6:00부터 가능)', zh: '偏好早班 (可從早上6:00開始)', es: 'Preferencia Turno Mañana (desde las 6:00 AM)' } },
+  { value: 'Evening & Night Shifts Preferred', labels: { ja: '夕方・夜間シフト希望 (ディナータイム中心)', en: 'Evening & Night Shifts Preferred', ko: '야간/디너 시프트 선호 (저녁 위주)', zh: '偏好晚班 (以晚餐/夜間時段為主)', es: 'Preferencia Turno Tarde/Noche' } },
 ];
 
+// 保有資格・ライセンス（6種類）
 const CERT_DATA = [
-  { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店の酒類提供資格)', en: 'RSA (Responsible Service of Alcohol)', ko: 'RSA (주류 취급 자격증)', zh: 'RSA (酒類服務責任證書)', es: 'RSA (Servicio Responsable de Alcohol)' } },
-  { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (現場の安全講習証)', en: 'White Card (General Construction)', ko: '화이트카드 (건설 현장 안전증)', zh: '白卡 (建築工地安全證)', es: 'White Card (Seguridad en Construcción)' } },
-  { value: 'Australian Driver Licence', labels: { ja: 'オーストラリア免許 / 国際免許', en: 'Australian Driver Licence / International Permit', ko: '호주 운전면허증 / 국제면허증', zh: '澳洲駕照 / 國際駕照', es: 'Licencia de Conducir Australiana / Internacional' } },
+  { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店・バーでお酒を扱う必須資格)', en: 'RSA (Responsible Service of Alcohol)', ko: 'RSA (주류 취급 필수 자격증)', zh: 'RSA (酒類服務責任證書 - 餐飲必備)', es: 'RSA (Servicio Responsable de Alcohol)' } },
+  { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (建設現場・倉庫の安全講習証)', en: 'White Card (General Construction Induction)', ko: '화이트카드 (건설/현장 필수 안전교육증)', zh: '白卡 White Card (建築工地安全證)', es: 'White Card (Seguridad para Construcción)' } },
+  { value: 'Barista Certificate', labels: { ja: 'バリスタ認定証 / スクール修了証', en: 'Barista Certificate / Coffee Training', ko: '바리스타 수료증 / 커피 전문 자격증', zh: '咖啡師培訓結業證書', es: 'Certificado de Barista' } },
+  { value: 'First Aid & CPR', labels: { ja: 'ファーストエイド ＆ CPR (救急救命ライセンス)', en: 'First Aid & CPR (HLTAID011)', ko: '응급처치 & CPR 자격증', zh: '急救與心肺復甦術證照 (First Aid & CPR)', es: 'Primeros Auxilios y RCP' } },
+  { value: 'Australian Driver Licence', labels: { ja: 'オーストラリア運転免許証 (または国際免許証)', en: 'Australian Driver Licence / International Permit', ko: '호주 운전면허증 (또는 유효한 국제면허증)', zh: '澳洲駕照 / 國際駕照', es: 'Licencia de Conducir Australiana / Internacional' } },
+  { value: 'RSG (Responsible Service of Gambling)', labels: { ja: 'RSG (カジノ・ゲーミングパブ関連の資格)', en: 'RSG (Responsible Service of Gambling)', ko: 'RSG (도박장 / 게임 관련 필수 자격증)', zh: 'RSG (博弈服務責任證書)', es: 'RSG (Servicio Responsable de Apuestas)' } },
 ];
 
-const CITY_OPTIONS = ['Perth, WA', 'Sydney, NSW', 'Melbourne, VIC', 'Brisbane, QLD', 'Adelaide, SA', 'Gold Coast, QLD'];
+// 豪州全主要都市（10都市）
+const CITY_OPTIONS = [
+  'Perth, WA',
+  'Sydney, NSW',
+  'Melbourne, VIC',
+  'Brisbane, QLD',
+  'Adelaide, SA',
+  'Gold Coast, QLD',
+  'Cairns, QLD',
+  'Darwin, NT',
+  'Hobart, TAS',
+  'Canberra, ACT',
+];
 
 const uiText = {
   ja: {
@@ -58,11 +85,11 @@ const uiText = {
     emailPh: '例: your.email@gmail.com',
     phoneLabel: '電話番号 (豪) ※任意',
     phonePh: '0423 000 000',
-    cityLabel: '滞在都市 / 渡航予定',
-    jobLabel: '希望職種',
+    cityLabel: '滞在都市 / 渡航予定先',
+    jobLabel: '希望職種 (選択してください)',
     visaLabel: 'ビザの種類',
     availLabel: '就労可能状況',
-    certsLabel: '保有資格 (任意)',
+    certsLabel: '保有資格・ライセンス (該当するものを選択・任意)',
     expLabel: '過去の経験・アピールポイント (母国語でOK)',
     expPh: '例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。',
     btnToStep2: '次へ：デザイン・フォントを選ぶ ➔',
@@ -110,7 +137,7 @@ const uiText = {
     phoneLabel: 'Phone Number (AU) (Optional)',
     phonePh: '0423 000 000',
     cityLabel: 'Current / Planned City',
-    jobLabel: 'Target Role',
+    jobLabel: 'Target Role (Select from list)',
     visaLabel: 'Visa Type',
     availLabel: 'Availability',
     certsLabel: 'Licences & Certifications (Optional)',
@@ -161,7 +188,7 @@ const uiText = {
     phoneLabel: '호주 전화번호 (선택사항)',
     phonePh: '0423 000 000',
     cityLabel: '거주/입국 예정 도시',
-    jobLabel: '희망 직종',
+    jobLabel: '희망 직종 (선택)',
     visaLabel: '비자 종류',
     availLabel: '근무 가능 시간',
     certsLabel: '보유 자격증 (선택사항)',
@@ -212,7 +239,7 @@ const uiText = {
     phoneLabel: '澳洲電話 (選填)',
     phonePh: '0423 000 000',
     cityLabel: '所在 / 預計前往城市',
-    jobLabel: '應徵職位',
+    jobLabel: '應徵職位 (請選擇)',
     visaLabel: '簽證類型',
     availLabel: '可工作時間',
     certsLabel: '相關證照 (選填)',
@@ -263,7 +290,7 @@ const uiText = {
     phoneLabel: 'Teléfono (AU) (Opcional)',
     phonePh: '0423 000 000',
     cityLabel: 'Ciudad actual o de destino',
-    jobLabel: 'Puesto Deseado',
+    jobLabel: 'Puesto Deseado (Selecciona)',
     visaLabel: 'Tipo de Visa',
     availLabel: 'Disponibilidad',
     certsLabel: 'Certificaciones (Opcional)',
@@ -551,7 +578,7 @@ function ResumeBuilderContent() {
 
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-1.5">{t.certsLabel}</label>
-                <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
                   {CERT_DATA.map((c) => (
                     <label key={c.value} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
                       <input
