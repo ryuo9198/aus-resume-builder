@@ -10,467 +10,50 @@ const PDFDownloadLink = dynamic(
 );
 
 type Language = 'ja' | 'en' | 'ko' | 'zh' | 'es';
+type TemplateType = 'classic' | 'modern' | 'clean';
+type FontType = 'sans' | 'serif';
 
 const JOB_DATA = [
-  {
-    value: 'Barista / Cafe All-Rounder',
-    labels: {
-      ja: '☕ バリスタ / カフェ店員',
-      en: '☕ Barista / Cafe All-Rounder',
-      ko: '☕ 바리스타 / 카페 직원',
-      zh: '☕ 咖啡師 / 咖啡廳全能店員',
-      es: '☕ Barista / Personal de Cafetería',
-    },
-  },
-  {
-    value: 'Food & Beverage Attendant (Waiter/Waitress)',
-    labels: {
-      ja: '🍽️ レストラン・居酒屋ホール (接客/ウェイター)',
-      en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)',
-      ko: '🍽️ 레스토랑 / 홀 서빙 (웨이터)',
-      zh: '🍽️ 餐飲服務生 / 外場服務 (Waiter/Waitress)',
-      es: '🍽️ Camarero/a / Servicio de Alimentos',
-    },
-  },
-  {
-    value: 'Kitchen Hand / Dishwasher',
-    labels: {
-      ja: '🍳 キッチンハンド / 皿洗い・調理補助',
-      en: '🍳 Kitchen Hand / Dishwasher',
-      ko: '🍳 키친핸드 / 설거지 및 조리 보조',
-      zh: '🍳 廚房助手 / 洗碗工',
-      es: '🍳 Ayudante de Cocina / Fregaplatos',
-    },
-  },
-  {
-    value: 'Retail Assistant / Cashier',
-    labels: {
-      ja: '🛍️ 販売スタッフ / レジ・接客',
-      en: '🛍️ Retail Assistant / Cashier',
-      ko: '🛍️ 리테일 매장 직원 / 캐셔',
-      zh: '🛍️ 零售門市銷售 / 收銀員',
-      es: '🛍️ Asistente de Tienda / Cajero',
-    },
-  },
-  {
-    value: 'General Labourer (Construction)',
-    labels: {
-      ja: '🏗️ 建設現場作業員 (General Labourer)',
-      en: '🏗️ General Labourer (Construction)',
-      ko: '🏗️ 건설 현장 잡부 / 노무직',
-      zh: '🏗️ 工地勞工 (General Labourer)',
-      es: '🏗️ Obrero de Construcción (Labourer)',
-    },
-  },
-  {
-    value: 'Warehouse Assistant / Forklift',
-    labels: {
-      ja: '📦 倉庫作業員 / ピッキング・フォークリフト',
-      en: '📦 Warehouse Assistant / Forklift',
-      ko: '📦 물류 창고 작업 / 피킹 / 지게차',
-      zh: '📦 倉庫助手 / 揀貨 / 堆高機',
-      es: '📦 Operario de Almacén / Montacargas',
-    },
-  },
-  {
-    value: 'Housekeeper / Hotel Cleaner',
-    labels: {
-      ja: '🧹 ホテル清掃 / ハウスキーパー',
-      en: '🧹 Housekeeper / Hotel Cleaner',
-      ko: '🧹 호텔 청소 / 하우스키핑',
-      zh: '🧹 房務清潔 / 飯店 Housekeeper',
-      es: '🧹 Mucama / Personal de Limpieza de Hotel',
-    },
-  },
-  {
-    value: 'Farm Hand / Fruit Picker',
-    labels: {
-      ja: '🍎 ファーム作業 / フルーツピッキング',
-      en: '🍎 Farm Hand / Fruit Picker',
-      ko: '🍎 농장 작업 / 과일 피킹',
-      zh: '🍎 農場勞工 / 水果採摘 (Fruit Picker)',
-      es: '🍎 Trabajador Agrícola / Recolector de Fruta',
-    },
-  },
-  {
-    value: 'Bartender / Pub Staff',
-    labels: {
-      ja: '🍸 バーテンダー / パブスタッフ',
-      en: '🍸 Bartender / Pub Staff',
-      ko: '🍸 바텐더 / 펍 스태프',
-      zh: '🍸 調酒師 / 酒吧工作人員',
-      es: '🍸 Bartender / Personal de Bar',
-    },
-  },
-  {
-    value: 'Customer Service Representative',
-    labels: {
-      ja: '📞 一般事務 / カスタマーサポート',
-      en: '📞 Customer Service Representative',
-      ko: '📞 일반 사무 / 고객 지원',
-      zh: '📞 客服專員 / 一般辦公事務',
-      es: '📞 Atención al Cliente / Oficina',
-    },
-  },
+  { value: 'Barista / Cafe All-Rounder', labels: { ja: '☕ バリスタ / カフェ店員', en: '☕ Barista / Cafe All-Rounder', ko: '☕ 바리스타 / 카페', zh: '☕ 咖啡師 / 店員', es: '☕ Barista' } },
+  { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant', ko: '🍽️ 홀 서빙', zh: '🍽️ 餐飲服務生', es: '🍽️ Camarero/a' } },
+  { value: 'Kitchen Hand / Dishwasher', labels: { ja: '🍳 キッチンハンド / 調理補助', en: '🍳 Kitchen Hand / Dishwasher', ko: '🍳 주방 보조', zh: '🍳 廚房助手', es: '🍳 Ayudante de Cocina' } },
+  { value: 'Retail Assistant / Cashier', labels: { ja: '🛍️ 販売スタッフ / レジ', en: '🛍️ Retail Assistant / Cashier', ko: '🛍️ 매장 직원', zh: '🛍️ 門市收銀', es: '🛍️ Asistente de Tienda' } },
+  { value: 'General Labourer (Construction)', labels: { ja: '🏗️ 建設現場作業員 (Labourer)', en: '🏗️ General Labourer', ko: '🏗️ 건설 현장', zh: '🏗️ 工地勞工', es: '🏗️ Construcción' } },
+  { value: 'Warehouse Assistant', labels: { ja: '📦 倉庫作業員 / ピッキング', en: '📦 Warehouse Assistant', ko: '📦 물류 창고', zh: '📦 倉庫助手', es: '📦 Almacén' } },
+  { value: 'Housekeeper / Hotel Cleaner', labels: { ja: '🧹 ホテル清掃 / ハウスキーパー', en: '🧹 Housekeeper', ko: '🧹 호텔 청소', zh: '🧹 房務清潔', es: '🧹 Limpieza' } },
 ];
 
 const VISA_DATA = [
-  {
-    value: 'Working Holiday (Subclass 417)',
-    labels: {
-      ja: 'ワーキングホリデービザ (Subclass 417)',
-      en: 'Working Holiday Visa (Subclass 417)',
-      ko: '워킹홀리데이 비자 (Subclass 417)',
-      zh: '打工度假簽證 (Subclass 417)',
-      es: 'Visa Working Holiday (Subclass 417)',
-    },
-  },
-  {
-    value: 'Work and Holiday (Subclass 462)',
-    labels: {
-      ja: 'ワーク＆ホリデービザ (Subclass 462)',
-      en: 'Work and Holiday Visa (Subclass 462)',
-      ko: '워크 앤 홀리데이 비자 (Subclass 462)',
-      zh: '打工與度假簽證 (Subclass 462)',
-      es: 'Visa Work and Holiday (Subclass 462)',
-    },
-  },
-  {
-    value: 'Student Visa (Subclass 500)',
-    labels: {
-      ja: '学生ビザ (Subclass 500)',
-      en: 'Student Visa (Subclass 500)',
-      ko: '학생 비자 (Subclass 500)',
-      zh: '學生簽證 (Subclass 500)',
-      es: 'Visa de Estudiante (Subclass 500)',
-    },
-  },
-  {
-    value: 'Temporary Graduate (Subclass 485)',
-    labels: {
-      ja: '卒業生ビザ (Subclass 485)',
-      en: 'Temporary Graduate Visa (Subclass 485)',
-      ko: '졸업생 비자 (Subclass 485)',
-      zh: '畢業生工作簽證 (Subclass 485)',
-      es: 'Visa de Graduado Temporal (Subclass 485)',
-    },
-  },
-  {
-    value: 'Permanent Resident (PR)',
-    labels: {
-      ja: '永住権 (Permanent Resident)',
-      en: 'Permanent Resident (PR)',
-      ko: '영주권 (Permanent Resident)',
-      zh: '澳洲永久居留權 (PR)',
-      es: 'Residencia Permanente (PR)',
-    },
-  },
+  { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (417)', en: 'Working Holiday Visa (417)', ko: '워킹홀리데이 (417)', zh: '打工度假 (417)', es: 'Working Holiday (417)' } },
+  { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (462)', en: 'Work and Holiday Visa (462)', ko: '워크 앤 홀리데이 (462)', zh: '打工與度假 (462)', es: 'Work and Holiday (462)' } },
+  { value: 'Student Visa (Subclass 500)', labels: { ja: '学生ビザ (500)', en: 'Student Visa (500)', ko: '학생 비자 (500)', zh: '學生簽證 (500)', es: 'Visa de Estudiante (500)' } },
 ];
 
 const AVAILABILITY_DATA = [
-  {
-    value: 'Full-time (Immediate Start / Weekdays & Weekends)',
-    labels: {
-      ja: '即日勤務可・フルタイム可能 (平日・土日祝いつでも)',
-      en: 'Full-time / Immediate Start (Any days/hours)',
-      ko: '즉시 출근 가능 / 풀타임 (평일/주말 언제든 가능)',
-      zh: '可立即上班 / 全職可配合 (平日及週末皆可)',
-      es: 'Disponibilidad inmediata a tiempo completo (Fines de semana incluidos)',
-    },
-  },
-  {
-    value: 'Flexible (Up to 48 hours per fortnight - Student)',
-    labels: {
-      ja: '学生ビザ規定内 (2週間で最大48時間)',
-      en: 'Student Visa Condition (Up to 48 hrs / fortnight)',
-      ko: '학생 비자 규정 준수 (2주 최대 48시간 근무 가능)',
-      zh: '學生簽證規定 (每兩週最多48小時)',
-      es: 'Condición de Estudiante (Hasta 48 hrs quincenales)',
-    },
-  },
-  {
-    value: 'Part-time / Casual (Immediate Start)',
-    labels: {
-      ja: 'パートタイム / カジュアル (即日可)',
-      en: 'Part-time / Casual (Immediate Start)',
-      ko: '파트타임 / 캐주얼 (즉시 가능)',
-      zh: '兼職 / 臨時工 (Casual / 可立即上班)',
-      es: 'Medio Tiempo / Casual (Comienzo Inmediato)',
-    },
-  },
-  {
-    value: 'Morning Shifts Preferred (from 6:00 AM)',
-    labels: {
-      ja: '早朝・モーニングシフト希望 (朝6:00〜)',
-      en: 'Morning Shifts Preferred (from 6:00 AM)',
-      ko: '오전/모닝 시프트 선호 (아침 6:00부터 가능)',
-      zh: '偏好早班 (可從早上6:00開始)',
-      es: 'Preferencia Turno Mañana (desde las 6:00 AM)',
-    },
-  },
-  {
-    value: 'Evening & Night Shifts Preferred',
-    labels: {
-      ja: '夕方・夜間シフト希望 (ディナータイム中心)',
-      en: 'Evening & Night Shifts Preferred',
-      ko: '야간/디너 시프트 선호 (저녁 위주)',
-      zh: '偏好晚班 (以晚餐/夜間時段為主)',
-      es: 'Preferencia Turno Tarde/Noche',
-    },
-  },
+  { value: 'Full-time (Immediate Start)', labels: { ja: '即日勤務可・フルタイム (平日・土日祝OK)', en: 'Full-time / Immediate Start', ko: '즉시 출근 / 풀타임', zh: '可立即上班 / 全職', es: 'Tiempo Completo / Inmediato' } },
+  { value: 'Student Visa Condition (Up to 48h/fn)', labels: { ja: '学生ビザ規定内 (2週間48時間)', en: 'Student Visa Condition (48h/fn)', ko: '학생 비자 규정 내', zh: '學生簽證時數限制', es: 'Condición de Estudiante' } },
+  { value: 'Part-time / Casual', labels: { ja: 'パートタイム / カジュアル', en: 'Part-time / Casual', ko: '파트타임 / 캐주얼', zh: '兼職 / 臨時工', es: 'Medio Tiempo / Casual' } },
 ];
 
 const CERT_DATA = [
-  {
-    value: 'RSA (Responsible Service of Alcohol)',
-    labels: {
-      ja: 'RSA (お酒を提供する飲食店で必須の資格)',
-      en: 'RSA (Responsible Service of Alcohol)',
-      ko: 'RSA (주류 취급 필수 자격증)',
-      zh: 'RSA (酒類服務責任證書 - 餐飲必備)',
-      es: 'RSA (Servicio Responsable de Alcohol)',
-    },
-  },
-  {
-    value: 'White Card (Construction)',
-    labels: {
-      ja: 'ホワイトカード (建設現場・倉庫で必須の安全講習証)',
-      en: 'White Card (General Construction Induction)',
-      ko: '화이트카드 (건설/현장 필수 안전교육 이수증)',
-      zh: '白卡 White Card (建築工地安全卡)',
-      es: 'White Card (Seguridad para Construcción)',
-    },
-  },
-  {
-    value: 'Barista Certificate',
-    labels: {
-      ja: 'バリスタ認定証・コーヒースクール修了証',
-      en: 'Barista Certificate',
-      ko: '바리스타 수료증 / 커피 자격증',
-      zh: '咖啡師培訓結業證書',
-      es: 'Certificado de Barista',
-    },
-  },
-  {
-    value: 'First Aid & CPR',
-    labels: {
-      ja: 'ファーストエイド ＆ CPR (救急救命ライセンス)',
-      en: 'First Aid & CPR (HLTAID011)',
-      ko: '응급처치 & CPR 자격증',
-      zh: '急救與心肺復甦術證照 (First Aid & CPR)',
-      es: 'Primeros Auxilios y RCP',
-    },
-  },
-  {
-    value: 'Australian Driver Licence',
-    labels: {
-      ja: 'オーストラリア運転免許証 (または国際免許証)',
-      en: 'Australian Driver Licence / Valid International Permit',
-      ko: '호주 운전면허증 (또는 유효한 국제면허증)',
-      zh: '澳洲駕照 / 國際駕照',
-      es: 'Licencia de Conducir Australiana / Internacional',
-    },
-  },
-  {
-    value: 'RSG (Responsible Service of Gambling)',
-    labels: {
-      ja: 'RSG (カジノ・ゲーミングパブ関連の資格)',
-      en: 'RSG (Responsible Service of Gambling)',
-      ko: 'RSG (도박장 / 게임 관련 필수 자격증)',
-      zh: 'RSG (博弈服務責任證書)',
-      es: 'RSG (Servicio Responsable de Apuestas)',
-    },
-  },
+  { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店の酒類提供資格)', en: 'RSA (Alcohol Service)', ko: 'RSA (주류 취급)', zh: 'RSA (酒類證照)', es: 'RSA' } },
+  { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (現場の安全講習証)', en: 'White Card (Construction)', ko: '화이트카드 (건설)', zh: '白卡 (工地)', es: 'White Card' } },
+  { value: 'Australian Driver Licence', labels: { ja: 'オーストラリア免許 / 国際免許', en: 'Driver Licence / Permit', ko: '호주 운전면허 / 국제면허', zh: '澳洲駕照 / 國際駕照', es: 'Licencia de Conducir' } },
 ];
 
-const CITY_OPTIONS = [
-  'Sydney, NSW',
-  'Melbourne, VIC',
-  'Brisbane, QLD',
-  'Perth, WA',
-  'Adelaide, SA',
-  'Gold Coast, QLD',
-  'Cairns, QLD',
-  'Darwin, NT',
-  'Hobart, TAS',
-  'Canberra, ACT',
-];
-
-const translations = {
-  ja: {
-    title: '🇦🇺 Aus Resume & Cover Letter AI',
-    subtitle: 'オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成',
-    paidBadge: '🎉 プレミアム購入済み（アンロック中）',
-    step1: '1. 情報を入力',
-    name: 'お名前 (英語表記)',
-    namePh: '例: Taro Yamada',
-    email: 'メールアドレス',
-    phone: '電話番号 (豪) ※任意',
-    phonePh: '0423 000 000',
-    location: '滞在都市 / 渡航予定先',
-    targetJob: '希望職種 (選択してください)',
-    visaType: 'ビザの種類',
-    availability: '就労可能状況',
-    certs: '保有資格・ライセンス (該当するものを選択)',
-    experience: '過去の経験・アピールポイント (日本語でOK)',
-    experiencePh: '例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。',
-    generateBtn: '✨ 無料プレビューを生成',
-    generatingBtn: 'AIが生成中（約5秒）...',
-    tabResume: '📄 Resume プレビュー',
-    tabCover: '✉️ Cover Letter (添え状)',
-    showTransBtn: '🇯🇵 日本語訳を表示',
-    hideTransBtn: '🔤 英語原文のみ表示',
-    emptyPreview: '左のフォームを入力して生成ボタンを押すと、\nここに書類一式が表示されます。',
-    copyUnlocked: 'メールや応募フォームに貼る用 (英語原文)',
-    copyLocked: '🔒 アンロックすると全文コピー可能になります',
-    btnCopy: '📋 全文コピー',
-    btnCopied: '✅ コピー完了！',
-    btnLocked: '🔒 ロック中',
-    btnDownloadPdf: '📄 高画質 PDF をダウンロード (英文)',
-    btnUnlock: '🔓 PDF & カバーレターをアンロック ($4.99 AUD)',
-    redirecting: '決済画面へ移動中...',
-  },
-  en: {
-    title: '🇦🇺 Aus Resume & Cover Letter AI',
-    subtitle: 'Create ATS-friendly Australian standard Resumes & Cover Letters instantly for local jobs.',
-    paidBadge: '🎉 Premium Unlocked',
-    step1: '1. Enter Your Details',
-    name: 'Full Name (English)',
-    namePh: 'e.g. Alex Smith',
-    email: 'Email Address',
-    phone: 'Phone Number (AU) (Optional)',
-    phonePh: '0423 000 000',
-    location: 'Current / Planned City',
-    targetJob: 'Target Role (Select from list)',
-    visaType: 'Visa Type',
-    availability: 'Availability',
-    certs: 'Australian Licences & Certifications',
-    experience: 'Past Experience & Strengths',
-    experiencePh: 'e.g. 3 years barista at Starbucks. Handcrafted specialty drinks, POS operation, and customer service during peak rush.',
-    generateBtn: '✨ Generate Free Preview',
-    generatingBtn: 'Generating (approx. 5s)...',
-    tabResume: '📄 Resume Preview',
-    tabCover: '✉️ Cover Letter',
-    showTransBtn: '🌐 Show Translation',
-    hideTransBtn: '🔤 English Only',
-    emptyPreview: 'Fill in the form on the left and click Generate to see your full preview here.',
-    copyUnlocked: 'Ready to paste into job application emails',
-    copyLocked: '🔒 Unlock to copy full cover letter',
-    btnCopy: '📋 Copy Full Text',
-    btnCopied: '✅ Copied!',
-    btnLocked: '🔒 Locked',
-    btnDownloadPdf: '📄 Download High-Quality PDF',
-    btnUnlock: '🔓 Unlock PDF & Cover Letter ($4.99 AUD)',
-    redirecting: 'Redirecting to checkout...',
-  },
-  ko: {
-    title: '🇦🇺 호주 영문 이력서 & 커버레터 생성기',
-    subtitle: '호주 현지 잡 구직에 최적화된 호주 표준 레주메와 커버레터를 즉시 완성합니다.',
-    paidBadge: '🎉 프리미엄 구매 완료',
-    step1: '1. 정보 입력',
-    name: '영문 성명',
-    namePh: '예: Minwoo Kim',
-    email: '이메일 주소',
-    phone: '호주 전화번호 (선택사항)',
-    phonePh: '0423 000 000',
-    location: '거주/입국 예정 도시',
-    targetJob: '희망 직종 (선택)',
-    visaType: '비자 종류',
-    availability: '근무 가능 시간',
-    certs: '보유 자격증 / 라이센스 (해당 항목 체크)',
-    experience: '경력 및 강점 (한국어로 편하게 작성)',
-    experiencePh: '예: 스타벅스에서 3년간 알바. 에스프레소 추출, 음료 제조, 포스 결제 담당.',
-    generateBtn: '✨ 무료 미리보기 생성',
-    generatingBtn: '생성 중 (약 5초)...',
-    tabResume: '📄 레주메 미리보기',
-    tabCover: '✉️ 커버레터',
-    showTransBtn: '🇰🇷 한국어 번역 보기',
-    hideTransBtn: '🔤 영어 원문만 보기',
-    emptyPreview: '왼쪽 폼을 작성하고 생성 버튼을 누르면\n이곳에 영문 서류가 완성됩니다.',
-    copyUnlocked: '구직 지원용 이메일 복사 가능',
-    copyLocked: '🔒 결제 후 전체 복사가 가능합니다',
-    btnCopy: '📋 전체 복사',
-    btnCopied: '✅ 복사 완료!',
-    btnLocked: '🔒 잠김',
-    btnDownloadPdf: '📄 고화질 PDF 다운로드',
-    btnUnlock: '🔓 PDF & 커버레터 언락 ($4.99 AUD)',
-    redirecting: '결제 페이지로 이동 중...',
-  },
-  zh: {
-    title: '🇦🇺 澳洲英文履歷與求職信生成器',
-    subtitle: '專為澳洲打工度假與求職打造，秒級生成標準澳式 Resume 與 Cover Letter。',
-    paidBadge: '🎉 已解鎖進階版',
-    step1: '1. 填寫個人資訊',
-    name: '英文姓名',
-    namePh: '例: Alex Chen',
-    email: '電子郵件',
-    phone: '澳洲電話 (選填)',
-    phonePh: '0423 000 000',
-    location: '所在 / 預計前往城市',
-    targetJob: '應徵職位 (請選擇)',
-    visaType: '簽證類型',
-    availability: '可工作時間',
-    certs: '澳洲相關證照 (勾選符合項目)',
-    experience: '過去經歷與優勢 (可用中文填寫)',
-    experiencePh: '例: 在星巴克打工3年，負責製作飲料、點餐收銀、維護環境衛生。',
-    generateBtn: '✨ 免費生成預覽',
-    generatingBtn: '生成中（約5秒）...',
-    tabResume: '📄 履歷預覽',
-    tabCover: '✉️ 求職信 (Cover Letter)',
-    showTransBtn: '🇹🇼 顯示中文對照翻譯',
-    hideTransBtn: '🔤 僅顯示英文原文',
-    emptyPreview: '填寫左側表單並點擊生成，\n即可在此預覽標準澳洲格式英文文件。',
-    copyUnlocked: '可用於應徵郵件複製',
-    copyLocked: '🔒 解鎖後可複製全文',
-    btnCopy: '📋 複製全文',
-    btnCopied: '✅ 已複製！',
-    btnLocked: '🔒 未解鎖',
-    btnDownloadPdf: '📄 下載高畫質 PDF',
-    btnUnlock: '🔓 解鎖 PDF 與求職信 ($4.99 AUD)',
-    redirecting: '跳轉至付款頁面...',
-  },
-  es: {
-    title: '🇦🇺 Generador de CV y Cover Letter para Australia',
-    subtitle: 'Crea al instante tu currículum y carta de presentación en formato australiano estándar.',
-    paidBadge: '🎉 Versión Premium Desbloqueada',
-    step1: '1. Ingresa tus datos',
-    name: 'Nombre Completo (en inglés)',
-    namePh: 'ej: Carlos Gomez',
-    email: 'Correo Electrónico',
-    phone: 'Teléfono (AU) (Opcional)',
-    phonePh: '0423 000 000',
-    location: 'Ciudad actual o de destino',
-    targetJob: 'Puesto Deseado (Selecciona)',
-    visaType: 'Tipo de Visa',
-    availability: 'Disponibilidad',
-    certs: 'Certificados y Licencias en Australia',
-    experience: 'Experiencia previa y fortalezas (en español)',
-    experiencePh: 'ej: 3 años de barista en Starbucks. Elaboración de bebidas, caja y servicio al cliente.',
-    generateBtn: '✨ Generar Vista Previa Gratis',
-    generatingBtn: 'Generando (aprox. 5s)...',
-    tabResume: '📄 Vista Previa de CV',
-    tabCover: '✉️ Cover Letter',
-    showTransBtn: '🇪🇸 Ver Traducción al Español',
-    hideTransBtn: '🔤 Solo en Inglés',
-    emptyPreview: 'Completa el formulario de la izquierda para ver tus documentos generados aquí.',
-    copyUnlocked: 'Listo para copiar en correos de solicitud',
-    copyLocked: '🔒 Desbloquea para copiar la carta completa',
-    btnCopy: '📋 Copiar Texto Completo',
-    btnCopied: '✅ ¡Copiado!',
-    btnLocked: '🔒 Bloqueado',
-    btnDownloadPdf: '📄 Descargar PDF en Alta Calidad',
-    btnUnlock: '🔓 Desbloquear PDF y Carta ($4.99 AUD)',
-    redirecting: 'Redirigiendo al pago...',
-  },
-};
+const CITY_OPTIONS = ['Perth, WA', 'Sydney, NSW', 'Melbourne, VIC', 'Brisbane, QLD', 'Adelaide, SA', 'Gold Coast, QLD'];
 
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const [lang, setLang] = useState<Language>('ja');
-  const t = translations[lang];
-
   const [isPaid, setIsPaid] = useState(false);
-  const [showTranslation, setShowTranslation] = useState(false);
+
+  // ステップ管理 (1: 入力 -> 2: デザインカスタマイズ -> 3: 完成・決済)
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+
+  // デザイン選択
+  const [template, setTemplate] = useState<TemplateType>('classic');
+  const [fontFamily, setFontFamily] = useState<FontType>('sans');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -495,15 +78,16 @@ function ResumeBuilderContent() {
     setIsClient(true);
     if (searchParams.get('paid') === 'true') {
       setIsPaid(true);
+      setCurrentStep(3);
     }
   }, [searchParams]);
 
-  const handleCheckboxChange = (certValue: string) => {
+  const handleCheckboxChange = (val: string) => {
     setFormData((prev) => ({
       ...prev,
-      certifications: prev.certifications.includes(certValue)
-        ? prev.certifications.filter((c) => c !== certValue)
-        : [...prev.certifications, certValue],
+      certifications: prev.certifications.includes(val)
+        ? prev.certifications.filter((c) => c !== val)
+        : [...prev.certifications, val],
     }));
   };
 
@@ -516,15 +100,13 @@ function ResumeBuilderContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, lang }),
       });
-
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Generation failed');
-      }
+      if (!res.ok) throw new Error(data.error || '生成に失敗しました');
       setResumeData(data);
-    } catch (error: any) {
-      alert(`生成エラー: ${error.message}`);
-      console.error(error);
+      // 生成成功後にデザインカスタマイズ画面（Step 2）へ
+      setCurrentStep(2);
+    } catch (err: any) {
+      alert(`エラー: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -538,11 +120,10 @@ function ResumeBuilderContent() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(`決済エラー: ${data.error || 'URL取得失敗'}`);
+        alert('決済ページの読み込みに失敗しました');
       }
     } catch (err: any) {
-      console.error(err);
-      alert(`決済通信エラー: ${err.message}`);
+      alert('通信エラーが発生しました');
     } finally {
       setPaying(false);
     }
@@ -550,7 +131,7 @@ function ResumeBuilderContent() {
 
   const handleCopyCoverLetter = () => {
     if (!isPaid) {
-      alert('カバーレターのコピーにはアンロック（決済）が必要です。');
+      alert('アンロック後にコピー可能になります');
       return;
     }
     if (resumeData?.coverLetter) {
@@ -561,20 +142,17 @@ function ResumeBuilderContent() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-8">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-8">
+      <div className="max-w-5xl mx-auto space-y-6">
         
         {/* 言語切り替えバー */}
         <div className="flex justify-end items-center space-x-2">
-          <span className="text-xs font-bold text-slate-500">Language:</span>
           {(['ja', 'en', 'ko', 'zh', 'es'] as Language[]).map((l) => (
             <button
               key={l}
               onClick={() => setLang(l)}
-              className={`text-xs px-2.5 py-1 rounded font-bold border transition ${
-                lang === l
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-200'
+              className={`text-xs px-2 py-1 rounded font-bold border ${
+                lang === l ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300'
               }`}
             >
               {l === 'ja' && '🇯🇵 日本語'}
@@ -587,89 +165,98 @@ function ResumeBuilderContent() {
         </div>
 
         {/* ヘッダー */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            {t.title}
+        <div className="text-center space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            🇦🇺 Aus Resume & Cover Letter AI
           </h1>
-          <p className="text-sm font-medium text-slate-600">
-            {t.subtitle}
+          <p className="text-xs sm:text-sm font-medium text-slate-600">
+            オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成
           </p>
-          {isPaid && (
-            <div className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mt-2">
-              {t.paidBadge}
-            </div>
-          )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* 入力フォーム */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-slate-300">
-            <h2 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">
-              {t.step1}
+        {/* ステップ プログレスバー */}
+        <div className="max-w-xl mx-auto bg-white p-3 rounded-xl border border-slate-300 shadow-sm flex items-center justify-between text-xs font-bold">
+          <div className={`flex items-center space-x-1.5 ${currentStep === 1 ? 'text-blue-600' : 'text-slate-400'}`}>
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep >= 1 ? 'bg-blue-600' : 'bg-slate-300'}`}>1</span>
+            <span>情報入力</span>
+          </div>
+          <span className="text-slate-300">➔</span>
+          <div className={`flex items-center space-x-1.5 ${currentStep === 2 ? 'text-blue-600' : 'text-slate-400'}`}>
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep >= 2 ? 'bg-blue-600' : 'bg-slate-300'}`}>2</span>
+            <span>デザイン・フォント選択</span>
+          </div>
+          <span className="text-slate-300">➔</span>
+          <div className={`flex items-center space-x-1.5 ${currentStep === 3 ? 'text-blue-600' : 'text-slate-400'}`}>
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep === 3 ? 'bg-emerald-600' : 'bg-slate-300'}`}>3</span>
+            <span>完成・ダウンロード</span>
+          </div>
+        </div>
+
+        {/* Step 1: 情報入力 */}
+        {currentStep === 1 && (
+          <div className="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow border border-slate-300">
+            <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">
+              ステップ 1: 基本情報を入力
             </h2>
             <form onSubmit={handleGenerate} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-800">{t.name}</label>
+                <label className="block text-xs font-bold text-slate-800">お名前 (英語表記)</label>
                 <input
                   type="text"
                   required
-                  placeholder={t.namePh}
+                  placeholder="例: Ryu Okada"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.email}</label>
+                  <label className="block text-xs font-bold text-slate-800">メールアドレス</label>
                   <input
                     type="email"
                     required
-                    placeholder="example@gmail.com"
+                    placeholder="例: ryu@gmail.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.phone}</label>
+                  <label className="block text-xs font-bold text-slate-800">電話番号 (豪) ※任意</label>
                   <input
                     type="text"
-                    placeholder={t.phonePh}
+                    placeholder="0423 000 000"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.location}</label>
+                  <label className="block text-xs font-bold text-slate-800">滞在都市 / 渡航予定</label>
                   <select
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 outline-none cursor-pointer"
                   >
-                    {CITY_OPTIONS.map((city) => (
-                      <option key={city} value={city}>
-                        {city}
-                      </option>
+                    {CITY_OPTIONS.map((c) => (
+                      <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.targetJob}</label>
+                  <label className="block text-xs font-bold text-slate-800">希望職種</label>
                   <select
                     value={formData.targetJob}
                     onChange={(e) => setFormData({ ...formData, targetJob: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 outline-none cursor-pointer"
                   >
-                    {JOB_DATA.map((job) => (
-                      <option key={job.value} value={job.value}>
-                        {job.labels[lang]}
-                      </option>
+                    {JOB_DATA.map((j) => (
+                      <option key={j.value} value={j.value}>{j.labels[lang]}</option>
                     ))}
                   </select>
                 </div>
@@ -677,61 +264,59 @@ function ResumeBuilderContent() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.visaType}</label>
+                  <label className="block text-xs font-bold text-slate-800">ビザの種類</label>
                   <select
                     value={formData.visaType}
                     onChange={(e) => setFormData({ ...formData, visaType: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 outline-none cursor-pointer"
                   >
                     {VISA_DATA.map((v) => (
-                      <option key={v.value} value={v.value}>
-                        {v.labels[lang]}
-                      </option>
+                      <option key={v.value} value={v.value}>{v.labels[lang]}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">{t.availability}</label>
+                  <label className="block text-xs font-bold text-slate-800">就労可能状況</label>
                   <select
                     value={formData.availability}
                     onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none cursor-pointer"
+                    className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 font-semibold focus:border-blue-600 outline-none cursor-pointer"
                   >
-                    {AVAILABILITY_DATA.map((av) => (
-                      <option key={av.value} value={av.value}>
-                        {av.labels[lang]}
-                      </option>
+                    {AVAILABILITY_DATA.map((a) => (
+                      <option key={a.value} value={a.value}>{a.labels[lang]}</option>
                     ))}
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-2">{t.certs}</label>
-                <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  {CERT_DATA.map((cert) => (
-                    <label key={cert.value} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">保有資格 (任意)</label>
+                <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                  {CERT_DATA.map((c) => (
+                    <label key={c.value} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={formData.certifications.includes(cert.value)}
-                        onChange={() => handleCheckboxChange(cert.value)}
+                        checked={formData.certifications.includes(c.value)}
+                        onChange={() => handleCheckboxChange(c.value)}
                         className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
                       />
-                      <span>{cert.labels[lang]}</span>
+                      <span>{c.labels[lang]}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-800">{t.experience}</label>
+                <label className="block text-xs font-bold text-slate-800">
+                  過去の経験・アピールポイント (母国語でOK)
+                </label>
                 <textarea
-                  rows={4}
+                  rows={3}
                   required
-                  placeholder={t.experiencePh}
+                  placeholder="例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。"
                   value={formData.rawExperience}
                   onChange={(e) => setFormData({ ...formData, rawExperience: e.target.value })}
-                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none leading-relaxed"
+                  className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 outline-none leading-relaxed"
                 />
               </div>
 
@@ -740,157 +325,295 @@ function ResumeBuilderContent() {
                 disabled={loading}
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? t.generatingBtn : t.generateBtn}
+                {loading ? 'AIが生成中（約3秒）...' : '次へ：デザイン・フォントを選ぶ ➔'}
               </button>
             </form>
           </div>
+        )}
 
-          {/* 生成結果＆決済・ダウンロードエリア */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-slate-300 flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center border-b border-slate-200 mb-4 pb-2">
-                <div className="flex space-x-2">
+        {/* Step 2 & Step 3: デザイン選択 & プレビュー */}
+        {currentStep >= 2 && resumeData && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* 左側：デザイン選択コントローラー */}
+            <div className="bg-white p-6 rounded-xl shadow border border-slate-300 space-y-6 md:col-span-1">
+              <div>
+                <button
+                  onClick={() => setCurrentStep(1)}
+                  className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1 mb-3"
+                >
+                  <span>⬅️ 情報を再編集する</span>
+                </button>
+                <h3 className="text-base font-bold text-slate-900 pb-2 border-b border-slate-200">
+                  ステップ 2: デザイン選択
+                </h3>
+              </div>
+
+              {/* テンプレート選択 */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-800">レイアウトスタイル</label>
+                <div className="space-y-2">
+                  {[
+                    { id: 'classic', name: 'Classic (王道スタイル)', desc: 'オーストラリアで最もATS選考に強い標準形式' },
+                    { id: 'modern', name: 'Modern (洗練ブルー)', desc: 'ネイビーをアクセントにした清潔感あるデザイン' },
+                    { id: 'clean', name: 'Clean (ミニマルティール)', desc: '余白を広めに取ったモダンで読みやすい形式' },
+                  ].map((tpl) => (
+                    <div
+                      key={tpl.id}
+                      onClick={() => setTemplate(tpl.id as TemplateType)}
+                      className={`p-3 rounded-lg border-2 cursor-pointer transition ${
+                        template === tpl.id ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <p className="text-xs font-bold text-slate-900">{tpl.name}</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{tpl.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* フォント選択 */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-800">フォントスタイル</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <div
+                    onClick={() => setFontFamily('sans')}
+                    className={`p-2.5 rounded-lg border-2 cursor-pointer text-center transition font-sans ${
+                      fontFamily === 'sans' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    <span className="text-xs">Sans-Serif</span>
+                    <p className="text-[10px] text-slate-400 font-normal">現代的・カフェ/現場</p>
+                  </div>
+                  <div
+                    onClick={() => setFontFamily('serif')}
+                    className={`p-2.5 rounded-lg border-2 cursor-pointer text-center transition font-serif ${
+                      fontFamily === 'serif' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    <span className="text-xs">Classic Serif</span>
+                    <p className="text-[10px] text-slate-400 font-normal">格式高い・事務/営業</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 への誘導ボタン */}
+              {currentStep === 2 && (
+                <button
+                  onClick={() => setCurrentStep(3)}
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow flex items-center justify-center space-x-1"
+                >
+                  <span>このデザインで完成へ ➔</span>
+                </button>
+              )}
+
+              {/* Step 3: ダウンロード / 決済エリア */}
+              {currentStep === 3 && isClient && (
+                <div className="pt-4 border-t border-slate-200 space-y-3">
+                  <h4 className="text-xs font-bold text-slate-800">ステップ 3: 書類の発行</h4>
+                  {isPaid ? (
+                    <PDFDownloadLink
+                      document={<ResumePDF data={resumeData} template={template} fontFamily={fontFamily} />}
+                      fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
+                      className="block w-full text-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow"
+                    >
+                      {({ loading }) => (loading ? 'PDF作成中...' : '📄 PDFをダウンロード')}
+                    </PDFDownloadLink>
+                  ) : (
+                    <div className="space-y-2">
+                      <button
+                        onClick={handleCheckout}
+                        disabled={paying}
+                        className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow flex items-center justify-center space-x-1"
+                      >
+                        <span>{paying ? '決済画面へ移動中...' : '🔓 PDF & カバーレターをアンロック ($4.99 AUD)'}</span>
+                      </button>
+                      <p className="text-[11px] text-center text-slate-500 font-medium">
+                        ※ 一度アンロックすると無制限にPDFダウンロード可能です
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 右側：リアルタイム反映プレビュー */}
+            <div className="bg-white p-6 rounded-xl shadow border border-slate-300 md:col-span-2 flex flex-col justify-between">
+              <div>
+                <div className="flex border-b border-slate-200 mb-4">
                   <button
                     onClick={() => setActiveTab('resume')}
-                    className={`py-2 px-3 text-xs font-bold border-b-2 transition ${
+                    className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
                       activeTab === 'resume'
                         ? 'border-blue-600 text-blue-600'
                         : 'border-transparent text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    {t.tabResume}
+                    📄 Resume プレビュー ({template.toUpperCase()} / {fontFamily})
                   </button>
                   <button
                     onClick={() => setActiveTab('coverLetter')}
-                    className={`py-2 px-3 text-xs font-bold border-b-2 transition ${
+                    className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
                       activeTab === 'coverLetter'
                         ? 'border-blue-600 text-blue-600'
                         : 'border-transparent text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    {t.tabCover} {!isPaid && '🔒'}
+                    ✉️ Cover Letter (添え状) {!isPaid && '🔒'}
                   </button>
                 </div>
 
-                {/* 翻訳切り替えトグルボタン */}
-                {resumeData && (
-                  <button
-                    onClick={() => setShowTranslation(!showTranslation)}
-                    className={`text-xs font-bold px-2.5 py-1 rounded-md border transition ${
-                      showTranslation
-                        ? 'bg-amber-100 text-amber-900 border-amber-300'
-                        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+                {activeTab === 'resume' ? (
+                  <div
+                    className={`space-y-4 max-h-[550px] overflow-y-auto pr-2 text-xs transition-all ${
+                      fontFamily === 'serif' ? 'font-serif' : 'font-sans'
                     }`}
                   >
-                    {showTranslation ? t.hideTransBtn : t.showTransBtn}
-                  </button>
-                )}
-              </div>
-
-              {!resumeData ? (
-                <div className="text-center py-20 text-slate-500 font-medium text-sm whitespace-pre-line">
-                  {t.emptyPreview}
-                </div>
-              ) : activeTab === 'resume' ? (
-                <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 text-sm text-slate-800 font-medium">
-                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                    <p className="font-extrabold text-slate-900 text-base">{resumeData.personalInfo?.name}</p>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      {[resumeData.personalInfo?.location, resumeData.personalInfo?.phone, resumeData.personalInfo?.email].filter(Boolean).join(' | ')}
-                    </p>
-                    <p className="text-xs text-blue-700 font-bold mt-1">Visa: {resumeData.personalInfo?.visa}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Summary</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 leading-relaxed text-slate-900">{resumeData.summary}</p>
-                    {showTranslation && resumeData.summaryTranslation && (
-                      <p className="text-xs mt-1 p-2 bg-amber-50 text-amber-900 rounded border border-amber-200 leading-relaxed">
-                        💡 <strong>訳:</strong> {resumeData.summaryTranslation}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Skills</h3>
-                    <p className="text-xs mt-1 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-900 font-semibold">{resumeData.skills?.join(' • ')}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-extrabold text-xs uppercase text-slate-700 tracking-wider">Experience</h3>
-                    {resumeData.experiences?.map((exp: any, i: number) => (
-                      <div key={i} className="mt-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
-                        <p className="font-bold text-slate-900">{exp.role} - {exp.company}</p>
-                        <p className="text-slate-500 text-[10px] mb-1">{exp.duration}</p>
-                        <ul className="list-disc ml-4 space-y-1 text-slate-800">
-                          {exp.bullets?.map((b: string, j: number) => (
-                            <li key={j}>
-                              <span>{b}</span>
-                              {showTranslation && exp.bulletsTranslation?.[j] && (
-                                <p className="text-[11px] text-amber-800 font-normal">↳ {exp.bulletsTranslation[j]}</p>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-600">
-                      {isPaid ? t.copyUnlocked : t.copyLocked}
-                    </span>
-                    <button
-                      onClick={handleCopyCoverLetter}
-                      className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 transition"
+                    {/* 基本情報ヘッダー */}
+                    <div
+                      className={`p-4 rounded-lg transition border ${
+                        template === 'modern'
+                          ? 'bg-blue-50/40 border-blue-200'
+                          : template === 'clean'
+                          ? 'bg-teal-50/40 border-teal-200'
+                          : 'bg-slate-50 border-slate-200'
+                      }`}
                     >
-                      {copied ? t.btnCopied : isPaid ? t.btnCopy : t.btnLocked}
-                    </button>
-                  </div>
-                  <div className="relative">
-                    <textarea
-                      readOnly
-                      value={
-                        isPaid
-                          ? (showTranslation && resumeData.coverLetterTranslation
-                              ? `【英語原文】\n${resumeData.coverLetter}\n\n【日本語対訳】\n${resumeData.coverLetterTranslation}`
-                              : resumeData.coverLetter)
-                          : resumeData.coverLetter?.slice(0, 150) + '\n\n... (Unlock to view full letter)'
-                      }
-                      rows={14}
-                      className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+                      <p
+                        className={`text-lg font-extrabold ${
+                          template === 'modern'
+                            ? 'text-blue-900'
+                            : template === 'clean'
+                            ? 'text-teal-900'
+                            : 'text-slate-900'
+                        }`}
+                      >
+                        {resumeData.personalInfo?.name}
+                      </p>
+                      <p className="text-slate-600 mt-0.5 text-xs">
+                        {[resumeData.personalInfo?.location, resumeData.personalInfo?.phone, resumeData.personalInfo?.email].filter(Boolean).join(' | ')}
+                      </p>
+                      <p
+                        className={`font-bold mt-1 text-xs ${
+                          template === 'modern'
+                            ? 'text-blue-700'
+                            : template === 'clean'
+                            ? 'text-teal-700'
+                            : 'text-slate-800'
+                        }`}
+                      >
+                        Visa: {resumeData.personalInfo?.visa}
+                      </p>
+                    </div>
 
-            {/* ダウンロード / 決済ボタン */}
-            {resumeData && isClient && (
-              <div className="mt-6 pt-4 border-t border-slate-200">
-                {isPaid ? (
-                  <PDFDownloadLink
-                    document={<ResumePDF data={resumeData} />}
-                    fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
-                    className="block w-full text-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow-md"
-                  >
-                    {({ loading }) => (loading ? 'Loading...' : t.btnDownloadPdf)}
-                  </PDFDownloadLink>
+                    {/* Summary */}
+                    <div>
+                      <h3
+                        className={`font-extrabold uppercase tracking-wider text-xs ${
+                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
+                        }`}
+                      >
+                        Professional Summary
+                      </h3>
+                      <p className="mt-1 p-2.5 rounded border border-slate-200 bg-slate-50 text-slate-900 leading-relaxed font-medium">
+                        {resumeData.summary}
+                      </p>
+                      {resumeData.summaryTrans && (
+                        <div className="mt-1 p-2 bg-amber-50 rounded border border-amber-200 text-amber-900 leading-relaxed text-[11px]">
+                          <span className="font-bold">💡 日本語訳:</span> {resumeData.summaryTrans}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Skills */}
+                    <div>
+                      <h3
+                        className={`font-extrabold uppercase tracking-wider text-xs ${
+                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
+                        }`}
+                      >
+                        Core Skills
+                      </h3>
+                      <p className="mt-1 p-2.5 rounded border border-slate-200 bg-slate-50 text-slate-900 font-semibold">
+                        {resumeData.skills?.join(' • ')}
+                      </p>
+                    </div>
+
+                    {/* Experience */}
+                    <div>
+                      <h3
+                        className={`font-extrabold uppercase tracking-wider text-xs ${
+                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
+                        }`}
+                      >
+                        Work Experience
+                      </h3>
+                      {resumeData.experiences?.map((exp: any, i: number) => (
+                        <div key={i} className="mt-2 bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                          <div className="flex justify-between items-center font-bold text-slate-900">
+                            <span>{exp.role} - {exp.company}</span>
+                            {exp.duration && (
+                              <span className="text-slate-600 font-medium bg-slate-200 px-2 py-0.5 rounded text-[11px]">
+                                {exp.duration} {exp.durationTrans ? `(${exp.durationTrans})` : ''}
+                              </span>
+                            )}
+                          </div>
+                          <div className="space-y-1.5">
+                            {exp.bullets?.map((b: string, j: number) => (
+                              <div
+                                key={j}
+                                className={`border-l-2 pl-2 ${
+                                  template === 'modern'
+                                    ? 'border-blue-600'
+                                    : template === 'clean'
+                                    ? 'border-teal-600'
+                                    : 'border-slate-500'
+                                }`}
+                              >
+                                <p className="text-slate-900 font-medium">{b}</p>
+                                {exp.bulletsTrans?.[j] && (
+                                  <p className="text-[11px] text-amber-800 font-normal mt-0.5">
+                                    ↳ {exp.bulletsTrans[j]}
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 ) : (
-                  <button
-                    onClick={handleCheckout}
-                    disabled={paying}
-                    className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow-md flex items-center justify-center space-x-2"
-                  >
-                    <span>{paying ? t.redirecting : t.btnUnlock}</span>
-                  </button>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-bold text-slate-600">
+                        {isPaid ? '英文の応募用テキスト' : '🔒 アンロックすると全文コピー可能になります'}
+                      </span>
+                      <button
+                        onClick={handleCopyCoverLetter}
+                        className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 transition"
+                      >
+                        {copied ? '✅ コピー完了！' : isPaid ? '📋 英文をコピー' : '🔒 ロック中'}
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <textarea
+                        readOnly
+                        value={
+                          isPaid
+                            ? `【英文】\n${resumeData.coverLetter}\n\n====================\n【日本語対訳】\n${resumeData.coverLetterTrans}`
+                            : resumeData.coverLetter?.slice(0, 160) + '\n\n... (アンロックして全文を表示)'
+                        }
+                        rows={16}
+                        className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );
