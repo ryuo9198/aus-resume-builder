@@ -13,7 +13,6 @@ type Language = 'ja' | 'en' | 'ko' | 'zh' | 'es';
 type TemplateType = 'classic' | 'modern' | 'clean';
 type FontType = 'sans' | 'serif';
 
-// 豪州現地の全主要職種（10種類）
 const JOB_DATA = [
   { value: 'Barista / Cafe All-Rounder', labels: { ja: '☕ バリスタ / カフェ店員', en: '☕ Barista / Cafe All-Rounder', ko: '☕ 바리스타 / 카페 직원', zh: '☕ 咖啡師 / 咖啡店員', es: '☕ Barista / Cafetería' } },
   { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)', ko: '🍽️ 레스토랑 / 홀 서빙 (웨이터)', zh: '🍽️ 餐飲服務生 / 外場服務', es: '🍽️ Camarero/a / Servicio de Sala' } },
@@ -27,7 +26,6 @@ const JOB_DATA = [
   { value: 'Customer Service Representative', labels: { ja: '📞 一般事務 / カスタマーサポート', en: '📞 Customer Service / Office Admin', ko: '📞 일반 사무 / 고객 상담 지원', zh: '📞 客服專員 / 一般辦公行政', es: '📞 Atención al Cliente / Administración' } },
 ];
 
-// 豪州全ビザ（6種類）
 const VISA_DATA = [
   { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (Subclass 417)', en: 'Working Holiday Visa (Subclass 417)', ko: '워킹홀리데이 비자 (Subclass 417)', zh: '打工度假簽證 (Subclass 417)', es: 'Visa Working Holiday (Subclass 417)' } },
   { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (Subclass 462)', en: 'Work and Holiday Visa (Subclass 462)', ko: '워크 앤 홀리데이 비자 (Subclass 462)', zh: '打工與度假簽證 (Subclass 462)', es: 'Visa Work and Holiday (Subclass 462)' } },
@@ -37,7 +35,6 @@ const VISA_DATA = [
   { value: 'Other / Bridging Visa', labels: { ja: 'その他 / ブリッジングビザ', en: 'Other / Bridging Visa', ko: '기타 / 브릿징 비자', zh: '其他 / 過渡簽證 (Bridging Visa)', es: 'Otra / Bridging Visa' } },
 ];
 
-// 就労可能状況（5種類）
 const AVAILABILITY_DATA = [
   { value: 'Full-time (Immediate Start / Any Days)', labels: { ja: '即日勤務可・フルタイム可能 (平日・土日祝いつでも)', en: 'Full-time / Immediate Start (Weekdays & Weekends)', ko: '즉시 출근 가능 / 풀타임 (평일/주말 언제든 가능)', zh: '可立即上班 / 全職可配合 (平日及週末皆可)', es: 'Disponibilidad Inmediata / Tiempo Completo (Cualquier día)' } },
   { value: 'Flexible (Up to 48 hours per fortnight - Student)', labels: { ja: '学生ビザ規定内 (2週間で最大48時間)', en: 'Student Visa Condition (Up to 48 hrs / fortnight)', ko: '학생 비자 규정 준수 (2주 최대 48시간)', zh: '學生簽證規定 (每兩週最多48小時)', es: 'Condición Visa Estudiante (Hasta 48 hrs quincenales)' } },
@@ -46,7 +43,6 @@ const AVAILABILITY_DATA = [
   { value: 'Evening & Night Shifts Preferred', labels: { ja: '夕方・夜間シフト希望 (ディナータイム中心)', en: 'Evening & Night Shifts Preferred', ko: '야간/디너 시프트 선호 (저녁 위주)', zh: '偏好晚班 (以晚餐/夜間時段為主)', es: 'Preferencia Turno Tarde/Noche' } },
 ];
 
-// 保有資格・ライセンス（6種類）
 const CERT_DATA = [
   { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店・バーでお酒を扱う必須資格)', en: 'RSA (Responsible Service of Alcohol)', ko: 'RSA (주류 취급 필수 자격증)', zh: 'RSA (酒類服務責任證書 - 餐飲必備)', es: 'RSA (Servicio Responsable de Alcohol)' } },
   { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (建設現場・倉庫の安全講習証)', en: 'White Card (General Construction Induction)', ko: '화이트카드 (건설/현장 필수 안전교육증)', zh: '白卡 White Card (建築工地安全證)', es: 'White Card (Seguridad para Construcción)' } },
@@ -56,18 +52,9 @@ const CERT_DATA = [
   { value: 'RSG (Responsible Service of Gambling)', labels: { ja: 'RSG (カジノ・ゲーミングパブ関連の資格)', en: 'RSG (Responsible Service of Gambling)', ko: 'RSG (도박장 / 게임 관련 필수 자격증)', zh: 'RSG (博弈服務責任證書)', es: 'RSG (Servicio Responsable de Apuestas)' } },
 ];
 
-// 豪州全主要都市（10都市）
 const CITY_OPTIONS = [
-  'Perth, WA',
-  'Sydney, NSW',
-  'Melbourne, VIC',
-  'Brisbane, QLD',
-  'Adelaide, SA',
-  'Gold Coast, QLD',
-  'Cairns, QLD',
-  'Darwin, NT',
-  'Hobart, TAS',
-  'Canberra, ACT',
+  'Perth, WA', 'Sydney, NSW', 'Melbourne, VIC', 'Brisbane, QLD', 'Adelaide, SA',
+  'Gold Coast, QLD', 'Cairns, QLD', 'Darwin, NT', 'Hobart, TAS', 'Canberra, ACT',
 ];
 
 const uiText = {
@@ -93,7 +80,7 @@ const uiText = {
     expLabel: '過去の経験・アピールポイント (母国語でOK)',
     expPh: '例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。',
     btnToStep2: '次へ：デザイン・フォントを選ぶ ➔',
-    btnGenerating: 'AIが生成中（約3秒）...',
+    btnGenerating: 'AIが英文レジュメを生成中（約3秒）...',
     step2Title: 'ステップ 2: デザイン選択',
     btnBackEdit: '⬅️ 情報を再編集する',
     layoutStyle: 'レイアウトスタイル',
@@ -107,9 +94,8 @@ const uiText = {
     btnDownloadPdf: '📄 PDFをダウンロード',
     btnUnlock: '🔓 PDF & カバーレターをアンロック ($4.99 AUD)',
     unlockNotice: '※ 一度アンロックすると無制限にダウンロード可能です',
-    tabResume: '📄 Resume プレビュー (対訳つき)',
+    tabResume: '📄 Resume プレビュー',
     tabCover: '✉️ Cover Letter (添え状)',
-    transLabel: '💡 翻訳:',
     coverUnlockedDesc: '英文の応募用テキスト',
     coverLockedDesc: '🔒 アンロックすると全文コピー可能になります',
     btnCopy: '📋 英文をコピー',
@@ -117,9 +103,9 @@ const uiText = {
     btnLocked: '🔒 ロック中',
     paymentRedirect: '決済画面へ移動中...',
     templates: {
-      classic: { name: 'Classic (王道スタイル)', desc: 'オーストラリアで最もATS選考に強い標準形式' },
-      modern: { name: 'Modern (洗練ブルー)', desc: 'ネイビーをアクセントにした清潔感あるデザイン' },
-      clean: { name: 'Clean (ミニマルティール)', desc: '余白を広めに取ったモダンで読みやすい形式' },
+      classic: { name: 'Classic (ATS王道 1カラム)', desc: '中央揃えヘッダー＆白黒罫線のオーストラリア標準形式' },
+      modern: { name: 'Modern (左サイドバー 2カラム)', desc: '左にスキル・連絡先、右に職歴を配置した視覚的デザイン' },
+      clean: { name: 'Clean (洗練ミニマル)', desc: '北欧調の余白とティールアクセントが映えるモダン形式' },
     }
   },
   en: {
@@ -160,7 +146,6 @@ const uiText = {
     unlockNotice: '※ Unlimited PDF downloads once unlocked',
     tabResume: '📄 Resume Preview',
     tabCover: '✉️ Cover Letter',
-    transLabel: '💡 Note:',
     coverUnlockedDesc: 'Full English cover letter ready to copy',
     coverLockedDesc: '🔒 Unlock to copy full cover letter',
     btnCopy: '📋 Copy Cover Letter',
@@ -168,9 +153,9 @@ const uiText = {
     btnLocked: '🔒 Locked',
     paymentRedirect: 'Redirecting to checkout...',
     templates: {
-      classic: { name: 'Classic (ATS Standard)', desc: 'Most widely accepted layout across Australian employers' },
-      modern: { name: 'Modern (Refined Navy)', desc: 'Clean layout featuring professional navy accents' },
-      clean: { name: 'Clean (Minimal Teal)', desc: 'Modern style with spacious, readable formatting' },
+      classic: { name: 'Classic (ATS 1-Column)', desc: 'Centered header and clean divider rules' },
+      modern: { name: 'Modern (2-Column Sidebar)', desc: 'Dark navy sidebar for contact & skills with right content' },
+      clean: { name: 'Clean (Minimal Left-Align)', desc: 'Modern typography with spacious layout and teal highlights' },
     }
   },
   ko: {
@@ -209,9 +194,8 @@ const uiText = {
     btnDownloadPdf: '📄 PDF 다운로드',
     btnUnlock: '🔓 PDF & 커버레터 언락 ($4.99 AUD)',
     unlockNotice: '※ 1회 결제 시 무제한 다운로드 가능',
-    tabResume: '📄 이력서 미리보기 (한국어 번역 포함)',
+    tabResume: '📄 이력서 미리보기',
     tabCover: '✉️ 커버레터',
-    transLabel: '🇰🇷 한국어 번역:',
     coverUnlockedDesc: '영문 지원용 텍스트 복사 가능',
     coverLockedDesc: '🔒 결제 후 전체 복사가 가능합니다',
     btnCopy: '📋 영문 복사',
@@ -219,9 +203,9 @@ const uiText = {
     btnLocked: '🔒 잠김',
     paymentRedirect: '결제 페이지로 이동 중...',
     templates: {
-      classic: { name: '클래식 (Classic)', desc: '호주 기업 및 ATS 심사 통과율이 가장 높은 표준 형식' },
-      modern: { name: '모던 (Modern Navy)', desc: '신뢰감을 주는 네이비 포인트 컬러 디자인' },
-      clean: { name: '클린 (Clean Teal)', desc: '여백을 넓게 살려 가독성을 극대화한 미니멀 디자인' },
+      classic: { name: '클래식 (Classic 1단)', desc: '호주 기업 및 ATS 심사 통과율이 가장 높은 전통 표준 형식' },
+      modern: { name: '모던 (Modern 2단 사이드바)', desc: '좌측 사이드바에 스킬과 연락처를 배치한 세련된 구조' },
+      clean: { name: '클린 (Clean 미니멀)', desc: '여백을 넓게 살려 가독성을 극대화한 미니멀 디자인' },
     }
   },
   zh: {
@@ -260,9 +244,8 @@ const uiText = {
     btnDownloadPdf: '📄 下載高畫質 PDF',
     btnUnlock: '🔓 解鎖 PDF 與求職信 ($4.99 AUD)',
     unlockNotice: '※ 一次解鎖即可享有無限次下載',
-    tabResume: '📄 履歷預覽 (附中文對照)',
+    tabResume: '📄 履歷預覽',
     tabCover: '✉️ 求職信 (Cover Letter)',
-    transLabel: '🇹🇼 中文對照:',
     coverUnlockedDesc: '可用於求職信件的英文全文',
     coverLockedDesc: '🔒 解鎖後可複製全文',
     btnCopy: '📋 複製英文求職信',
@@ -270,9 +253,9 @@ const uiText = {
     btnLocked: '🔒 未解鎖',
     paymentRedirect: '跳轉至付款頁面...',
     templates: {
-      classic: { name: '經典風格 (Classic)', desc: '符合澳洲企業與 ATS 系統規範的標準格式' },
-      modern: { name: '現代海軍藍 (Modern)', desc: '沉穩俐落的藍色點綴，呈現專業現代感' },
-      clean: { name: '極簡清新 (Clean)', desc: '留白適中、段落清晰好閱讀的極簡設計' },
+      classic: { name: '經典單欄 (Classic 1-Column)', desc: '符合澳洲企業與 ATS 系統規範的置中標準格式' },
+      modern: { name: '現代雙欄 (Modern 2-Column)', desc: '左側深色側欄整合聯繫方式與技能，視覺層次分明' },
+      clean: { name: '極簡清新 (Clean Minimal)', desc: '左對齊設計、留白舒適的大氣風格' },
     }
   },
   es: {
@@ -311,9 +294,8 @@ const uiText = {
     btnDownloadPdf: '📄 Descargar PDF en Alta Calidad',
     btnUnlock: '🔓 Desbloquear PDF y Carta ($4.99 AUD)',
     unlockNotice: '※ Descargas ilimitadas una vez desbloqueado',
-    tabResume: '📄 Vista Previa de CV (con traducción)',
+    tabResume: '📄 Vista Previa de CV',
     tabCover: '✉️ Cover Letter (Carta)',
-    transLabel: '🇪🇸 Traducción:',
     coverUnlockedDesc: 'Texto en inglés listo para postularse',
     coverLockedDesc: '🔒 Desbloquea para copiar la carta completa',
     btnCopy: '📋 Copiar Carta en Inglés',
@@ -321,9 +303,9 @@ const uiText = {
     btnLocked: '🔒 Bloqueado',
     paymentRedirect: 'Redirigiendo al pago...',
     templates: {
-      classic: { name: 'Clásico (ATS Standard)', desc: 'El diseño más recomendado y aceptado en Australia' },
-      modern: { name: 'Moderno (Azul Marino)', desc: 'Diseño pulcro con elegantes toques profesionales' },
-      clean: { name: 'Minimalista (Teal)', desc: 'Estilo moderno con espaciado amplio y clara lectura' },
+      classic: { name: 'Clásico (ATS 1-Columna)', desc: 'Diseño centrado estándar y líneas divisorias' },
+      modern: { name: 'Moderno (2 Columnas con Barra)', desc: 'Barra lateral oscura para contactos y habilidades' },
+      clean: { name: 'Minimalista (Alineado Izquierda)', desc: 'Estilo tipográfico moderno y espaciado limpio' },
     }
   },
 };
@@ -422,6 +404,10 @@ function ResumeBuilderContent() {
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  const contactList = resumeData
+    ? [resumeData.personalInfo?.location, resumeData.personalInfo?.phone, resumeData.personalInfo?.email].filter(Boolean)
+    : [];
 
   return (
     <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-8">
@@ -618,7 +604,7 @@ function ResumeBuilderContent() {
           </div>
         )}
 
-        {/* Step 2 & Step 3: デザイン選択 & プレビュー */}
+        {/* Step 2 & Step 3: デザイン選択 & 本格プレビュー */}
         {currentStep >= 2 && resumeData && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
@@ -636,7 +622,7 @@ function ResumeBuilderContent() {
                 </h3>
               </div>
 
-              {/* テンプレート選択 */}
+              {/* テンプレート選択（3つの本格別レイアウト） */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-slate-800">{t.layoutStyle}</label>
                 <div className="space-y-2">
@@ -645,7 +631,7 @@ function ResumeBuilderContent() {
                       key={tplId}
                       onClick={() => setTemplate(tplId)}
                       className={`p-3 rounded-lg border-2 cursor-pointer transition ${
-                        template === tplId ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'
+                        template === tplId ? 'border-blue-600 bg-blue-50/60 shadow-sm' : 'border-slate-200 hover:border-slate-300 bg-white'
                       }`}
                     >
                       <p className="text-xs font-bold text-slate-900">{t.templates[tplId].name}</p>
@@ -662,7 +648,7 @@ function ResumeBuilderContent() {
                   <div
                     onClick={() => setFontFamily('sans')}
                     className={`p-2.5 rounded-lg border-2 cursor-pointer text-center transition font-sans ${
-                      fontFamily === 'sans' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
+                      fontFamily === 'sans' ? 'border-blue-600 bg-blue-50/60 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
                     }`}
                   >
                     <span className="text-xs">{t.sansLabel}</span>
@@ -671,7 +657,7 @@ function ResumeBuilderContent() {
                   <div
                     onClick={() => setFontFamily('serif')}
                     className={`p-2.5 rounded-lg border-2 cursor-pointer text-center transition font-serif ${
-                      fontFamily === 'serif' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
+                      fontFamily === 'serif' ? 'border-blue-600 bg-blue-50/60 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
                     }`}
                   >
                     <span className="text-xs">{t.serifLabel}</span>
@@ -680,7 +666,7 @@ function ResumeBuilderContent() {
                 </div>
               </div>
 
-              {/* Step 3 への遷移 */}
+              {/* Step 3 への遷移ボタン */}
               {currentStep === 2 && (
                 <button
                   onClick={() => setCurrentStep(3)}
@@ -720,7 +706,7 @@ function ResumeBuilderContent() {
               )}
             </div>
 
-            {/* 右側：プレビュー表示 */}
+            {/* 右側：翻訳のない100%提出用英文プレビュー（選択レイアウトをそのまま完全再現） */}
             <div className="bg-white p-6 rounded-xl shadow border border-slate-300 md:col-span-2 flex flex-col justify-between">
               <div>
                 <div className="flex border-b border-slate-200 mb-4">
@@ -748,123 +734,235 @@ function ResumeBuilderContent() {
 
                 {activeTab === 'resume' ? (
                   <div
-                    className={`space-y-4 max-h-[550px] overflow-y-auto pr-2 text-xs transition-all ${
+                    className={`max-h-[580px] overflow-y-auto bg-slate-50 p-6 rounded-lg border border-slate-300 text-xs shadow-inner ${
                       fontFamily === 'serif' ? 'font-serif' : 'font-sans'
                     }`}
                   >
-                    {/* Header */}
-                    <div
-                      className={`p-4 rounded-lg transition border ${
-                        template === 'modern'
-                          ? 'bg-blue-50/40 border-blue-200'
-                          : template === 'clean'
-                          ? 'bg-teal-50/40 border-teal-200'
-                          : 'bg-slate-50 border-slate-200'
-                      }`}
-                    >
-                      <p
-                        className={`text-lg font-extrabold ${
-                          template === 'modern'
-                            ? 'text-blue-900'
-                            : template === 'clean'
-                            ? 'text-teal-900'
-                            : 'text-slate-900'
-                        }`}
-                      >
-                        {resumeData.personalInfo?.name}
-                      </p>
-                      <p className="text-slate-600 mt-0.5 text-xs">
-                        {[resumeData.personalInfo?.location, resumeData.personalInfo?.phone, resumeData.personalInfo?.email].filter(Boolean).join(' | ')}
-                      </p>
-                      <p
-                        className={`font-bold mt-1 text-xs ${
-                          template === 'modern'
-                            ? 'text-blue-700'
-                            : template === 'clean'
-                            ? 'text-teal-700'
-                            : 'text-slate-800'
-                        }`}
-                      >
-                        Visa: {resumeData.personalInfo?.visa}
-                      </p>
-                    </div>
-
-                    {/* Summary */}
-                    <div>
-                      <h3
-                        className={`font-extrabold uppercase tracking-wider text-xs ${
-                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
-                        }`}
-                      >
-                        Professional Summary
-                      </h3>
-                      <p className="mt-1 p-2.5 rounded border border-slate-200 bg-slate-50 text-slate-900 leading-relaxed font-medium">
-                        {resumeData.summary}
-                      </p>
-                      {resumeData.summaryTrans && (
-                        <div className="mt-1 p-2 bg-amber-50 rounded border border-amber-200 text-amber-900 leading-relaxed text-[11px]">
-                          <span className="font-bold">{t.transLabel}</span> {resumeData.summaryTrans}
+                    {/* ============================================================== */}
+                    {/* Layout 1: Classic (ATS王道 1カラム・中央揃えヘッダー) */}
+                    {/* ============================================================== */}
+                    {template === 'classic' && (
+                      <div className="space-y-4 bg-white p-6 rounded shadow-sm border border-slate-200">
+                        {/* Header */}
+                        <div className="text-center pb-3 border-b-2 border-slate-900 space-y-1">
+                          <h2 className="text-xl font-bold uppercase tracking-wider text-slate-900">
+                            {resumeData.personalInfo?.name}
+                          </h2>
+                          <p className="text-[11px] text-slate-600">
+                            {contactList.join('  |  ')}
+                          </p>
+                          <p className="text-[11px] font-bold text-slate-900">
+                            Visa: {resumeData.personalInfo?.visa}
+                          </p>
                         </div>
-                      )}
-                    </div>
 
-                    {/* Skills */}
-                    <div>
-                      <h3
-                        className={`font-extrabold uppercase tracking-wider text-xs ${
-                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
-                        }`}
-                      >
-                        Core Skills
-                      </h3>
-                      <p className="mt-1 p-2.5 rounded border border-slate-200 bg-slate-50 text-slate-900 font-semibold">
-                        {resumeData.skills?.join(' • ')}
-                      </p>
-                    </div>
+                        {/* Summary */}
+                        <div>
+                          <h3 className="font-bold uppercase tracking-wider text-[11px] border-b border-slate-400 pb-0.5 mb-1.5 text-slate-900">
+                            Professional Summary
+                          </h3>
+                          <p className="text-[11.5px] leading-relaxed text-slate-700">{resumeData.summary}</p>
+                        </div>
 
-                    {/* Experience */}
-                    <div>
-                      <h3
-                        className={`font-extrabold uppercase tracking-wider text-xs ${
-                          template === 'modern' ? 'text-blue-900' : template === 'clean' ? 'text-teal-900' : 'text-slate-700'
-                        }`}
-                      >
-                        Work Experience
-                      </h3>
-                      {resumeData.experiences?.map((exp: any, i: number) => (
-                        <div key={i} className="mt-2 bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
-                          <div className="flex justify-between items-center font-bold text-slate-900">
-                            <span>{exp.role} - {exp.company}</span>
-                            {exp.duration && (
-                              <span className="text-slate-600 font-medium bg-slate-200 px-2 py-0.5 rounded text-[11px]">
-                                {exp.duration} {exp.durationTrans ? `(${exp.durationTrans})` : ''}
-                              </span>
-                            )}
+                        {/* Skills */}
+                        <div>
+                          <h3 className="font-bold uppercase tracking-wider text-[11px] border-b border-slate-400 pb-0.5 mb-1.5 text-slate-900">
+                            Key Skills
+                          </h3>
+                          <p className="text-[11.5px] text-slate-700 font-medium">
+                            {resumeData.skills?.join('   •   ')}
+                          </p>
+                        </div>
+
+                        {/* Experience */}
+                        <div>
+                          <h3 className="font-bold uppercase tracking-wider text-[11px] border-b border-slate-400 pb-0.5 mb-1.5 text-slate-900">
+                            Work Experience
+                          </h3>
+                          {resumeData.experiences?.map((exp: any, i: number) => (
+                            <div key={i} className="mb-3 space-y-1">
+                              <div className="flex justify-between items-baseline">
+                                <span className="font-bold text-slate-900 text-xs">
+                                  {exp.role} <span className="font-normal text-slate-600">- {exp.company}</span>
+                                </span>
+                                {exp.duration && <span className="text-[10px] text-slate-500 font-medium">{exp.duration}</span>}
+                              </div>
+                              <ul className="list-disc ml-4 space-y-1 text-slate-700 text-[11px] leading-relaxed">
+                                {exp.bullets?.map((b: string, j: number) => (
+                                  <li key={j}>{b}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Certifications */}
+                        <div>
+                          <h3 className="font-bold uppercase tracking-wider text-[11px] border-b border-slate-400 pb-0.5 mb-1.5 text-slate-900">
+                            Licences & Certifications
+                          </h3>
+                          <p className="text-[11.5px] text-slate-700">
+                            {resumeData.certifications?.join('   •   ')}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ============================================================== */}
+                    {/* Layout 2: Modern (左サイドバー 2カラム) */}
+                    {/* ============================================================== */}
+                    {template === 'modern' && (
+                      <div className="grid grid-cols-3 bg-white rounded shadow-sm border border-slate-200 overflow-hidden min-h-[500px]">
+                        {/* 左サイドバー */}
+                        <div className="col-span-1 bg-slate-800 text-white p-5 space-y-5 text-[11px]">
+                          <div>
+                            <h2 className="text-base font-extrabold text-white leading-tight">
+                              {resumeData.personalInfo?.name}
+                            </h2>
                           </div>
-                          <div className="space-y-1.5">
-                            {exp.bullets?.map((b: string, j: number) => (
-                              <div
-                                key={j}
-                                className={`border-l-2 pl-2 ${
-                                  template === 'modern'
-                                    ? 'border-blue-600'
-                                    : template === 'clean'
-                                    ? 'border-teal-600'
-                                    : 'border-slate-500'
-                                }`}
-                              >
-                                <p className="text-slate-900 font-medium">{b}</p>
-                                {exp.bulletsTrans?.[j] && (
-                                  <p className="text-[11px] text-amber-800 font-normal mt-0.5">
-                                    ↳ {exp.bulletsTrans[j]}
-                                  </p>
-                                )}
+
+                          <div className="space-y-1">
+                            <h3 className="text-[10px] font-bold uppercase tracking-wider text-sky-400 border-b border-slate-600 pb-1">
+                              Contact
+                            </h3>
+                            <p className="text-slate-300">{resumeData.personalInfo?.location}</p>
+                            {resumeData.personalInfo?.phone && <p className="text-slate-300">{resumeData.personalInfo?.phone}</p>}
+                            <p className="text-slate-300 break-words">{resumeData.personalInfo?.email}</p>
+                          </div>
+
+                          <div className="space-y-1">
+                            <h3 className="text-[10px] font-bold uppercase tracking-wider text-sky-400 border-b border-slate-600 pb-1">
+                              Visa Status
+                            </h3>
+                            <p className="text-slate-300">{resumeData.personalInfo?.visa}</p>
+                          </div>
+
+                          <div className="space-y-1">
+                            <h3 className="text-[10px] font-bold uppercase tracking-wider text-sky-400 border-b border-slate-600 pb-1">
+                              Skills
+                            </h3>
+                            {resumeData.skills?.map((s: string, i: number) => (
+                              <p key={i} className="text-slate-300">• {s}</p>
+                            ))}
+                          </div>
+
+                          <div className="space-y-1">
+                            <h3 className="text-[10px] font-bold uppercase tracking-wider text-sky-400 border-b border-slate-600 pb-1">
+                              Certifications
+                            </h3>
+                            {resumeData.certifications?.map((c: string, i: number) => (
+                              <p key={i} className="text-slate-300">• {c}</p>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 右メイン */}
+                        <div className="col-span-2 p-6 space-y-4">
+                          <div>
+                            <h3 className="font-bold uppercase tracking-wider text-[11px] text-slate-900 border-b-2 border-sky-600 pb-1 mb-2">
+                              Professional Summary
+                            </h3>
+                            <p className="text-[11.5px] leading-relaxed text-slate-700">{resumeData.summary}</p>
+                          </div>
+
+                          <div>
+                            <h3 className="font-bold uppercase tracking-wider text-[11px] text-slate-900 border-b-2 border-sky-600 pb-1 mb-2">
+                              Work Experience
+                            </h3>
+                            {resumeData.experiences?.map((exp: any, i: number) => (
+                              <div key={i} className="mb-3 space-y-1">
+                                <div className="flex justify-between items-baseline">
+                                  <span className="font-bold text-slate-900 text-xs">{exp.role}</span>
+                                  {exp.duration && <span className="text-[10px] text-slate-500">{exp.duration}</span>}
+                                </div>
+                                <p className="text-[11px] text-slate-600 font-medium">{exp.company}</p>
+                                <div className="space-y-1 mt-1">
+                                  {exp.bullets?.map((b: string, j: number) => (
+                                    <div key={j} className="flex space-x-1.5 text-[11px] text-slate-700 leading-relaxed">
+                                      <span className="text-sky-600 font-bold">▸</span>
+                                      <span>{b}</span>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    )}
+
+                    {/* ============================================================== */}
+                    {/* Layout 3: Clean (洗練ミニマル・左揃え ＆ ティールアクセント) */}
+                    {/* ============================================================== */}
+                    {template === 'clean' && (
+                      <div className="space-y-5 bg-white p-6 rounded shadow-sm border border-slate-200">
+                        {/* Header */}
+                        <div className="space-y-1">
+                          <h2 className="text-2xl font-extrabold text-zinc-900 tracking-tight">
+                            {resumeData.personalInfo?.name}
+                          </h2>
+                          <p className="text-xs font-bold text-teal-700">
+                            Visa: {resumeData.personalInfo?.visa}
+                          </p>
+                          <p className="text-[11px] text-zinc-500">
+                            {contactList.join('  •  ')}
+                          </p>
+                        </div>
+
+                        {/* Summary */}
+                        <div>
+                          <h3 className="font-extrabold uppercase tracking-widest text-[10px] text-teal-700 mb-1">
+                            Summary
+                          </h3>
+                          <p className="text-[11.5px] leading-relaxed text-zinc-700">{resumeData.summary}</p>
+                        </div>
+
+                        {/* Core Competencies */}
+                        <div>
+                          <h3 className="font-extrabold uppercase tracking-widest text-[10px] text-teal-700 mb-1">
+                            Core Competencies
+                          </h3>
+                          <p className="text-[11.5px] text-zinc-700 font-medium">
+                            {resumeData.skills?.join('   /   ')}
+                          </p>
+                        </div>
+
+                        {/* Experience */}
+                        <div>
+                          <h3 className="font-extrabold uppercase tracking-widest text-[10px] text-teal-700 mb-1.5">
+                            Experience
+                          </h3>
+                          {resumeData.experiences?.map((exp: any, i: number) => (
+                            <div key={i} className="mb-3 space-y-1">
+                              <div className="flex justify-between items-baseline">
+                                <span className="font-bold text-zinc-900 text-xs">
+                                  {exp.role} <span className="font-normal text-zinc-500">— {exp.company}</span>
+                                </span>
+                                {exp.duration && <span className="text-[10px] text-zinc-400 font-medium">{exp.duration}</span>}
+                              </div>
+                              <div className="space-y-1">
+                                {exp.bullets?.map((b: string, j: number) => (
+                                  <div key={j} className="flex space-x-2 text-[11px] text-zinc-600 leading-relaxed pl-1">
+                                    <span className="text-teal-600">—</span>
+                                    <span>{b}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Certifications */}
+                        <div>
+                          <h3 className="font-extrabold uppercase tracking-widest text-[10px] text-teal-700 mb-1">
+                            Licences & Certifications
+                          </h3>
+                          <p className="text-[11.5px] text-zinc-700">
+                            {resumeData.certifications?.join('   •   ')}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -884,11 +982,11 @@ function ResumeBuilderContent() {
                         readOnly
                         value={
                           isPaid
-                            ? `【English Original】\n${resumeData.coverLetter}\n\n====================\n【${t.transLabel}】\n${resumeData.coverLetterTrans}`
-                            : resumeData.coverLetter?.slice(0, 160) + '\n\n... (Unlock to view full letter)'
+                            ? resumeData.coverLetter
+                            : resumeData.coverLetter?.slice(0, 180) + '\n\n... (Unlock to view full letter)'
                         }
                         rows={16}
-                        className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
+                        className={`w-full p-4 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
                       />
                     </div>
                   </div>
