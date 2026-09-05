@@ -204,7 +204,7 @@ function ResumeBuilderContent() {
                 <input
                   type="text"
                   required
-                  placeholder="例: Ryu Okada"
+                  placeholder="例: Alex Smith"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
@@ -217,7 +217,7 @@ function ResumeBuilderContent() {
                   <input
                     type="email"
                     required
-                    placeholder="例: ryu@gmail.com"
+                    placeholder="例: your.name@gmail.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
@@ -227,7 +227,7 @@ function ResumeBuilderContent() {
                   <label className="block text-xs font-bold text-slate-800">電話番号 (豪) ※任意</label>
                   <input
                     type="text"
-                    placeholder="0423 000 000"
+                    placeholder="0423 123 456"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
@@ -325,7 +325,7 @@ function ResumeBuilderContent() {
                 disabled={loading}
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? 'AIが生成中（約3秒）...' : '次へ：デザイン・フォントを選ぶ ➔'}
+                {loading ? 'AIが生成中（約10秒）...' : '次へ：デザイン・フォントを選ぶ ➔'}
               </button>
             </form>
           </div>
