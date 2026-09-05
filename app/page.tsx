@@ -14,44 +14,300 @@ type TemplateType = 'classic' | 'modern' | 'clean';
 type FontType = 'sans' | 'serif';
 
 const JOB_DATA = [
-  { value: 'Barista / Cafe All-Rounder', labels: { ja: '☕ バリスタ / カフェ店員', en: '☕ Barista / Cafe All-Rounder', ko: '☕ 바리스타 / 카페', zh: '☕ 咖啡師 / 店員', es: '☕ Barista' } },
-  { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant', ko: '🍽️ 홀 서빙', zh: '🍽️ 餐飲服務生', es: '🍽️ Camarero/a' } },
-  { value: 'Kitchen Hand / Dishwasher', labels: { ja: '🍳 キッチンハンド / 調理補助', en: '🍳 Kitchen Hand / Dishwasher', ko: '🍳 주방 보조', zh: '🍳 廚房助手', es: '🍳 Ayudante de Cocina' } },
-  { value: 'Retail Assistant / Cashier', labels: { ja: '🛍️ 販売スタッフ / レジ', en: '🛍️ Retail Assistant / Cashier', ko: '🛍️ 매장 직원', zh: '🛍️ 門市收銀', es: '🛍️ Asistente de Tienda' } },
-  { value: 'General Labourer (Construction)', labels: { ja: '🏗️ 建設現場作業員 (Labourer)', en: '🏗️ General Labourer', ko: '🏗️ 건설 현장', zh: '🏗️ 工地勞工', es: '🏗️ Construcción' } },
-  { value: 'Warehouse Assistant', labels: { ja: '📦 倉庫作業員 / ピッキング', en: '📦 Warehouse Assistant', ko: '📦 물류 창고', zh: '📦 倉庫助手', es: '📦 Almacén' } },
-  { value: 'Housekeeper / Hotel Cleaner', labels: { ja: '🧹 ホテル清掃 / ハウスキーパー', en: '🧹 Housekeeper', ko: '🧹 호텔 청소', zh: '🧹 房務清潔', es: '🧹 Limpieza' } },
+  { value: 'Barista / Cafe All-Rounder', labels: { ja: '☕ バリスタ / カフェ店員', en: '☕ Barista / Cafe All-Rounder', ko: '☕ 바리스타 / 카페 직원', zh: '☕ 咖啡師 / 咖啡店員', es: '☕ Barista / Cafetería' } },
+  { value: 'Food & Beverage Attendant', labels: { ja: '🍽️ レストラン・居酒屋ホール (接客)', en: '🍽️ Food & Beverage Attendant (Waiter/Waitress)', ko: '🍽️ 레스토랑 / 홀 서빙', zh: '🍽️ 餐飲服務生 / 外場服務', es: '🍽️ Camarero/a / Servicio de Sala' } },
+  { value: 'Kitchen Hand / Dishwasher', labels: { ja: '🍳 キッチンハンド / 調理補助', en: '🍳 Kitchen Hand / Dishwasher', ko: '🍳 키친핸드 / 주방 보조', zh: '🍳 廚房助手 / 洗碗工', es: '🍳 Ayudante de Cocina / Lavaplatos' } },
+  { value: 'Retail Assistant / Cashier', labels: { ja: '🛍️ 販売スタッフ / レジ', en: '🛍️ Retail Sales Assistant / Cashier', ko: '🛍️ 매장 판매원 / 캐셔', zh: '🛍️ 門市銷售 / 收銀員', es: '🛍️ Dependiente de Tienda / Cajero' } },
+  { value: 'General Labourer (Construction)', labels: { ja: '🏗️ 建設現場作業員 (Labourer)', en: '🏗️ General Labourer (Construction)', ko: '🏗️ 건설 현장 인부 (Labourer)', zh: '🏗️ 工地勞工 (General Labourer)', es: '🏗️ Peón de Construcción (Labourer)' } },
+  { value: 'Warehouse Assistant', labels: { ja: '📦 倉庫作業員 / ピッキング', en: '📦 Warehouse Assistant / Picker', ko: '📦 물류 창고 직원 / 피킹', zh: '📦 倉庫理貨員 / 揀貨員', es: '📦 Mozo de Almacén / Picking' } },
+  { value: 'Housekeeper / Hotel Cleaner', labels: { ja: '🧹 ホテル清掃 / ハウスキーパー', en: '🧹 Housekeeper / Hotel Cleaner', ko: '🧹 호텔 청소 / 하우스키핑', zh: '🧹 飯店房務 / 清潔員', es: '🧹 Personal de Limpieza / Hotel' } },
 ];
 
 const VISA_DATA = [
-  { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (417)', en: 'Working Holiday Visa (417)', ko: '워킹홀리데이 (417)', zh: '打工度假 (417)', es: 'Working Holiday (417)' } },
-  { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (462)', en: 'Work and Holiday Visa (462)', ko: '워크 앤 홀리데이 (462)', zh: '打工與度假 (462)', es: 'Work and Holiday (462)' } },
-  { value: 'Student Visa (Subclass 500)', labels: { ja: '学生ビザ (500)', en: 'Student Visa (500)', ko: '학생 비자 (500)', zh: '學生簽證 (500)', es: 'Visa de Estudiante (500)' } },
+  { value: 'Working Holiday (Subclass 417)', labels: { ja: 'ワーキングホリデービザ (417)', en: 'Working Holiday Visa (Subclass 417)', ko: '워킹홀리데이 비자 (417)', zh: '打工度假簽證 (417)', es: 'Visa Working Holiday (417)' } },
+  { value: 'Work and Holiday (Subclass 462)', labels: { ja: 'ワーク＆ホリデービザ (462)', en: 'Work and Holiday Visa (Subclass 462)', ko: '워크 앤 홀리데이 비자 (462)', zh: '打工與度假簽證 (462)', es: 'Visa Work and Holiday (462)' } },
+  { value: 'Student Visa (Subclass 500)', labels: { ja: '学生ビザ (500)', en: 'Student Visa (Subclass 500)', ko: '학생 비자 (500)', zh: '學生簽證 (500)', es: 'Visa de Estudiante (500)' } },
 ];
 
 const AVAILABILITY_DATA = [
-  { value: 'Full-time (Immediate Start)', labels: { ja: '即日勤務可・フルタイム (平日・土日祝OK)', en: 'Full-time / Immediate Start', ko: '즉시 출근 / 풀타임', zh: '可立即上班 / 全職', es: 'Tiempo Completo / Inmediato' } },
-  { value: 'Student Visa Condition (Up to 48h/fn)', labels: { ja: '学生ビザ規定内 (2週間48時間)', en: 'Student Visa Condition (48h/fn)', ko: '학생 비자 규정 내', zh: '學生簽證時數限制', es: 'Condición de Estudiante' } },
-  { value: 'Part-time / Casual', labels: { ja: 'パートタイム / カジュアル', en: 'Part-time / Casual', ko: '파트타임 / 캐주얼', zh: '兼職 / 臨時工', es: 'Medio Tiempo / Casual' } },
+  { value: 'Full-time (Immediate Start)', labels: { ja: '即日勤務可・フルタイム (平日・土日祝OK)', en: 'Full-time / Immediate Start (Any days/hours)', ko: '즉시 출근 가능 / 풀타임 (평일/주말)', zh: '可立即上班 / 全職可配合 (平日週末皆可)', es: 'Disponibilidad Inmediata / Tiempo Completo' } },
+  { value: 'Student Visa Condition (Up to 48h/fn)', labels: { ja: '学生ビザ規定内 (2週間48時間)', en: 'Student Visa Condition (Up to 48 hrs / fortnight)', ko: '학생 비자 규정 준수 (2주 최대 48시간)', zh: '學生簽證規定 (每兩週最多48小時)', es: 'Condición Visa Estudiante (Hasta 48 hrs/quincena)' } },
+  { value: 'Part-time / Casual', labels: { ja: 'パートタイム / カジュアル', en: 'Part-time / Casual (Flexible)', ko: '파트타임 / 캐주얼', zh: '兼職 / 臨時工 (Casual)', es: 'Media Jornada / Casual' } },
 ];
 
 const CERT_DATA = [
-  { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店の酒類提供資格)', en: 'RSA (Alcohol Service)', ko: 'RSA (주류 취급)', zh: 'RSA (酒類證照)', es: 'RSA' } },
-  { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (現場の安全講習証)', en: 'White Card (Construction)', ko: '화이트카드 (건설)', zh: '白卡 (工地)', es: 'White Card' } },
-  { value: 'Australian Driver Licence', labels: { ja: 'オーストラリア免許 / 国際免許', en: 'Driver Licence / Permit', ko: '호주 운전면허 / 국제면허', zh: '澳洲駕照 / 國際駕照', es: 'Licencia de Conducir' } },
+  { value: 'RSA (Responsible Service of Alcohol)', labels: { ja: 'RSA (飲食店の酒類提供資格)', en: 'RSA (Responsible Service of Alcohol)', ko: 'RSA (주류 취급 자격증)', zh: 'RSA (酒類服務責任證書)', es: 'RSA (Servicio Responsable de Alcohol)' } },
+  { value: 'White Card (Construction)', labels: { ja: 'ホワイトカード (現場の安全講習証)', en: 'White Card (General Construction)', ko: '화이트카드 (건설 현장 안전증)', zh: '白卡 (建築工地安全證)', es: 'White Card (Seguridad en Construcción)' } },
+  { value: 'Australian Driver Licence', labels: { ja: 'オーストラリア免許 / 国際免許', en: 'Australian Driver Licence / International Permit', ko: '호주 운전면허증 / 국제면허증', zh: '澳洲駕照 / 國際駕照', es: 'Licencia de Conducir Australiana / Internacional' } },
 ];
 
 const CITY_OPTIONS = ['Perth, WA', 'Sydney, NSW', 'Melbourne, VIC', 'Brisbane, QLD', 'Adelaide, SA', 'Gold Coast, QLD'];
+
+const uiText = {
+  ja: {
+    title: '🇦🇺 Aus Resume & Cover Letter AI',
+    subtitle: 'オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成',
+    paidBadge: '🎉 プレミアム購入済み',
+    step1Nav: '情報入力',
+    step2Nav: 'デザイン選択',
+    step3Nav: '完成・ダウンロード',
+    step1Title: 'ステップ 1: 基本情報を入力',
+    nameLabel: 'お名前 (英語表記)',
+    namePh: '例: Taro Yamada',
+    emailLabel: 'メールアドレス',
+    emailPh: '例: your.email@gmail.com',
+    phoneLabel: '電話番号 (豪) ※任意',
+    phonePh: '0423 000 000',
+    cityLabel: '滞在都市 / 渡航予定',
+    jobLabel: '希望職種',
+    visaLabel: 'ビザの種類',
+    availLabel: '就労可能状況',
+    certsLabel: '保有資格 (任意)',
+    expLabel: '過去の経験・アピールポイント (母国語でOK)',
+    expPh: '例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。',
+    btnToStep2: '次へ：デザイン・フォントを選ぶ ➔',
+    btnGenerating: 'AIが生成中（約3秒）...',
+    step2Title: 'ステップ 2: デザイン選択',
+    btnBackEdit: '⬅️ 情報を再編集する',
+    layoutStyle: 'レイアウトスタイル',
+    fontStyle: 'フォントスタイル',
+    sansLabel: 'Sans-Serif',
+    sansDesc: '現代的・カフェ/現場',
+    serifLabel: 'Classic Serif',
+    serifDesc: '格式高い・事務/営業',
+    btnToStep3: 'このデザインで完成へ ➔',
+    step3Title: 'ステップ 3: 書類の発行',
+    btnDownloadPdf: '📄 PDFをダウンロード',
+    btnUnlock: '🔓 PDF & カバーレターをアンロック ($4.99 AUD)',
+    unlockNotice: '※ 一度アンロックすると無制限にダウンロード可能です',
+    tabResume: '📄 Resume プレビュー (対訳つき)',
+    tabCover: '✉️ Cover Letter (添え状)',
+    transLabel: '💡 翻訳:',
+    coverUnlockedDesc: '英文の応募用テキスト',
+    coverLockedDesc: '🔒 アンロックすると全文コピー可能になります',
+    btnCopy: '📋 英文をコピー',
+    btnCopied: '✅ コピー完了！',
+    btnLocked: '🔒 ロック中',
+    paymentRedirect: '決済画面へ移動中...',
+    templates: {
+      classic: { name: 'Classic (王道スタイル)', desc: 'オーストラリアで最もATS選考に強い標準形式' },
+      modern: { name: 'Modern (洗練ブルー)', desc: 'ネイビーをアクセントにした清潔感あるデザイン' },
+      clean: { name: 'Clean (ミニマルティール)', desc: '余白を広めに取ったモダンで読みやすい形式' },
+    }
+  },
+  en: {
+    title: '🇦🇺 Aus Resume & Cover Letter AI',
+    subtitle: 'Create ATS-friendly Australian standard Resumes & Cover Letters instantly for local jobs.',
+    paidBadge: '🎉 Premium Unlocked',
+    step1Nav: 'Details',
+    step2Nav: 'Design & Font',
+    step3Nav: 'Finish & Download',
+    step1Title: 'Step 1: Enter Your Information',
+    nameLabel: 'Full Name (English)',
+    namePh: 'e.g. Alex Smith',
+    emailLabel: 'Email Address',
+    emailPh: 'e.g. alex.smith@gmail.com',
+    phoneLabel: 'Phone Number (AU) (Optional)',
+    phonePh: '0423 000 000',
+    cityLabel: 'Current / Planned City',
+    jobLabel: 'Target Role',
+    visaLabel: 'Visa Type',
+    availLabel: 'Availability',
+    certsLabel: 'Licences & Certifications (Optional)',
+    expLabel: 'Past Experience & Key Strengths',
+    expPh: 'e.g. 3 years barista at Starbucks. Handcrafted specialty drinks, POS operation, and customer service during peak rush.',
+    btnToStep2: 'Next: Choose Design & Font ➔',
+    btnGenerating: 'AI Generating (approx. 3s)...',
+    step2Title: 'Step 2: Choose Layout & Font',
+    btnBackEdit: '⬅️ Edit Information',
+    layoutStyle: 'Layout Style',
+    fontStyle: 'Font Family',
+    sansLabel: 'Sans-Serif',
+    sansDesc: 'Modern / Hospitality & Trades',
+    serifLabel: 'Classic Serif',
+    serifDesc: 'Formal / Office & Admin',
+    btnToStep3: 'Continue with this Design ➔',
+    step3Title: 'Step 3: Export Documents',
+    btnDownloadPdf: '📄 Download High-Res PDF',
+    btnUnlock: '🔓 Unlock PDF & Cover Letter ($4.99 AUD)',
+    unlockNotice: '※ Unlimited PDF downloads once unlocked',
+    tabResume: '📄 Resume Preview',
+    tabCover: '✉️ Cover Letter',
+    transLabel: '💡 Note:',
+    coverUnlockedDesc: 'Full English cover letter ready to copy',
+    coverLockedDesc: '🔒 Unlock to copy full cover letter',
+    btnCopy: '📋 Copy Cover Letter',
+    btnCopied: '✅ Copied!',
+    btnLocked: '🔒 Locked',
+    paymentRedirect: 'Redirecting to checkout...',
+    templates: {
+      classic: { name: 'Classic (ATS Standard)', desc: 'Most widely accepted layout across Australian employers' },
+      modern: { name: 'Modern (Refined Navy)', desc: 'Clean layout featuring professional navy accents' },
+      clean: { name: 'Clean (Minimal Teal)', desc: 'Modern style with spacious, readable formatting' },
+    }
+  },
+  ko: {
+    title: '🇦🇺 호주 영문 이력서 & 커버레터 생성기',
+    subtitle: '호주 현지 잡 구직에 최적화된 호주 표준 레주메와 커버레터를 즉시 완성합니다.',
+    paidBadge: '🎉 프리미엄 구매 완료',
+    step1Nav: '정보 입력',
+    step2Nav: '디자인 선택',
+    step3Nav: '완성 및 다운로드',
+    step1Title: '1단계: 기본 정보 입력',
+    nameLabel: '영문 성명',
+    namePh: '예: Minwoo Kim',
+    emailLabel: '이메일 주소',
+    emailPh: '예: minwoo.kim@gmail.com',
+    phoneLabel: '호주 전화번호 (선택사항)',
+    phonePh: '0423 000 000',
+    cityLabel: '거주/입국 예정 도시',
+    jobLabel: '희망 직종',
+    visaLabel: '비자 종류',
+    availLabel: '근무 가능 시간',
+    certsLabel: '보유 자격증 (선택사항)',
+    expLabel: '경력 및 강점 (한국어로 편하게 작성)',
+    expPh: '예: 스타벅스에서 3년간 알바. 에스프레소 추출, 음료 제조, 포스 결제, 피크 시간 고객 응대 담당.',
+    btnToStep2: '다음: 디자인 및 폰트 선택 ➔',
+    btnGenerating: 'AI 생성 중 (약 3초)...',
+    step2Title: '2단계: 디자인 선택',
+    btnBackEdit: '⬅️ 정보 다시 수정하기',
+    layoutStyle: '레이아웃 스타일',
+    fontStyle: '폰트 스타일',
+    sansLabel: '산세리프 (Sans)',
+    sansDesc: '현대적 / 카페 및 현장직',
+    serifLabel: '세리프 (Serif)',
+    serifDesc: '격식 있는 / 사무 및 영업직',
+    btnToStep3: '이 디자인으로 완성하기 ➔',
+    step3Title: '3단계: 서류 발급',
+    btnDownloadPdf: '📄 PDF 다운로드',
+    btnUnlock: '🔓 PDF & 커버레터 언락 ($4.99 AUD)',
+    unlockNotice: '※ 1회 결제 시 무제한 다운로드 가능',
+    tabResume: '📄 이력서 미리보기 (한국어 번역 포함)',
+    tabCover: '✉️ 커버레터',
+    transLabel: '🇰🇷 한국어 번역:',
+    coverUnlockedDesc: '영문 지원용 텍스트 복사 가능',
+    coverLockedDesc: '🔒 결제 후 전체 복사가 가능합니다',
+    btnCopy: '📋 영문 복사',
+    btnCopied: '✅ 복사 완료!',
+    btnLocked: '🔒 잠김',
+    paymentRedirect: '결제 페이지로 이동 중...',
+    templates: {
+      classic: { name: '클래식 (Classic)', desc: '호주 기업 및 ATS 심사 통과율이 가장 높은 표준 형식' },
+      modern: { name: '모던 (Modern Navy)', desc: '신뢰감을 주는 네이비 포인트 컬러 디자인' },
+      clean: { name: '클린 (Clean Teal)', desc: '여백을 넓게 살려 가독성을 극대화한 미니멀 디자인' },
+    }
+  },
+  zh: {
+    title: '🇦🇺 澳洲英文履歷與求職信生成器',
+    subtitle: '專為澳洲打工度假與求職打造，秒級生成標準澳式 Resume 與 Cover Letter。',
+    paidBadge: '🎉 已解鎖進階版',
+    step1Nav: '填寫資料',
+    step2Nav: '選擇版型',
+    step3Nav: '完成與下載',
+    step1Title: '步驟 1: 填寫個人基本資訊',
+    nameLabel: '英文姓名',
+    namePh: '例: Alex Chen',
+    emailLabel: '電子郵件',
+    emailPh: '例: alex.chen@gmail.com',
+    phoneLabel: '澳洲電話 (選填)',
+    phonePh: '0423 000 000',
+    cityLabel: '所在 / 預計前往城市',
+    jobLabel: '應徵職位',
+    visaLabel: '簽證類型',
+    availLabel: '可工作時間',
+    certsLabel: '相關證照 (選填)',
+    expLabel: '過去經歷與優勢 (可用中文填寫)',
+    expPh: '例: 在星巴克打工3年，負責製作飲料、點餐收銀、高峰期顧客接待與環境清潔。',
+    btnToStep2: '下一步：選擇版型與字體 ➔',
+    btnGenerating: 'AI生成中（約3秒）...',
+    step2Title: '步驟 2: 版型與字體選擇',
+    btnBackEdit: '⬅️ 返回修改資料',
+    layoutStyle: '版型樣式',
+    fontStyle: '字體風格',
+    sansLabel: '無襯線體 (Sans)',
+    sansDesc: '現代俐落 / 餐飲與現場職',
+    serifLabel: '襯線體 (Serif)',
+    serifDesc: '正式經典 / 文書與辦公職',
+    btnToStep3: '使用此版型完成 ➔',
+    step3Title: '步驟 3: 匯出文件',
+    btnDownloadPdf: '📄 下載高畫質 PDF',
+    btnUnlock: '🔓 解鎖 PDF 與求職信 ($4.99 AUD)',
+    unlockNotice: '※ 一次解鎖即可享有無限次下載',
+    tabResume: '📄 履歷預覽 (附中文對照)',
+    tabCover: '✉️ 求職信 (Cover Letter)',
+    transLabel: '🇹🇼 中文對照:',
+    coverUnlockedDesc: '可用於求職信件的英文全文',
+    coverLockedDesc: '🔒 解鎖後可複製全文',
+    btnCopy: '📋 複製英文求職信',
+    btnCopied: '✅ 已複製！',
+    btnLocked: '🔒 未解鎖',
+    paymentRedirect: '跳轉至付款頁面...',
+    templates: {
+      classic: { name: '經典風格 (Classic)', desc: '符合澳洲企業與 ATS 系統規範的標準格式' },
+      modern: { name: '現代海軍藍 (Modern)', desc: '沉穩俐落的藍色點綴，呈現專業現代感' },
+      clean: { name: '極簡清新 (Clean)', desc: '留白適中、段落清晰好閱讀的極簡設計' },
+    }
+  },
+  es: {
+    title: '🇦🇺 Generador de CV y Cover Letter para Australia',
+    subtitle: 'Crea al instante tu currículum y carta de presentación en formato australiano estándar.',
+    paidBadge: '🎉 Versión Premium Desbloqueada',
+    step1Nav: 'Datos',
+    step2Nav: 'Diseño y Fuente',
+    step3Nav: 'Finalizar y Descargar',
+    step1Title: 'Paso 1: Ingresa tus Datos',
+    nameLabel: 'Nombre Completo (en inglés)',
+    namePh: 'ej: Carlos Gomez',
+    emailLabel: 'Correo Electrónico',
+    emailPh: 'ej: carlos.gomez@gmail.com',
+    phoneLabel: 'Teléfono (AU) (Opcional)',
+    phonePh: '0423 000 000',
+    cityLabel: 'Ciudad actual o de destino',
+    jobLabel: 'Puesto Deseado',
+    visaLabel: 'Tipo de Visa',
+    availLabel: 'Disponibilidad',
+    certsLabel: 'Certificaciones (Opcional)',
+    expLabel: 'Experiencia y fortalezas (en español)',
+    expPh: 'ej: 3 años de barista en Starbucks. Elaboración de bebidas, caja y servicio al cliente durante horas pico.',
+    btnToStep2: 'Siguiente: Elegir Diseño y Fuente ➔',
+    btnGenerating: 'Generando con IA (aprox. 3s)...',
+    step2Title: 'Paso 2: Personalizar Diseño',
+    btnBackEdit: '⬅️ Volver a Editar Datos',
+    layoutStyle: 'Estilo de Diseño',
+    fontStyle: 'Familia Tipográfica',
+    sansLabel: 'Sans-Serif',
+    sansDesc: 'Moderno / Hostelería y Oficios',
+    serifLabel: 'Classic Serif',
+    serifDesc: 'Formal / Oficina y Gestión',
+    btnToStep3: 'Continuar con este Diseño ➔',
+    step3Title: 'Paso 3: Exportar Documentos',
+    btnDownloadPdf: '📄 Descargar PDF en Alta Calidad',
+    btnUnlock: '🔓 Desbloquear PDF y Carta ($4.99 AUD)',
+    unlockNotice: '※ Descargas ilimitadas una vez desbloqueado',
+    tabResume: '📄 Vista Previa de CV (con traducción)',
+    tabCover: '✉️ Cover Letter (Carta)',
+    transLabel: '🇪🇸 Traducción:',
+    coverUnlockedDesc: 'Texto en inglés listo para postularse',
+    coverLockedDesc: '🔒 Desbloquea para copiar la carta completa',
+    btnCopy: '📋 Copiar Carta en Inglés',
+    btnCopied: '✅ ¡Copiado!',
+    btnLocked: '🔒 Bloqueado',
+    paymentRedirect: 'Redirigiendo al pago...',
+    templates: {
+      classic: { name: 'Clásico (ATS Standard)', desc: 'El diseño más recomendado y aceptado en Australia' },
+      modern: { name: 'Moderno (Azul Marino)', desc: 'Diseño pulcro con elegantes toques profesionales' },
+      clean: { name: 'Minimalista (Teal)', desc: 'Estilo moderno con espaciado amplio y clara lectura' },
+    }
+  },
+};
 
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const [lang, setLang] = useState<Language>('ja');
   const [isPaid, setIsPaid] = useState(false);
+  const t = uiText[lang];
 
-  // ステップ管理 (1: 入力 -> 2: デザインカスタマイズ -> 3: 完成・決済)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
-
-  // デザイン選択
   const [template, setTemplate] = useState<TemplateType>('classic');
   const [fontFamily, setFontFamily] = useState<FontType>('sans');
 
@@ -101,12 +357,11 @@ function ResumeBuilderContent() {
         body: JSON.stringify({ ...formData, lang }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || '生成に失敗しました');
+      if (!res.ok) throw new Error(data.error || 'Generation failed');
       setResumeData(data);
-      // 生成成功後にデザインカスタマイズ画面（Step 2）へ
       setCurrentStep(2);
     } catch (err: any) {
-      alert(`エラー: ${err.message}`);
+      alert(`Error: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -120,10 +375,10 @@ function ResumeBuilderContent() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('決済ページの読み込みに失敗しました');
+        alert('Payment redirect failed');
       }
     } catch (err: any) {
-      alert('通信エラーが発生しました');
+      alert('Network error');
     } finally {
       setPaying(false);
     }
@@ -131,7 +386,7 @@ function ResumeBuilderContent() {
 
   const handleCopyCoverLetter = () => {
     if (!isPaid) {
-      alert('アンロック後にコピー可能になります');
+      alert(t.coverLockedDesc);
       return;
     }
     if (resumeData?.coverLetter) {
@@ -151,8 +406,8 @@ function ResumeBuilderContent() {
             <button
               key={l}
               onClick={() => setLang(l)}
-              className={`text-xs px-2 py-1 rounded font-bold border ${
-                lang === l ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-700 border-slate-300'
+              className={`text-xs px-2.5 py-1 rounded font-bold border transition ${
+                lang === l ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-200'
               }`}
             >
               {l === 'ja' && '🇯🇵 日本語'}
@@ -167,28 +422,33 @@ function ResumeBuilderContent() {
         {/* ヘッダー */}
         <div className="text-center space-y-1">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-            🇦🇺 Aus Resume & Cover Letter AI
+            {t.title}
           </h1>
           <p className="text-xs sm:text-sm font-medium text-slate-600">
-            オーストラリアのローカルジョブ獲得に特化した英文レジュメ＆カバーレターを瞬時に作成
+            {t.subtitle}
           </p>
+          {isPaid && (
+            <div className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mt-1">
+              {t.paidBadge}
+            </div>
+          )}
         </div>
 
-        {/* ステップ プログレスバー */}
+        {/* 3ステップ プログレスバー */}
         <div className="max-w-xl mx-auto bg-white p-3 rounded-xl border border-slate-300 shadow-sm flex items-center justify-between text-xs font-bold">
           <div className={`flex items-center space-x-1.5 ${currentStep === 1 ? 'text-blue-600' : 'text-slate-400'}`}>
             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep >= 1 ? 'bg-blue-600' : 'bg-slate-300'}`}>1</span>
-            <span>情報入力</span>
+            <span>{t.step1Nav}</span>
           </div>
           <span className="text-slate-300">➔</span>
           <div className={`flex items-center space-x-1.5 ${currentStep === 2 ? 'text-blue-600' : 'text-slate-400'}`}>
             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep >= 2 ? 'bg-blue-600' : 'bg-slate-300'}`}>2</span>
-            <span>デザイン・フォント選択</span>
+            <span>{t.step2Nav}</span>
           </div>
           <span className="text-slate-300">➔</span>
           <div className={`flex items-center space-x-1.5 ${currentStep === 3 ? 'text-blue-600' : 'text-slate-400'}`}>
             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] ${currentStep === 3 ? 'bg-emerald-600' : 'bg-slate-300'}`}>3</span>
-            <span>完成・ダウンロード</span>
+            <span>{t.step3Nav}</span>
           </div>
         </div>
 
@@ -196,15 +456,15 @@ function ResumeBuilderContent() {
         {currentStep === 1 && (
           <div className="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow border border-slate-300">
             <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">
-              ステップ 1: 基本情報を入力
+              {t.step1Title}
             </h2>
             <form onSubmit={handleGenerate} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-800">お名前 (英語表記)</label>
+                <label className="block text-xs font-bold text-slate-800">{t.nameLabel}</label>
                 <input
                   type="text"
                   required
-                  placeholder="例: Alex Smith"
+                  placeholder={t.namePh}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
@@ -213,21 +473,21 @@ function ResumeBuilderContent() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">メールアドレス</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.emailLabel}</label>
                   <input
                     type="email"
                     required
-                    placeholder="例: your.name@gmail.com"
+                    placeholder={t.emailPh}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">電話番号 (豪) ※任意</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.phoneLabel}</label>
                   <input
                     type="text"
-                    placeholder="0423 123 456"
+                    placeholder={t.phonePh}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-semibold focus:border-blue-600 outline-none"
@@ -237,7 +497,7 @@ function ResumeBuilderContent() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">滞在都市 / 渡航予定</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.cityLabel}</label>
                   <select
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
@@ -249,7 +509,7 @@ function ResumeBuilderContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">希望職種</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.jobLabel}</label>
                   <select
                     value={formData.targetJob}
                     onChange={(e) => setFormData({ ...formData, targetJob: e.target.value })}
@@ -264,7 +524,7 @@ function ResumeBuilderContent() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">ビザの種類</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.visaLabel}</label>
                   <select
                     value={formData.visaType}
                     onChange={(e) => setFormData({ ...formData, visaType: e.target.value })}
@@ -276,7 +536,7 @@ function ResumeBuilderContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-800">就労可能状況</label>
+                  <label className="block text-xs font-bold text-slate-800">{t.availLabel}</label>
                   <select
                     value={formData.availability}
                     onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
@@ -290,7 +550,7 @@ function ResumeBuilderContent() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-1.5">保有資格 (任意)</label>
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">{t.certsLabel}</label>
                 <div className="grid grid-cols-1 gap-1.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
                   {CERT_DATA.map((c) => (
                     <label key={c.value} className="flex items-center space-x-2 text-xs font-semibold text-slate-800 cursor-pointer">
@@ -308,12 +568,12 @@ function ResumeBuilderContent() {
 
               <div>
                 <label className="block text-xs font-bold text-slate-800">
-                  過去の経験・アピールポイント (母国語でOK)
+                  {t.expLabel}
                 </label>
                 <textarea
                   rows={3}
                   required
-                  placeholder="例: スタバで3年間バイト。新作ドリンク作成、レジ、ピーク時の接客を担当。"
+                  placeholder={t.expPh}
                   value={formData.rawExperience}
                   onChange={(e) => setFormData({ ...formData, rawExperience: e.target.value })}
                   className="mt-1 w-full p-2.5 bg-white border-2 border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 font-medium focus:border-blue-600 outline-none leading-relaxed"
@@ -325,7 +585,7 @@ function ResumeBuilderContent() {
                 disabled={loading}
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-lg transition disabled:opacity-50 text-sm shadow-md"
               >
-                {loading ? 'AIが生成中（約10秒）...' : '次へ：デザイン・フォントを選ぶ ➔'}
+                {loading ? t.btnGenerating : t.btnToStep2}
               </button>
             </form>
           </div>
@@ -342,31 +602,27 @@ function ResumeBuilderContent() {
                   onClick={() => setCurrentStep(1)}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1 mb-3"
                 >
-                  <span>⬅️ 情報を再編集する</span>
+                  <span>{t.btnBackEdit}</span>
                 </button>
                 <h3 className="text-base font-bold text-slate-900 pb-2 border-b border-slate-200">
-                  ステップ 2: デザイン選択
+                  {t.step2Title}
                 </h3>
               </div>
 
               {/* テンプレート選択 */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-800">レイアウトスタイル</label>
+                <label className="block text-xs font-bold text-slate-800">{t.layoutStyle}</label>
                 <div className="space-y-2">
-                  {[
-                    { id: 'classic', name: 'Classic (王道スタイル)', desc: 'オーストラリアで最もATS選考に強い標準形式' },
-                    { id: 'modern', name: 'Modern (洗練ブルー)', desc: 'ネイビーをアクセントにした清潔感あるデザイン' },
-                    { id: 'clean', name: 'Clean (ミニマルティール)', desc: '余白を広めに取ったモダンで読みやすい形式' },
-                  ].map((tpl) => (
+                  {(['classic', 'modern', 'clean'] as TemplateType[]).map((tplId) => (
                     <div
-                      key={tpl.id}
-                      onClick={() => setTemplate(tpl.id as TemplateType)}
+                      key={tplId}
+                      onClick={() => setTemplate(tplId)}
                       className={`p-3 rounded-lg border-2 cursor-pointer transition ${
-                        template === tpl.id ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'
+                        template === tplId ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
-                      <p className="text-xs font-bold text-slate-900">{tpl.name}</p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">{tpl.desc}</p>
+                      <p className="text-xs font-bold text-slate-900">{t.templates[tplId].name}</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{t.templates[tplId].desc}</p>
                     </div>
                   ))}
                 </div>
@@ -374,7 +630,7 @@ function ResumeBuilderContent() {
 
               {/* フォント選択 */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-800">フォントスタイル</label>
+                <label className="block text-xs font-bold text-slate-800">{t.fontStyle}</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div
                     onClick={() => setFontFamily('sans')}
@@ -382,8 +638,8 @@ function ResumeBuilderContent() {
                       fontFamily === 'sans' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
                     }`}
                   >
-                    <span className="text-xs">Sans-Serif</span>
-                    <p className="text-[10px] text-slate-400 font-normal">現代的・カフェ/現場</p>
+                    <span className="text-xs">{t.sansLabel}</span>
+                    <p className="text-[10px] text-slate-400 font-normal">{t.sansDesc}</p>
                   </div>
                   <div
                     onClick={() => setFontFamily('serif')}
@@ -391,33 +647,33 @@ function ResumeBuilderContent() {
                       fontFamily === 'serif' ? 'border-blue-600 bg-blue-50/50 font-bold text-blue-700' : 'border-slate-200 text-slate-700'
                     }`}
                   >
-                    <span className="text-xs">Classic Serif</span>
-                    <p className="text-[10px] text-slate-400 font-normal">格式高い・事務/営業</p>
+                    <span className="text-xs">{t.serifLabel}</span>
+                    <p className="text-[10px] text-slate-400 font-normal">{t.serifDesc}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Step 3 への誘導ボタン */}
+              {/* Step 3 への遷移 */}
               {currentStep === 2 && (
                 <button
                   onClick={() => setCurrentStep(3)}
                   className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow flex items-center justify-center space-x-1"
                 >
-                  <span>このデザインで完成へ ➔</span>
+                  <span>{t.btnToStep3}</span>
                 </button>
               )}
 
-              {/* Step 3: ダウンロード / 決済エリア */}
+              {/* Step 3: 発行・アンロック */}
               {currentStep === 3 && isClient && (
                 <div className="pt-4 border-t border-slate-200 space-y-3">
-                  <h4 className="text-xs font-bold text-slate-800">ステップ 3: 書類の発行</h4>
+                  <h4 className="text-xs font-bold text-slate-800">{t.step3Title}</h4>
                   {isPaid ? (
                     <PDFDownloadLink
                       document={<ResumePDF data={resumeData} template={template} fontFamily={fontFamily} />}
                       fileName={`${resumeData.personalInfo?.name || 'Resume'}_AUS.pdf`}
                       className="block w-full text-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow"
                     >
-                      {({ loading }) => (loading ? 'PDF作成中...' : '📄 PDFをダウンロード')}
+                      {({ loading }) => (loading ? '...' : t.btnDownloadPdf)}
                     </PDFDownloadLink>
                   ) : (
                     <div className="space-y-2">
@@ -426,10 +682,10 @@ function ResumeBuilderContent() {
                         disabled={paying}
                         className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg transition text-sm shadow flex items-center justify-center space-x-1"
                       >
-                        <span>{paying ? '決済画面へ移動中...' : '🔓 PDF & カバーレターをアンロック ($4.99 AUD)'}</span>
+                        <span>{paying ? t.paymentRedirect : t.btnUnlock}</span>
                       </button>
                       <p className="text-[11px] text-center text-slate-500 font-medium">
-                        ※ 一度アンロックすると無制限にPDFダウンロード可能です
+                        {t.unlockNotice}
                       </p>
                     </div>
                   )}
@@ -437,7 +693,7 @@ function ResumeBuilderContent() {
               )}
             </div>
 
-            {/* 右側：リアルタイム反映プレビュー */}
+            {/* 右側：プレビュー表示 */}
             <div className="bg-white p-6 rounded-xl shadow border border-slate-300 md:col-span-2 flex flex-col justify-between">
               <div>
                 <div className="flex border-b border-slate-200 mb-4">
@@ -449,7 +705,7 @@ function ResumeBuilderContent() {
                         : 'border-transparent text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    📄 Resume プレビュー ({template.toUpperCase()} / {fontFamily})
+                    {t.tabResume}
                   </button>
                   <button
                     onClick={() => setActiveTab('coverLetter')}
@@ -459,7 +715,7 @@ function ResumeBuilderContent() {
                         : 'border-transparent text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    ✉️ Cover Letter (添え状) {!isPaid && '🔒'}
+                    {t.tabCover} {!isPaid && '🔒'}
                   </button>
                 </div>
 
@@ -469,7 +725,7 @@ function ResumeBuilderContent() {
                       fontFamily === 'serif' ? 'font-serif' : 'font-sans'
                     }`}
                   >
-                    {/* 基本情報ヘッダー */}
+                    {/* Header */}
                     <div
                       className={`p-4 rounded-lg transition border ${
                         template === 'modern'
@@ -520,7 +776,7 @@ function ResumeBuilderContent() {
                       </p>
                       {resumeData.summaryTrans && (
                         <div className="mt-1 p-2 bg-amber-50 rounded border border-amber-200 text-amber-900 leading-relaxed text-[11px]">
-                          <span className="font-bold">💡 日本語訳:</span> {resumeData.summaryTrans}
+                          <span className="font-bold">{t.transLabel}</span> {resumeData.summaryTrans}
                         </div>
                       )}
                     </div>
@@ -587,13 +843,13 @@ function ResumeBuilderContent() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-slate-600">
-                        {isPaid ? '英文の応募用テキスト' : '🔒 アンロックすると全文コピー可能になります'}
+                        {isPaid ? t.coverUnlockedDesc : t.coverLockedDesc}
                       </span>
                       <button
                         onClick={handleCopyCoverLetter}
                         className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 transition"
                       >
-                        {copied ? '✅ コピー完了！' : isPaid ? '📋 英文をコピー' : '🔒 ロック中'}
+                        {copied ? t.btnCopied : isPaid ? t.btnCopy : t.btnLocked}
                       </button>
                     </div>
                     <div className="relative">
@@ -601,8 +857,8 @@ function ResumeBuilderContent() {
                         readOnly
                         value={
                           isPaid
-                            ? `【英文】\n${resumeData.coverLetter}\n\n====================\n【日本語対訳】\n${resumeData.coverLetterTrans}`
-                            : resumeData.coverLetter?.slice(0, 160) + '\n\n... (アンロックして全文を表示)'
+                            ? `【English Original】\n${resumeData.coverLetter}\n\n====================\n【${t.transLabel}】\n${resumeData.coverLetterTrans}`
+                            : resumeData.coverLetter?.slice(0, 160) + '\n\n... (Unlock to view full letter)'
                         }
                         rows={16}
                         className={`w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed text-slate-900 outline-none ${!isPaid ? 'blur-[1px]' : ''}`}
